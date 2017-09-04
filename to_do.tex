@@ -1,0 +1,324 @@
+% \chapter{Tensor Operations in Voigt and Mandel Notation}
+% When utilizing the symmetry of tensors to reduce their order, several notations can be used.  This is necessary because certain elements appear twice in the original tensors, but only once in the reduced-order versions; thus a factor of 2 must be employed at some point to take this change into account.  
+
+% In Abaqus, the factor of 2 is placed in the strain vector:
+% \begin{equation}
+% \ten{\varepsilon} = \left[ \begin{array}{ccc}
+% \varepsilon_{11} & \varepsilon_{12} & \varepsilon_{13} \\
+% \varepsilon_{21} & \varepsilon_{22} & \varepsilon_{23} \\
+% \varepsilon_{31} & \varepsilon_{32} & \varepsilon_{33} 
+% \end{array} \right] 
+% = \left[ \varepsilon_{11} ,\, \varepsilon_{22} ,\, \varepsilon_{33} ,\, 2 \varepsilon_{12} ,\, 2 \varepsilon_{13} ,\, 2 \varepsilon_{23} \right] 
+% = \left[ \varepsilon_{1} ,\, \varepsilon_{2} ,\, \varepsilon_{3} ,\, \varepsilon_{4} ,\, \varepsilon_{5} ,\, \varepsilon_{6} \right] 
+% \label{VoigtStrain}
+% \end{equation}
+% while the stress vector is not changed:
+% \begin{equation}
+% \ten{\sigma} = \left[ \begin{array}{ccc}
+% \sigma_{11} & \sigma_{12} & \sigma_{13} \\
+% \sigma_{21} & \sigma_{22} & \sigma_{23} \\
+% \sigma_{31} & \sigma_{32} & \sigma_{33} 
+% \end{array} \right] 
+% = \left[ \sigma_{11} ,\, \sigma_{22} ,\, \sigma_{33} ,\, \sigma_{12} ,\, \sigma_{13} ,\, \sigma_{23} \right] 
+% = \left[ \sigma_{1} ,\, \sigma_{2} ,\, \sigma_{3} ,\, \sigma_{4} ,\, \sigma_{5} ,\, \sigma_{6} \right] 
+% \label{VoigtStress}
+% \end{equation}
+
+% Fourth-order tensors are represented as $6x6$ matrices.  In Voigt notation, the tensor is unchanged by prefactors:
+% \begin{equation}
+% \left[ \begin{array}{cccccc}
+% C_{1111} & C_{1122} & C_{1133} & C_{1112} & C_{1113} & C_{1123} \\
+% C_{2211} & C_{2222} & C_{2233} & C_{2212} & C_{2213} & C_{2223} \\
+% C_{3311} & C_{3322} & C_{3333} & C_{3312} & C_{3313} & C_{3323} \\
+% C_{1211} & C_{1222} & C_{1233} & C_{1212} & C_{1213} & C_{1223} \\
+% C_{1311} & C_{1322} & C_{1333} & C_{1312} & C_{1313} & C_{1323} \\
+% C_{2311} & C_{2322} & C_{2333} & C_{2312} & C_{2313} & C_{2323}
+% \end{array} \right] 
+% \label{VoigtMatrix}
+% \end{equation}
+
+% An alternate formulation (sometimes called Mandel notation) includes a factor of $\sqrt{2}$ in both the stress and strain vectors:
+% \begin{equation}
+% \ten{\varepsilon} = \left[ \begin{array}{ccc}
+% \varepsilon_{11} & \varepsilon_{12} & \varepsilon_{13} \\
+% \varepsilon_{21} & \varepsilon_{22} & \varepsilon_{23} \\
+% \varepsilon_{31} & \varepsilon_{32} & \varepsilon_{33} 
+% \end{array} \right] 
+% = \left[ \varepsilon_{11} ,\, \varepsilon_{22} ,\, \varepsilon_{33} ,\, \sqrt{2} \varepsilon_{12} ,\, \sqrt{2} \varepsilon_{13} ,\, \sqrt{2} \varepsilon_{23} \right] 
+% = \left[ \varepsilon_{1} ,\, \varepsilon_{2} ,\, \varepsilon_{3} ,\, \varepsilon_{4} ,\, \varepsilon_{5} ,\, \varepsilon_{6} \right] 
+% \label{MandelStrain}
+% \end{equation}
+% \begin{equation}
+% \ten{\sigma} = \left[ \begin{array}{ccc}
+% \sigma_{11} & \sigma_{12} & \sigma_{13} \\
+% \sigma_{21} & \sigma_{22} & \sigma_{23} \\
+% \sigma_{31} & \sigma_{32} & \sigma_{33} 
+% \end{array} \right] 
+% = \left[ \sigma_{11} ,\, \sigma_{22} ,\, \sigma_{33} ,\, \sqrt{2} \sigma_{12} ,\, \sqrt{2} \sigma_{13} ,\, \sqrt{2} \sigma_{23} \right] 
+% = \left[ \sigma_{1} ,\, \sigma_{2} ,\, \sigma_{3} ,\, \sigma_{4} ,\, \sigma_{5} ,\, \sigma_{6} \right] 
+% \label{MandelStress}
+% \end{equation}
+
+% In Mandel notation, fourth-order tensors have prefactors in the lower and right quadrants.  
+% \begin{equation}
+% \left[ \begin{array}{cccccc}
+% C_{1111} & C_{1122} & C_{1133} & \sqrt{2} C_{1112} & \sqrt{2} C_{1113} & \sqrt{2} C_{1123} \\
+% C_{2211} & C_{2222} & C_{2233} & \sqrt{2} C_{2212} & \sqrt{2} C_{2213} & \sqrt{2} C_{2223} \\
+% C_{3311} & C_{3322} & C_{3333} & \sqrt{2} C_{3312} & \sqrt{2} C_{3313} & \sqrt{2} C_{3323} \\
+% \sqrt{2} C_{1211} & \sqrt{2} C_{1222} & \sqrt{2} C_{1233} & 2C_{1212} & 2C_{1213} & 2C_{1223} \\
+% \sqrt{2} C_{1311} & \sqrt{2} C_{1322} & \sqrt{2} C_{1333} & 2C_{1312} & 2C_{1313} & 2C_{1323} \\
+% \sqrt{2} C_{2311} & \sqrt{2} C_{2322} & \sqrt{2} C_{2333} & 2C_{2312} & 2C_{2313} & 2C_{2323}
+% \end{array} \right] 
+% \label{MandelMatrix}
+% \end{equation}
+
+% The relationship between higher-order tensors and their lower-order counterparts in Voigt notation is of considerable interest.  For instance, if operations are performed on both, will their answers match?  Here we will examine several common operations and assess their equivalence.
+
+% %We know that with the square root notation, we have, for all A_ijkl and B_ij:
+% %C_ij = A_ijkl : B_kl <==> C_I = A_IK . B_K
+% %Right? Then, we must have, for all B_ij eigenvectors of A_ijkl:
+% %A_ijkl : B_kl = \lambda B_kl <==> A_IK : B_K = \lambda B_K
+% %Right? Thus, eigenproblems are equivalent. Right?
+% %
+% %Moreover, since we have, for all A_ijkl and B_ijkl:
+% %C_ijkl = A_ijpq : B_pqkl <==> C_IK = A_IP : B_PK
+% %Then we must have, for B_ijkl inverse of A_ijkl:
+% %1_ijkl = A_ijpq : A_pqkl^-1 <==> 1_IK = A_IP : A_PK^-1
+% %Right? (Of course, we're talking about 1_ijkl = \delta_ik \delta_jl, so that Voigt(1_ijkl) = 1_IK = \delta_IK.)
+
+
+% \subsection{Dyadic Products}
+% Given two stress-like tensors in Voigt notation, 
+% \begin{equation}
+% \ten{A}^{\scas{V}} = \left[ a_{11} ,\, a_{22} ,\, a_{33} ,\, a_{12} ,\, a_{13} ,\, a_{23} \right], \qquad
+% \ten{B}^{\scas{V}} = \left[ b_{11} ,\, b_{22} ,\, b_{33} ,\, b_{12} ,\, b_{13} ,\, b_{23} \right] 
+% \label{VoigtTensors}
+% \end{equation}
+% their dyadic product, 
+% \begin{equation}
+% \ten{A}^{\scas{V}} \otimes \ten{B}^{\scas{V}} = \left[ \begin{array}{cccccc}
+% a_{11} b_{11} & a_{11} b_{22} & a_{11} b_{33} & a_{11} b_{12} & a_{11} b_{13} & a_{11} b_{23} \\
+% a_{22} b_{11} & a_{22} b_{22} & a_{22} b_{33} & a_{22} b_{12} & a_{22} b_{13} & a_{22} b_{23} \\
+% a_{33} b_{11} & a_{33} b_{22} & a_{33} b_{33} & a_{33} b_{12} & a_{33} b_{13} & a_{33} b_{23} \\
+% a_{12} b_{11} & a_{12} b_{22} & a_{12} b_{33} & a_{12} b_{12} & a_{12} b_{13} & a_{12} b_{23} \\
+% a_{13} b_{11} & a_{13} b_{22} & a_{13} b_{33} & a_{13} b_{12} & a_{13} b_{13} & a_{13} b_{23} \\
+% a_{23} b_{11} & a_{23} b_{22} & a_{23} b_{33} & a_{23} b_{12} & a_{23} b_{13} & a_{23} b_{23} 
+% \end{array} \right] 
+% \end{equation}
+% is the same as the Voigt notation of the dyadic product of the full tensors.  This would not hold, however, if either of the tensors in Voigt notation were strain-like and had prefactors of 2 in some terms. 
+
+% Given two tensors in Mandel notation, 
+% \begin{equation}
+% \ten{A}^{\scas{M}} = \left[ a_{11} ,\, a_{22} ,\, a_{33} ,\, \sqrt{2} a_{12} ,\, \sqrt{2} a_{13} ,\, \sqrt{2} a_{23} \right], \qquad
+% \ten{B}^{\scas{M}} = \left[ b_{11} ,\, b_{22} ,\, b_{33} ,\, \sqrt{2} b_{12} ,\, \sqrt{2} b_{13} ,\, \sqrt{2} b_{23} \right] 
+% \label{MandelTensors}
+% \end{equation}
+% their dyadic product is also the same as the Mandel notation of the dyadic product of the full tensors:
+% \begin{equation}
+% \ten{A}^{\scas{M}} \otimes \ten{B}^{\scas{M}} = \left[ \begin{array}{cccccc}
+% a_{11} b_{11} & a_{11} b_{22} & a_{11} b_{33} & \sqrt{2} a_{11} b_{12} & \sqrt{2} a_{11} b_{13} & \sqrt{2} a_{11} b_{23} \\
+% a_{22} b_{11} & a_{22} b_{22} & a_{22} b_{33} & \sqrt{2} a_{22} b_{12} & \sqrt{2} a_{22} b_{13} & \sqrt{2} a_{22} b_{23} \\
+% a_{33} b_{11} & a_{33} b_{22} & a_{33} b_{33} & \sqrt{2} a_{33} b_{12} & \sqrt{2} a_{33} b_{13} & \sqrt{2} a_{33} b_{23} \\
+% \sqrt{2} a_{12} b_{11} & \sqrt{2} a_{12} b_{22} & \sqrt{2} a_{12} b_{33} & 2a_{12} b_{12} & 2a_{12} b_{13} & 2a_{12} b_{23} \\
+% \sqrt{2} a_{13} b_{11} & \sqrt{2} a_{13} b_{22} & \sqrt{2} a_{13} b_{33} & 2a_{13} b_{12} & 2a_{13} b_{13} & 2a_{13} b_{23} \\
+% \sqrt{2} a_{23} b_{11} & \sqrt{2} a_{23} b_{22} & \sqrt{2} a_{23} b_{33} & 2a_{23} b_{12} & 2a_{23} b_{13} & 2a_{23} b_{23} 
+% \end{array} \right] 
+% \end{equation}
+
+
+% \subsection{Double Contraction}
+% The double contraction of two second-order tensors yields a scalar: 
+% \begin{align}
+% c ={}& \ten{A} : \ten{B} \notag \\ 
+% ={}& a_{11} b_{11} + a_{22} b_{22} + a_{33} b_{33} + a_{12} b_{12} + a_{13} b_{13} + a_{23} b_{23} + a_{21} b_{21} + a_{31} b_{31} + a_{32} b_{32} 
+% \end{align}
+% which, when accounting for symmetry, yields
+% \begin{equation}
+% c =a_{11} b_{11} + a_{22} b_{22} + a_{33} b_{33} + 2a_{12} b_{12} + 2a_{13} b_{13} + 2 a_{23} b_{23} 
+% \end{equation}
+
+% For a stress-like and a strain-like tensor in Voigt notation
+% \begin{equation}
+% \ten{A}^{\scas{V}} = \left[ a_{11} ,\, a_{22} ,\, a_{33} ,\, a_{12} ,\, a_{13} ,\, a_{23} \right], \qquad
+% \ten{B}^{\scas{V}} = \left[ b_{11} ,\, b_{22} ,\, b_{33} ,\, 2 b_{12} ,\, 2 b_{13} ,\, 2 b_{23} \right] 
+% \end{equation}
+% their inner product is equivalent to the double contraction of their symmetric second-order counterparts:
+% \begin{align}
+% c = \ten{A}^{\scas{V}} \cdot \ten{B}^{\scas{V}} = a_{11} b_{11} + a_{22} b_{22} + a_{33} b_{33} + 2 a_{12} b_{12} + 2 a_{13} b_{13} + 2 a_{23} + b_{23}
+% \end{align}
+% This would not hold, however, if both of the tensors were stress-like or strain-like.  
+
+% For two tensors in Mandel notation \ref{MandelTensors}, 
+% \begin{equation}
+% \ten{A}^{\scas{M}} = \left[ a_{11} ,\, a_{22} ,\, a_{33} ,\, \sqrt{2} a_{12} ,\, \sqrt{2} a_{13} ,\, \sqrt{2} a_{23} \right], \qquad
+% \ten{B}^{\scas{M}} = \left[ b_{11} ,\, b_{22} ,\, b_{33} ,\, \sqrt{2} b_{12} ,\, \sqrt{2} b_{13} ,\, \sqrt{2} b_{23} \right] 
+% \end{equation}
+% their inner product is also equivalent to the double contraction of their symmetric second-order counterparts:
+% \begin{align}
+% c = \ten{A}^{\scas{M}} \cdot \ten{B}^{\scas{M}} = a_{11} b_{11} + a_{22} b_{22} + a_{33} b_{33} + 2 a_{12} b_{12} + 2 a_{13} b_{13} + 2 a_{23} + b_{23}
+% \end{align}
+
+% \subsection{Invariants}
+% \subsubsection{First Invariant}
+% The first invariant, the trace, can be expressed in tensor form as: 
+% \begin{equation}
+% \mbox{tr} (\ten{A}) = \ten{I} : \ten{A} = \ten{A} : \ten{I}
+% \end{equation}
+
+% Using Voigt notation for both the tensor $\ten{A}$ and the identity tensor, 
+% \begin{equation}
+% \ten{A}^{\scas{V}} = \left[ \begin{array}{cccccc}
+% a_{11} & a_{22} & a_{33} & a_{12} & a_{13} & a_{23}
+% \end{array} \right] \, , 
+% \qquad
+% \ten{I}^v = \left[ \begin{array}{cccccc}
+% 1 & 1 & 1 & 0 & 0 & 0
+% \end{array} \right] 
+% \end{equation}
+% and the reduced-order equation 
+% \begin{equation}
+% \mbox{tr}  (\ten{A}^{\scas{V}}) = \ten{I}^{\scas{V}} \cdot \ten{A}^{\scas{V}} = \ten{A}^{\scas{V}} \cdot \ten{I}^{\scas{V}}
+% \end{equation}
+% we calculate the trace of $\ten{A}$ to be 
+% \begin{equation}
+% \mbox{tr} (\ten{A}) = a_{11} + a_{22} + a_{33}
+% \end{equation}
+% which matches the full-order result. 
+
+% Using Mandel notation for both the tensor $\ten{A}$ and the identity tensor, 
+% \begin{equation}
+% \ten{A}^{\scas{M}} = \left[ \begin{array}{cccccc}
+% a_{11} & a_{22} & a_{33} & \sqrt{2} a_{12} & \sqrt{2} a_{13} & \sqrt{2} a_{23}
+% \end{array} \right] \, , 
+% \qquad 
+% \ten{I}^v = \left[ \begin{array}{cccccc}
+% 1 & 1 & 1 & 0 & 0 & 0
+% \end{array} \right] 
+% \end{equation}
+% the same answer is obtained.
+
+% Thus, while the first invariant uses a double contraction operation, it represents a special case where both Voigt and Mandel notation preserve the result.  
+
+
+% %
+% %\subsection{Inverses}
+% %%\subsubsection{Inverses of Second-Order Tensors}
+% %%The definition of the inverse of a second-order tensor is a tensor that, when multiplied by the original tensor, yields the second-order identity tensor.
+% %%\begin{equation}
+% %%\ten{A} \cdot \ten{A}^{-1} = \ten{I}
+% %%\end{equation}
+% %%
+% %%I'm not sure what I'm checking here.  Vectors don't really have an inverse, so there is not really an analog here, is there?
+% %
+% %\subsubsection{Inverses of Fourth-Order Tensors}
+% %The definition of the inverse of a fourth-order tensor is a tensor that, when double contracted with the original tensor, yields the fourth-order identity tensor.
+% %\begin{equation}
+% %\tenf{A} : \tenf{A}^{-1} = \ten{I} \overline{\otimes} \ten{I} = \tenf{I}
+% %\end{equation}
+% %
+% %Because the double contraction of two fourth-order tensors is equivalent to the multiplication of their second-order Mandel counterparts, it should be expected that 
+% %\begin{equation}
+% %\ten{A}^{\scas{M}} \cdot \ten{A}^{-1,M} = \ten{I}
+% %\end{equation}
+% %while this would not be true of Voigt notation.  Instead, the opposite happens . . . \fxnote{Why????  Also, I was only able to test this for tensors that fit the Sherman-Morrison formula}
+% %
+% %Another question is, is the inverse operation on a Voigt or Mandel tensor equivalent to the inverse operation on their full-order counterpart?  The answer appears to be yes for Mandel notation, but not in Voigt notation.  That is, 
+% %
+% %\pgfdeclarelayer{background}
+% %\pgfsetlayers{background,main}
+% %
+% %\begin{center} \begin{tikzpicture}[start chain=going below]
+% %    \node [input, fill=white] (t4) {4th order tensor};
+% %    \node [input, fill=white, right=2cm of t4] (t2) {2nd order tensor};
+% %    \node [input, fill=white, below=2cm of t2] (i2) {2nd order inverse};
+% %    \node [input, fill=white, below=2cm of t4] (i4) {4th order inverse};
+% %    \draw [double] (t4) to node [yshift=0.5cm] {Voigt notation} (t2);
+% %    \draw [double] (i2) to node [yshift=-0.5cm] {Voigt notation} (i4);
+% %    \draw [double] (t4) to (i4);
+% %    \draw [dottedline] (t2) to (i2);
+% %\end{tikzpicture} 
+% %
+% %\begin{tikzpicture}[start chain=going below]
+% %    \node [input, fill=white] (t4) {4th order tensor};
+% %    \node [input, fill=white, right=2cm of t4] (t2) {2nd order tensor};
+% %    \node [input, fill=white, below=2cm of t2] (i2) {2nd order inverse};
+% %    \node [input, fill=white, below=2cm of t4] (i4) {4th order inverse};
+% %    \draw [double] (t4) to node [yshift=0.5cm] {Mandel notation} (t2);
+% %    \draw [double] (i2) to node [yshift=-0.5cm] {Mandel notation} (i4);
+% %    \draw [dottedline] (t4) to (i4);
+% %    \draw [double] (t2) to (i2);
+% %\end{tikzpicture} \end{center}
+% %\fxnote{I'm actually not sure where this breaks down for Mandel notation}.  
+
+% %where $\ten{I}^{\scas{M}}$ is the Mandel form of the fourth-order identity tensor, 
+% %\begin{equation}
+% %\ten{I}^{\scas{M}} = \left[ \begin{array}{cccccc}
+% %1 & 0 & 0 & 0 & 0 & 0 \\
+% %0 & 1 & 0 & 0 & 0 & 0 \\
+% %0 & 0 & 1 & 0 & 0 & 0 \\
+% %0 & 0 & 0 & 2 & 0 & 0 \\
+% %0 & 0 & 0 & 0 & 2 & 0 \\
+% %0 & 0 & 0 & 0 & 0 & 2
+% %\end{array} \right] 
+% %\end{equation}
+
+% %\subsection{Derivatives}
+% %I actually don't think this matters because we're finding derivatives analytically and then putting them into Voigt notation.  Actually, because of this I'm not sure how much any of this matters.  
+
+% %\subsection{Orthogonal Transformations}
+% %\subsection{Eigenvalues}
+% %Frankly, my dear, I don't give a damn.  
+
+% %
+% %\section{$\ten{F}$ and $\ten{C}$}
+% %The derivative $\partial \ten{C} / \partial \ten{F}$ is easy to find:
+% %\begin{align}
+% %\frac{\partial \ten{C}_{IJ}}{\partial \ten{F}_{kL}} ={}& \frac{\partial \left( \ten{F}_{aI} \ten{F}_{aJ} \right) }{\partial \ten{F}_{kL}} \notag \\
+% %={}& \frac{\partial \ten{F}_{aI} }{\partial \ten{F}_{kL}} \ten{F}_{aJ} + \ten{F}_{aI} \frac{\partial  \ten{F}_{aJ} }{\partial \ten{F}_{kL}} \notag \\
+% %={}& \delta_{ak} \delta_{IL} \ten{F}_{aJ} + \ten{F}_{aI} \delta_{ak} \delta_{JL} \notag \\
+% %={}& \delta_{IL} \ten{F}_{kJ} + \ten{F}_{kI} \delta_{JL} \notag \\
+% %\frac{\partial \ten{C}}{\partial \ten{F}} ={}& \ten{I} \overline{\otimes} \ten{F}^{\scas{T}} + \ten{F}^{\scas{T}} \underline{\otimes} \ten{I}
+% %\end{align}
+% %
+% %Its inverse, $\partial \ten{F} / \partial \ten{C}$, is more difficult.  It should satisfy the following relations:
+% %%\begin{align}
+% %%\frac{\partial \ten{F}}{\partial \ten{F}} ={}& \frac{\partial \ten{F}}{\partial \ten{C}} : \frac{\partial \ten{C}}{\partial \ten{F}} \notag \\
+% %%\frac{\partial \ten{F}_{iJ}}{\partial \ten{F}_{kL}} ={}& \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{MN}} \frac{\partial \ten{C}_{MN}}{\partial \ten{F}_{kL}} \notag \\
+% %%\delta_{ik} \delta_{JL} ={}& \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{MN}} \left( \delta_{ML} \ten{F}_{kN} + \ten{F}_{kM} \delta_{NL} \right)  \notag \\
+% %%={}& \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{MN}} \delta_{ML} \ten{F}_{kN} + \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{MN}} \ten{F}_{kM} \delta_{NL} \notag \\
+% %%={}& \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{LN}} \ten{F}_{kN} + \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{ML}} \ten{F}_{kM} \notag \\
+% %%\delta_{ik} \delta_{JL} ={}& 2 \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \ten{F}_{kK} \notag
+% %%\end{align}
+% %\begin{equation}
+% %\frac{\partial \ten{F}}{\partial \ten{F}} = \frac{\partial \ten{F}}{\partial \ten{C}} : \frac{\partial \ten{C}}{\partial \ten{F}} \implies \boxed{  \delta_{ik} \delta_{JL} = 2 \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \ten{F}_{kK} }
+% %\end{equation}
+% %
+% %
+% %%\begin{align}
+% %%\frac{\partial I_1}{\partial \ten{C}} ={}& \frac{\partial I_1}{\partial \ten{F}} : \frac{\partial \ten{F}}{\partial \ten{C}} \notag \\
+% %%\frac{\partial I_1}{\partial \ten{C}_{KL}} ={}& \frac{\partial I_1}{\partial \ten{F}_{iJ}} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%\delta_{KL} ={}& \frac{\partial tr(\ten{C})}{\partial \ten{C}_{MN}} \frac{\partial \ten{C}_{MN}}{\partial \ten{F}_{iJ}}\frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%={}& \delta_{MN} \left( \delta_{MJ} \ten{F}_{iN} + \ten{F}_{iM} \delta_{NJ} \right) \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%={}& \left( \ten{F}_{iJ} + \ten{F}_{iJ} \right) \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%\delta_{KL} ={}& 2 \ten{F}_{iJ} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag
+% %%\end{align}
+% %\begin{equation}
+% %\frac{\partial I_1}{\partial \ten{C}} = \frac{\partial I_1}{\partial \ten{F}} : \frac{\partial \ten{F}}{\partial \ten{C}} \implies \boxed{ \delta_{KL} = 2 \ten{F}_{iJ} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} }
+% %\end{equation}
+% %
+% %
+% %%\begin{align}
+% %%\frac{\partial J}{\partial \ten{C}} ={}& \frac{\partial J}{\partial \ten{F}} : \frac{\partial \ten{F}}{\partial \ten{C}} \notag \\
+% %%\frac{\partial J}{\partial \ten{C}_{KL}} ={}& \frac{\partial J}{\partial \ten{F}_{iJ}} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%\frac{J}{2} \ten{C}^{-1}_{KL} ={}& J \ten{F}^{-1}_{Ji} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%\ten{C}^{-1}_{KL} ={}& 2 \ten{F}^{-1}_{Ji} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} \notag \\
+% %%\end{align}
+% %\begin{equation}
+% %\frac{\partial J}{\partial \ten{C}} = \frac{\partial J}{\partial \ten{F}} : \frac{\partial \ten{F}}{\partial \ten{C}}  \implies \boxed{ \ten{C}^{-1}_{KL} = 2 \ten{F}^{-1}_{Ji} \frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} }
+% %\end{equation}
+% %
+% %The equation
+% %\begin{equation}
+% %\frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} = \frac{1}{4} \left( \ten{F}^{-1}_{Ki} \delta_{JL} + \ten{F}_{Li}^{-1} \delta_{JK} \right) 
+% %\end{equation}
+% %satisfies the second and third relations, but not the first.
