@@ -322,3 +322,86 @@
 % %\frac{\partial \ten{F}_{iJ}}{\partial \ten{C}_{KL}} = \frac{1}{4} \left( \ten{F}^{-1}_{Ki} \delta_{JL} + \ten{F}_{Li}^{-1} \delta_{JK} \right) 
 % %\end{equation}
 % %satisfies the second and third relations, but not the first.
+
+
+
+
+
+
+% \subsection{Cauchy Stress-Driven Fiber Growth}
+% This UMAT is used for materials that exhibit isotropic growth driven by a normal component of the Cauchy stress.  
+
+% \subsubsection{Kinematics}
+% Based on the assumptions of isotropic growth, the the growth tensor is
+% \begin{equation}
+% \ten{F}^{\scas{g}} = \sqrt[3]{\vartheta^{\scas{g}}} \ten{I} \, , 
+% \end{equation}
+% with inverse
+% \begin{equation}
+% \ten{F}^{\scas{g}-1} = \frac{1}{\sqrt[3]{\vartheta^{\scas{g}}}} \ten{I} \, . 
+% \end{equation}
+% The Jacobian, or determinant of the deformation tensor, is easily calculated to be 
+% \begin{equation}
+% \det (\ten{F}^{\scas{g}}) = J^{\scas{g}} = \vartheta^{\scas{g}} \, .
+% \end{equation}
+
+% \subsubsection{Growth Kinetics}
+% The evolution equation consists of two functions - a growth rate, $k^{\scas{g}}$, and growth criterion, $\phi^{\scas{g}}$ (see examples listed in Section \ref{subsec:crit}).  For this model, we choose any appropriate growth rate $k^{\scas{g}}$, and a growth criterion function that is dependent on the normal component of Cauchy stress in the direction of $\ten{N}$.
+% \begin{equation}
+% \phi = \ten{\sigma}^{\tens{N}} - \ten{\sigma}^{\tens{N}}_{\scas{crit}} \, , 
+% \qquad \mbox{where} \qquad
+% \ten{\sigma}^{\tens{N}} = \ten{\sigma} : \ten{N} \, . 
+% \end{equation}
+% The derivative of the growth criterion function is equal to the derivative of $ \ten{\sigma}^{\tens{N}} $, 
+% \begin{equation}
+% \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% = \left. \frac{\partial \left( \ten{\sigma}^{\tens{N}} - \ten{\sigma}^{\tens{N}}_{\scas{crit}} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% = \left. \frac{\partial \ten{\sigma}^{\tens{N}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
+% = \left. \frac{ \partial \left( \ten{\sigma}_{ij} \ten{N}_{ij} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
+% = \left. \frac{ \partial \left( \ten{\sigma}_{ij} \ten{F}_{iI} \ten{F}_{jJ} \ten{N}^0_{IJ} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% = \ten{F}_{iI} \ten{F}_{jJ} \ten{N}^0_{IJ} \left. \frac{ \partial \left( \ten{\sigma}_{ij} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
+% = \ten{N}_{ij} \left. \frac{ \partial \ten{\sigma}_{ij} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \, . 
+% \end{equation}
+% For the logarithmic Neo-Hookean material model, this derivative is calculated as 
+% \begin{align}
+% \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% ={}& \ten{N}_{ij} \left. \frac{ \partial \ten{\sigma}_{ij} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% \\
+% % % begin derivations
+% % ={}& \ten{N}_{ij} \left. \frac{ \partial \Big( \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \delta_{ij} + \mu \ten{b}^{\scas{e}}_{ij} \right] / J^{\scas{e}} \Big) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% % \notag \\
+% % % ={}& \frac{1}{J} \ten{N}_{ij} \left. \frac{ \partial \Big(  J^{\scas{g}} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \delta_{ij} + \mu \ten{b}^{\scas{e}}_{ij} \right]\Big) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% % % \notag \\
+% % % ={}& \frac{1}{J} \ten{N}_{ij} \left. \frac{ \partial \Big( J^{\scas{g}} \left[ \lambda \ln J^{\scas{e}} - \mu \right] \delta_{ij} + \mu J^{\scas{g}} \ten{b}^{\scas{e}}_{ij} \Big) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
+% % % \notag \\
+% % ={}& \frac{1}{J} \ten{N}_{ij} \left. \left[ 
+% % \left[ 
+% % \frac{ \partial J^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \left[ \lambda \ln J^{\scas{e}} - \mu \right] 
+% % + \lambda J^{\scas{g}} \frac{ \partial \left( \ln J^{\scas{e}} \right) }{\partial \vartheta^{\scas{g}}} 
+% % \right] \delta_{ij} 
+% % + \mu \frac{ \partial \Big( J^{\scas{g}} \left[ \frac{1}{\vartheta^{\scas{g}^{2/3}}} \ten{b}_{ij} \right] \Big) }{\partial \vartheta^{\scas{g}}} 
+% % \right] \right|_{\tens{C}}
+% % \notag \\
+% % ={}& \frac{1}{J} \ten{N}_{ij} \left. \left[ 
+% % \left[ \lambda \ln J^{\scas{e}} - \mu 
+% % + \lambda J^{\scas{g}} \frac{ \partial \left( \ln J^{\scas{e}} \right) }{\partial J^{\scas{e}} } \frac{ \partial J^{\scas{e}} }{\partial J^{\scas{g}}} 
+% % \right] \delta_{ij} 
+% % + \mu \frac{ \partial \Big( J^{\scas{g}^{1/3}} \Big) }{\partial J^{\scas{g}}} \ten{b}_{ij} 
+% % \right] \right|_{\tens{C}}
+% % \notag \\
+% % ={}& \frac{1}{J} \ten{N}_{ij} \left[ 
+% % \left[ \lambda \ln J^{\scas{e}} - \mu + \lambda J^{\scas{g}} \left[ \frac{1}{ J^{\scas{e}} } \right] \left[ - \frac{J}{ J^{\scas{g}^2} } \right] \right] \delta_{ij} 
+% % + \mu \left[ \frac{1}{3} J^{\scas{g}^{-2/3}} \right] \ten{b}_{ij} 
+% % \right] 
+% % \notag \\
+% % ={}& \frac{1}{J} \ten{N}_{ij} \left[ 
+% % \left[ \lambda \ln J^{\scas{e}} - \mu - \lambda \right] \delta_{ij} 
+% % + \frac{\mu}{3} \ten{b}^{\scas{e}}_{ij} 
+% % \right]
+% % \notag \\
+% % % end derivations
+% \cdots{}& \notag \\
+% ={}& \frac{1}{J} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu - \lambda \right] \ten{N}_{ii} 
+%  + \frac{\mu}{3} \ten{b}^{\scas{e}}_{ij} \ten{N}_{ij} \right]
+% \, . 
+% \end{align}
