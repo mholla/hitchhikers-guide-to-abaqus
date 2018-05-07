@@ -14,3 +14,5 @@ Chapters include:
 along with several appendices that serve as references for continuum mechanics and Fortran.
 
 ### _Don't Panic_
+
+[![DOI](https://zenodo.org/badge/102392502.svg)](https://zenodo.org/badge/latestdoi/102392502)
