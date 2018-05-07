@@ -976,7 +976,7 @@ which relates the volume-normalized Jaumann rate of the Kirchhoff stress to the 
 
 
 \subsubsection{Mixed Formulation}
-Some calculations are performed in the spatial domain (as in Abaqus), some in the reference domain, and some in a `'mixed domain' (as in the Kuhl lab Matlab code).  The latter, the mixed domain formulation, uses the First Piola-Kirchhoff stress 
+Some calculations are performed in the spatial domain (as in Abaqus), some in the reference domain, and some in a `mixed domain' (as in the Kuhl lab Matlab code).  The latter, the mixed domain formulation, uses the First Piola-Kirchhoff stress 
 and the mixed-domain tangent, defined as
 \begin{equation}
 \ten{P} = \frac{ \partial W_0 }{ \partial \ten{F} }
@@ -2986,6 +2986,10 @@ Subroutines in Fortran don't have explicit outputs; instead, the subroutine modi
 
 Subroutines are called using \texttt{call SubroutineName(arg1, arg2)}
 
+
+\subsection{Tensor Toolbox}
+\href{https://adtzlr.github.io/TensorToolbox/}{Tensor Toolbox} is a Fortran module that calculates tensor features, including identity tensors, dot products, and deviatoric components, in Fortran \cite{Dutzler}
+
 \subsection{Miscellaneous}
 \begin{itemize}
 \item Fortran is case insensitive!  
@@ -3110,65 +3114,68 @@ S &= \mu \left[ \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \right] \
 \begin{thebibliography}{99}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\bibitem{SahliCostabal2017}
-\href{http://doi.org/10.1016/j.cma.2017.03.015}{%
-Sahli Costabal, F., Concha, F. A., Hurtado, D. E., \& Kuhl, E. (2017). The importance of mechano-electrical feedback and inertia in cardiac electromechanics. \textit{Computer Methods in Applied Mechanics and Engineering}, 320, 352–368. }
-%
-\bibitem{Prot2009}
-\href{http://doi.org/10.1007/s00466-008-0310-2}{%
-Prot, V., \& Skallerud, B. (2009). Nonlinear solid finite element analysis of mitral valves with heterogeneous leaflet layers. \textit{Computational Mechanics}, 43(3), 353–368.}
-%
-\bibitem{Bower}
+\bibitem[Bower (2010)]{Bower}
 \href{http://solidmechanics.org/}{%
 Bower, A. F. (2010). Applied Mechanics of Solids (1st ed.). CRC Press.}
 %
-\bibitem{Rodriguez1994}
-\href{http://doi.org/10.1016/0021-9290(94)90021-3}{%
-Rodriguez, E. K., Hoger, A., \& McCulloch, A. D. (1994). Stress-dependent finite growth in soft elastic tissues. \textit{Journal of Biomechanics}, 27(4), 455–467.}
-%
-\bibitem{Hughes}
-Hughes, T. J. R. (2000). The finite element method: linear static and dynamic finite element analysis. Courier Corporation.
-%
-\bibitem{Ganghoffer2013}
-\href{http://doi.org/10.1016/j.ijsolstr.2013.06.011}{%
-Ganghoffer, J. F. (2013). A kinematically and thermodynamically consistent volumetric growth model based on the stress-free configuration. \textit{International Journal of Solids and Structures}, 50(20–21), 3446–3459.}
-%
-\bibitem{Taber1995}
-\href{http://adsabs.harvard.edu/abs/1995ApMRv..48..487T}{%
-Taber, L. A. (1995). Biomechanics of growth, remodeling, and morphogenesis. \textit{Applied Mechanics Reviews}, 48 (August 1995), 487.}
-%
-\bibitem{Dennerll1989}
-\href{http://jcb.rupress.org/content/109/6/3073.abst}{%
-Dennerll, T. J., Lamoureux, P., Buxbaum, R. E., \& Heidemann, S. R. (1989). The cytomechanics of axonal elongation and retraction. \textit{The Journal of Cell Biology}, 109(6), 3073–3083.}
-%
-\bibitem{BuganzaTepole2011}
+\bibitem[Buganza Tepole et al. (2011)]{BuganzaTepole2011}
 \href{http://doi.org/10.1016/j.jmps.2011.05.004}{%
 Buganza Tepole, A., Joseph Ploch, C., Wong, J., Gosain, A. K., \& Kuhl, E. (2011). Growing skin: A computational model for skin expansion in reconstructive surgery. \textit{Journal of the Mechanics and Physics of Solids}, 59(10), 2177–2190.}
 %
-\bibitem{Zollner2013}
-\href{http://doi.org/10.1016/j.jmbbm.2013.03.018}{%
-Zöllner, A. M., Holland, M. A., Honda, K. S., Gosain, A. K., \& Kuhl, E. (2013). Growth on demand: Reviewing the mechanobiology of stretched skin. \textit{Journal of the Mechanical Behavior of Biomedical Materials}, 28, 495–509.}
+\bibitem[Dennerll et al. (1989)]{Dennerll1989}
+\href{http://jcb.rupress.org/content/109/6/3073.abst}{%
+Dennerll, T. J., Lamoureux, P., Buxbaum, R. E., \& Heidemann, S. R. (1989). The cytomechanics of axonal elongation and retraction. \textit{The Journal of Cell Biology}, 109(6), 3073–3083.}
 %
-\bibitem{Goktepe2010}
+\bibitem[Dutzler (2017)]{Dutzler}
+\href{https://adtzlr.github.io/TensorToolbox/}{%
+Dutzler, Andreas (2017). Tensor Toolbox for Fortran. \textit{GitHub repository}, accessed May 2018. }
+%
+\bibitem[Ganghoffer (2013)]{Ganghoffer2013}
+\href{http://doi.org/10.1016/j.ijsolstr.2013.06.011}{%
+Ganghoffer, J. F. (2013). A kinematically and thermodynamically consistent volumetric growth model based on the stress-free configuration. \textit{International Journal of Solids and Structures}, 50(20–21), 3446–3459.}
+%
+\bibitem[G\"{o}ktepe et al. (2010)]{Goktepe2010}
 \href{http://doi.org/10.1016/j.jmps.2010.07.003}{%
 Göktepe, S., Abilez, O. J., \& Kuhl, E. (2010). A generic approach towards finite growth with examples of athlete’s heart, cardiac dilation, and cardiac wall thickening. \textit{Journal of the Mechanics and Physics of Solids}, 58(10), 1661–1680.}
 %
-\bibitem{Zollner2012}
-\href{http://doi.org/10.1371/journal.pone.0045661}{%
-Zöllner, A. M., Abilez, O. J., Böl, M., \& Kuhl, E. (2012). Stretching Skeletal Muscle: Chronic Muscle Lengthening through Sarcomerogenesis. \textit{PLoS ONE}, 7(10), e45661.}
-%
-\bibitem{Holland2015}
+\bibitem[Holland et al. (2015)]{Holland2015}
 \href{http://doi.org/10.1007/s10439-015-1312-9}{%
 Holland, M. A., Miller, K. E., \& Kuhl, E. (2015). Emerging Brain Morphologies from Axonal Elongation. \textit{Annals of Biomedical Engineering}, 43(7), 1640–1653.}
 % 
-\bibitem{Holland2017}
+\bibitem[Holland et al. (2017)]{Holland2017}
 \href{http://doi.org/10.1016/j.jmps.2016.09.012}{%
 Holland, M. A., Li, B., Feng, X. Q., \& Kuhl, E. (2017). Instabilities of soft films on compliant substrates. \textit{Journal of the Mechanics and Physics of Solids}, 98, 350–365.}
 %
-\bibitem{Lebedev}
+\bibitem[Hughes (2000)]{Hughes}
+Hughes, T. J. R. (2000). The finite element method: linear static and dynamic finite element analysis. Courier Corporation.
+%
+\bibitem[Lebedev (2010)]{Lebedev}
 Lebedev, L. P., Cloud, M. J., \& Eremeyev, V. A. (2010). Tensor Analysis with Applications in Mechanics.
-
+%
+\bibitem[Prot \& Skallerud (2009)]{Prot2009}
+\href{http://doi.org/10.1007/s00466-008-0310-2}{%
+Prot, V., \& Skallerud, B. (2009). Nonlinear solid finite element analysis of mitral valves with heterogeneous leaflet layers. \textit{Computational Mechanics}, 43(3), 353–368.}
+%
+\bibitem[Rodriguez et al. (1994)]{Rodriguez1994}
+\href{http://doi.org/10.1016/0021-9290(94)90021-3}{%
+Rodriguez, E. K., Hoger, A., \& McCulloch, A. D. (1994). Stress-dependent finite growth in soft elastic tissues. \textit{Journal of Biomechanics}, 27(4), 455–467.}
+%
+\bibitem[Sahli Costabal et al. (2017)]{SahliCostabal2017}
+\href{http://doi.org/10.1016/j.cma.2017.03.015}{%
+Sahli Costabal, F., Concha, F. A., Hurtado, D. E., \& Kuhl, E. (2017). The importance of mechano-electrical feedback and inertia in cardiac electromechanics. \textit{Computer Methods in Applied Mechanics and Engineering}, 320, 352–368. }
+%
+\bibitem[Taber (1995)]{Taber1995}
+\href{http://adsabs.harvard.edu/abs/1995ApMRv..48..487T}{%
+Taber, L. A. (1995). Biomechanics of growth, remodeling, and morphogenesis. \textit{Applied Mechanics Reviews}, 48 (August 1995), 487.}
+%
+\bibitem[Z\"{o}llner et al. (2012)]{Zollner2012}
+\href{http://doi.org/10.1371/journal.pone.0045661}{%
+Zöllner, A. M., Abilez, O. J., Böl, M., \& Kuhl, E. (2012). Stretching Skeletal Muscle: Chronic Muscle Lengthening through Sarcomerogenesis. \textit{PLoS ONE}, 7(10), e45661.}
+%
+\bibitem[Z\"{o}llner et al. (2013)]{Zollner2013}
+\href{http://doi.org/10.1016/j.jmbbm.2013.03.018}{%
+Zöllner, A. M., Holland, M. A., Honda, K. S., Gosain, A. K., \& Kuhl, E. (2013). Growth on demand: Reviewing the mechanobiology of stretched skin. \textit{Journal of the Mechanical Behavior of Biomedical Materials}, 28, 495–509.}
+%
 \end{thebibliography}
 
 \end{document}
