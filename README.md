@@ -1,7 +1,14 @@
 # hitchhikers-guide-to-abaqus
 #### _Information, Instructions, Derivations, and Explanations For Use with Abaqus User Subroutines With a Focus on Growth_
 
-This document was born as a compilation of notes and derivations recorded in LaTeX during my doctoral research on the mechanics of the developing human brain.  Over the years and several versions, I have made a lot of additions, consolidations, and corrections.  The focus originally was and still is the UMAT subroutine in Abaqus, but as my own research broadened and I received feedback and input from colleagues, collaborators, and other researchers who found this document useful, I have made some attempts to be more comprehensive.  Above all, my goal is to present in writing a coherent explanation of some of Abaqus' more esoteric quirks for the benefit of future researchers.  I have done my best to accurately attribute my sources; if you find this document useful, please cite the papers in the bibliography where appropriate.  If you find any errors or omissions or have suggestions for ways I could improve this resource, please contact me by [email](maria-holl@nd.edu).
+This document was born as a compilation of notes and derivations recorded in LaTeX during my doctoral research on the mechanics of the developing human brain.  Over the years and several versions, I have made a lot of additions, consolidations, and corrections.  The focus originally was and still is the UMAT subroutine in Abaqus, but as my own research broadened and I received feedback and input from colleagues, collaborators, and other researchers who found this document useful, I have made some attempts to be more comprehensive.  Above all, my goal is to present in writing a coherent explanation of some of Abaqus' more esoteric quirks for the benefit of future researchers.  
+
+if you find this document useful, please cite it as 
+```
+Holland, MA.  "The Hitchhiker's Guide to Abaqus" (2017) doi: 10.5281/zenodo.1243269
+```
+I have done my best to accurately attribute my sources; please cite the papers in the bibliography where appropriate.  
+If you find any errors or omissions or have suggestions for ways I could improve this resource, please contact me by [email](maria-holl@nd.edu).
 
 Chapters include:
 1. Introduction to Abaqus Subroutines -  Description of various subroutines and how to use them 
@@ -14,3 +21,5 @@ Chapters include:
 along with several appendices that serve as references for continuum mechanics and Fortran.
 
 ### _Don't Panic_
+
+[![DOI](https://zenodo.org/badge/102392502.svg)](https://zenodo.org/badge/latestdoi/102392502)
