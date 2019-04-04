@@ -545,10 +545,10 @@ Abaqus input files have their own syntax, and tend to be very sensitive to space
 \item some keywords are followed by option blocks that contain lists of data (nodal coordinates or connectivity, etc.).  Each value must be separated by a comma.  If there is only one value in an option block, it should end with a comma as well.  
 \item ** at the beginning of line indicates a comment
 \item lines are limited to 256 characters, or 8 parameters
-\item Abaqus does not deal with units, so make sure you're using a consistent set of units.  Examples include: 
+\item Abaqus does not deal with units, so make sure you're using a \href{https://caeai.com/blog/tips-tricks-consistent-fea-units}{consistent set of units}.  Examples include: 
   \begin{itemize}
   \item m, N, kg, s, Pa
-  \item mm, N, kg, s, kPa
+  \item mm, N, kg, s, MPa
   \item ft, lbf, slug, s, lbf/ft$^2$
   \end{itemize}
 \end{itemize}
@@ -1776,7 +1776,7 @@ Geometric tangent:
 \begin{align}
 \tenf{c}'_{ijkl} ={}& \frac{1}{2} \left[ \delta_{ik}\sigma_{jl} + \delta_{il}\sigma_{jk} + \delta_{jk}\sigma_{il} + \delta_{jl}\sigma_{ik} \right]  
 \\ \mbox{or} \qquad
-={}& \frac{\lambda}{J} \delta_{ij} \delta_{jk} + \frac{\mu}{2J} \left[ \delta_{ik} \ten{b}_{jl} + \delta_{il} \ten{b}_{jk} + \ten{b}_{ik} \delta_{jl} + \ten{b}_{il} \delta_{jk} \right]
+={}& \frac{\lambda}{J^{\scas{e}}} \left[ \delta_{ik} \delta_{jl} + \delta_{il} \delta_{jk} \right] + \frac{\mu}{2J} \left[ \delta_{ik} \ten{b}_{jl} + \delta_{il} \ten{b}_{jk} + \ten{b}_{ik} \delta_{jl} + \ten{b}_{il} \delta_{jk} \right]
 \end{align}
 
 
@@ -2262,38 +2262,32 @@ with derivative found in Eq. \ref{growth_criterion_deriv_vol}
 \end{equation*}
 Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the Eulerian configuration for the logarithmic Neo-Hookean material model is
 \begin{align}
+\tenf{c}^{\scas{g}}_{ijkl} 
 % % begin derivations
-% \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ J^{\scas{e}} \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \lambda \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} 
+% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ J^{\scas{e}} \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \lambda \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \delta_{MN} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \left[ \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \right] \left[ \frac{J^{\scas{e}}}{2} \delta_{kl} \right]
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ J^{\scas{e}} \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} \delta_{MN} - \lambda \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} \delta_{MN} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \delta_{MN} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \delta_{MN} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}^{2/3}}} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \delta_{MN} \delta_{kl} 
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ J^{\scas{e}} \sigma_{ij} \ten{F}^{\scas{g}-1}_{MM} - \lambda \delta_{ij} \ten{F}^{\scas{g}-1}_{MM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{MB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jM} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}^{2/3}}} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \left [ \vartheta^{\scas{g}^{-1/3}} \delta_{NM} \right]
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left [ \vartheta^{\scas{g}^{-1/3}} \delta_{NB} \right] + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left [ \vartheta^{\scas{g}^{-1/3}} \delta_{BM} \right] \right] \right] \delta_{MN} \delta_{kl} 
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ J^{\scas{e}} \sigma_{ij} \vartheta^{\scas{g}^{-1/3}} \delta_{MM} - \lambda \delta_{ij} \vartheta^{\scas{g}^{-1/3}} \delta_{MM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \vartheta^{\scas{g}^{-1/3}} \delta_{MB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jM} \vartheta^{\scas{g}^{-1/3}} \delta_{BM} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}}} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \delta_{NM}
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \delta_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \delta_{BM} \right] \right] \delta_{MN} \delta_{kl} 
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}^{1/3}}} \left[ J^{\scas{e}} \sigma_{ij} \delta_{MM} - \lambda \delta_{ij} \delta_{MM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jM} + \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jM} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}}} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \delta_{NM} \delta_{MN} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \delta_{NB} \delta_{MN} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \delta_{BM} \delta_{MN} \right] \right] \delta_{kl} 
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}^{1/3}}} \left[ 3 J^{\scas{e}} \sigma_{ij} - 3 \lambda \delta_{ij} 
-% - \mu \left[ \ten{b}^{\scas{e}}_{ij} + \ten{b}^{\scas{e}}_{ij} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}^{1/3}}} \left[ 3 \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right]
-% - 2 \mu \ten{b}^{\scas{e}}_{ij} \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}^{1/3}}} 
-% \left[ 3 \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] - 2 \mu \ten{b}^{\scas{e}}_{ij} \right] 
-% \frac{J^{\scas{e}}}{2} \delta_{kl} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}}} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \delta_{MM} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jM} + \ten{F}^{\scas{e}}_{iN} \ten{F}^{\scas{e}}_{jN} \right] \right] \delta_{kl} 
 % \notag \\
 % % end derivations
-\tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{k^{\scas{g}} \Delta t}{ K^\vartheta \vartheta^{\scas{g}^{1/3}}}  
-\left[ 3 \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] - 2 \mu \ten{b}^{\scas{e}}_{ij} \right] \delta_{kl} \, . 
+={}& \frac{k^{\scas{g}} \Delta t}{3 K^\vartheta \vartheta^{\scas{g}}} \left[ 3 \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] 
+- 2 \mu \ten{b}^{\scas{e}}_{ij} \right] \delta_{kl} 
 \end{align}
 
 
@@ -2328,67 +2322,63 @@ with derivative found in Eq. \ref{growth_criterion_deriv_length}
 \end{equation*}
 Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the Eulerian configuration for the logarithmic Neo-Hookean material model is
 \begin{align}
+\tenf{c}^{\scas{g}}_{ijkl} 
 % % begin derivations
-% \tenf{c}^{\scas{g}}_{ijkl} 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] 
 % \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right]  
-% \ten{N}^0_{MN} \frac{1}{\vartheta^{\scas{g}}}  \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \left[ \frac{1}{\vartheta^{\scas{g}}} \ten{N}^0_{MN} \right] \left[ \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}_{kl} \right]
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right]  
-% \ten{N}^0_{MN} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \ten{N}^0_{MN} \ten{N}_{kl}
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} \ten{N}^0_{MN}
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \ten{N}^0_{MN} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \ten{N}^0_{MN} \right] \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} \ten{N}^0_{MN}
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \ten{N}^0_{MN} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \ten{N}^0_{MN} \right] \right]
+% \ten{N}_{kl}
+% \notag 
+% \end{align}
+% Noting that 
+% \begin{equation*} 
+% \ten{F}^{\scas{g}-1}_{AB} \ten{N}^0_{BC} 
+% = \left[ \delta_{AB} + \frac{ 1 - \vartheta^{\scas{g}} }{ \vartheta^{\scas{g}} } \ten{N}^0_{AB} \right] \ten{N}^0_{BC} 
+% % \\
+% % ={}& \left[ \delta_{AB} \ten{N}^0_{BC} + \frac{ 1 - \vartheta^{\scas{g}} }{ \vartheta^{\scas{g}} } \ten{N}^0_{AB} \ten{N}^0_{BC} \right] 
+% = \left[ \ten{N}^0_{AC} + \frac{ 1 - \vartheta^{\scas{g}} }{ \vartheta^{\scas{g}} } \ten{N}^0_{AC} \right] 
+% = \left[ 1 + \frac{ 1 - \vartheta^{\scas{g}} }{ \vartheta^{\scas{g}} } \right] \ten{N}^0_{AC} 
+% % \\
+% % ={}& \frac{ \vartheta^{\scas{g}} + 1 - \vartheta^{\scas{g}} }{ \vartheta^{\scas{g}} } \ten{N}^0_{AC} 
+% = \frac{ 1 }{ \vartheta^{\scas{g}} } \ten{N}^0_{AC} \, , 
+% \end{equation*}
+% and
+% \begin{equation*} 
+% \ten{F}^{\scas{e}}_{iA} \ten{F}^{\scas{e}}_{jB} \ten{N}^0_{AB} 
+% = \left( \ten{F}_{iC} \ten{F}^{\scas{g}-1}_{CA} \right) \left( \ten{F}_{jD} \ten{F}^{\scas{g}-1}_{DB} \right) \ten{N}^0_{AB}
+% = \frac{ 1 }{ \vartheta^{\scas{g}} } \ten{F}_{iC} \ten{F}^{\scas{g}-1}_{CA} \ten{F}_{jD} \ten{N}^0_{AD}
+% = \frac{ 1 }{ \vartheta^{\scas{g}^2} } \ten{F}_{iC} \ten{F}_{jD} \ten{N}^0_{CD}
+% = \frac{ 1 }{ \vartheta^{\scas{g}^2} } \ten{N}_{ij}
+% \end{equation*}
+% this simplifies to
+% \begin{align}
+% \tenf{c}^{\scas{g}}_{ijkl} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{N}^0_{MM}
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{N}^0_{MB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{BN} \right] \right]
+% \ten{N}_{kl}
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \Bigg[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \left[ \delta_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{MN} \right] \ten{N}^0_{MN} \notag \\ & \hspace{2cm}
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \delta_{NB} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{NB} \right] \ten{N}^0_{MN} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \delta_{BM} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{BM} \right] \ten{N}^0_{MN} \right] \Bigg] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{N}^0_{MB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{BN} \right] \right]
+% \ten{N}_{kl}
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \Bigg[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \left[ \ten{N}^0_{MM} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{MM} \right]  \notag \\ & \hspace{2cm}
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{N}^0_{MB} + \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{BN} \right] \Bigg] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}  
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] 
+% - \mu \left[ \ten{N}_{ij} + \ten{N}_{ij} \right] \right]
+% \ten{N}_{kl}
 % \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \frac{1}{\vartheta^{\scas{g}}} 
-% - 2 \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{N}^0_{MB} \right] \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta } \left[ \frac{1}{\vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right]  
-% - \frac{2 \mu}{\vartheta^{\scas{g}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jN} \ten{N}^0_{MN} \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij}  
-% - 2 \mu \ten{F}_{iA} \ten{F}^{\scas{g}-1}_{AM} \ten{F}_{jB} \ten{F}^{\scas{g}-1}_{BN} \ten{N}^0_{MN} \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} 
-% - 2 \mu \ten{F}_{iA} \left[ \delta_{AM} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{AM} \right] \ten{F}_{jB} \left[ \delta_{BN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{BN} \right] \ten{N}^0_{MN} \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij}   
-% - 2 \mu \ten{F}_{iA} \ten{F}_{jB} \left[ \delta_{BN} \delta_{AM} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \delta_{AM} \ten{N}^0_{BN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{AM} \delta_{BN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{AM} \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0_{BN} \right] \ten{N}^0_{MN} \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} 
-% - 2 \mu \left[ \ten{F}_{iA} \ten{F}_{jB} \delta_{BN} \delta_{AM} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iA} \ten{F}_{jB} \delta_{AM} \ten{N}^0_{BN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iA} \ten{F}_{jB} \ten{N}^0_{AM} \delta_{BN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iA} \ten{F}_{jB} \ten{N}^0_{AM} \ten{N}^0_{BN} \ten{N}^0_{MN} \right] \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij}  
-% - 2 \mu \left[ \ten{F}_{iM} \ten{F}_{jN} \ten{N}^0_{MN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iM} \ten{F}_{jB} \ten{N}^0_{BM} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iA} \ten{F}_{jN} \ten{N}^0_{AN} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{F}_{iA} \ten{F}_{jB} \ten{N}^0_{AB} \right] \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\ 
-% \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij}
-% - \frac{2 \mu}{\vartheta^{\scas{g}^2}} \ten{N}_{ij} \right] 
-% \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
-% \notag \\
-% \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}}} \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij}
-% - \frac{2 \mu}{\vartheta^{\scas{g}^2}} \ten{N}_{ij} \right] 
-% \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}_{kl} 
+% ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] 
+% - 2 \mu \ten{N}_{ij} \right]
+% \ten{N}_{kl}
 % \notag \\
 % % end derivations
 \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } 
