@@ -160,10 +160,10 @@ The purpose of user subroutines is to perform some calculation as desired by the
 Many user subroutines allow the user to define \texttt{nstatev} state variables, \texttt{statev}.  These SDVs, or solution-dependent state variables, are variables that can be defined to evolve with the solution of an analysis as functions of any other variables in the user subroutine.  Examples include the growth variable in a growing material, or stretch in a user-defined element.  The responsibility for calculating the evolution of the SDVs lies with the user, while ABAQUS simply stores the variables and passes them along from the previous time step and to the next time step.  
 
 \subsubsection{Stress}
-An important measure in constitutive models, \texttt{stress} is the “true” (Cauchy) stress at the end of the increment.  It is a second-order tensor stored as a \texttt{ntens} x 1 Voigt tensor, taking advantage of symmetries.
+An important measure in constitutive models, \texttt{stress} is the “true” (Cauchy) stress at the end of the increment.  It is a second-order tensor stored as a \texttt{ntens} x 1 tensor in Voigt notation, taking advantage of symmetries.
 
 \subsubsection{Tangent}
-The Jacobian matrix of the constitutive model, \texttt{ddsdde}, is also referred to as the tangent or elasticity tensor.  Abaqus uses a tangent based on the Jaumann stress tensor.  For more information on the Abaqus tangent and its relation to other tangents, see Section \ref{subsec:tangents}.  It must be defined accurately if rapid convergence of the overall Newton scheme is to be achieved. In most cases the accuracy of this definition is the most important factor governing the convergence rate. An incorrect definition of the material Jacobian affects only the convergence rate; the results (if obtained) are unaffected.  The tangent is a fourth-order tensor stored as a \texttt{ntens} x \texttt{ntens} array (6x6 for fully 3D elements, 4x4 for axisymmetric elements), taking advantage of symmetries.  
+The Jacobian matrix of the constitutive model, \texttt{ddsdde}, is also referred to as the tangent modulus or elasticity tensor.  Abaqus/Standard uses a tangent based on the Jaumann stress tensor.  For more information on the Abaqus tangent and its relation to other tangents, see Section \ref{subsec:tangents}.  It must be defined accurately if rapid convergence of the overall Newton scheme is to be achieved. In most cases the accuracy of this definition is the most important factor governing the convergence rate. An incorrect definition of the material Jacobian affects only the convergence rate; the results (if obtained) are unaffected.  The tangent is a fourth-order tensor stored as a \texttt{ntens} x \texttt{ntens} array (6x6 for fully 3D elements, 4x4 for axisymmetric elements), taking advantage of symmetries.  
 
 \subsubsection{Specific Energy}
 The specific elastic strain energy (\texttt{sse}), specific plastic dissipation (\texttt{spd}), and specific creep dissipation (\texttt{scd}) should be updated to new values at the end of the increment.  They do not affect the solution but are used for energy output.  
@@ -506,7 +506,7 @@ or
 \end{align}
 
 \subsubsection{Rotating Vectors in UMAT}
-The polar decomposition of a tensor can be calculated via the principal value decomposition.  Fortran has a built-in subroutine, \texttt{SPRIND}, that returns the principal values and directions of a given tensor :
+The polar decomposition of a tensor can be calculated via the principal value decomposition.  Abaqus has a built-in subroutine, \texttt{SPRIND}, that returns the principal values and directions of a given tensor :
 
 \begin{center}
 \texttt{call SPRIND(tensor, values(3), directions(3,3), S, NDI, NSHR)}
@@ -550,7 +550,7 @@ Abaqus input files have their own syntax, and tend to be very sensitive to space
 \item Abaqus does not deal with units, so make sure you're using a \href{https://caeai.com/blog/tips-tricks-consistent-fea-units}{consistent set of units}.  Examples include: 
   \begin{itemize}
   \item m, N, kg, s, Pa
-  \item mm, N, kg, s, MPa
+  \item mm, N, ton (1000 kg), s, MPa
   \item ft, lbf, slug, s, lbf/ft$^2$
   \end{itemize}
 \end{itemize}
