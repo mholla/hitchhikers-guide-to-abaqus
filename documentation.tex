@@ -7,6 +7,14 @@
 \usepackage{cancel}
 \usepackage{color}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,    % Color of internal links (sections, pages, etc.)
+    citecolor=blue,   % Color of bibliographical citations
+    urlcolor=gray      % Color of external URLs
+}
+\usepackage[backend=biber,style=authoryear,autocite=inline]{biblatex}
+\addbibresource{references.bib}
 \usepackage{tocloft}
 \usepackage{textcomp}
 \usepackage{parskip}
@@ -368,7 +376,7 @@ The relationship between the basis vectors of two coordinate systems, $\ten{e}'_
 \qquad \text{and} \qquad  
 \ten{e}'_i = \ten{R} \cdot \ten{e}_i = R_{ji} \ten{e}_j
 \end{align}
-where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (See Holzapfel, 1.5 for more information, where $\ten{R} = \ten{Q}$ in their notation).
+where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (See \textcite[Sec.~1.5]{Holzapfel} for more information, where $\ten{R} = \ten{Q}$ in their notation).
 % % proof of previous equation
 % \begin{align}
 % \ten{R} \cdot \ten{e}_i &= \left[ R_{jk} \ten{e}_j \otimes \ten{e}_k \right] \cdot \ten{e}'_i \\
@@ -494,7 +502,7 @@ Or, ignoring the bases (as they are not changing), and dealing only with the com
 \begin{align}
 [ \ten{u}' ] = [ \ten{F}' ] [ \ten{U}' ] = [ \ten{F}' ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{R} ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{U} ] 
 \end{align}
-Essentially, this means that the vector passed in to the UMAT, purportedly the reference vector, has already been rotated to the spatial configuration due to Abaqus' use of the rotated coordinate system.  To obtain the deformed vector in the current configuration, it merely needs to be stretched by $\ten{v}'$ \cite{SahliCostabal2017}.  
+Essentially, this means that the vector passed in to the UMAT, purportedly the reference vector, has already been rotated to the spatial configuration due to Abaqus' use of the rotated coordinate system.  To obtain the deformed vector in the current configuration, it merely needs to be stretched by $\ten{v}'$ \autocite{SahliCostabal2017}.  
 
 To obtain the reference vector in the rotated coordinate system,
 \begin{align}
@@ -543,7 +551,7 @@ Input files contain the necessary geometric, material, and other information nee
 \subsection{Abaqus Input Files Language}
 Abaqus input files have their own syntax, and tend to be very sensitive to spaces, lines, and punctuation.  Some important points to be aware of: 
 \begin{itemize}
-\item keywords and options begin with an asterisk * and are often followed by parameters.  Some parameters are required, while others are optional.  Keywords can be looked up in the Abaqus Keywords Reference Manual in the Abaqus documentation.  
+\item keywords and options begin with an asterisk * and are often followed by parameters.  Some parameters are required, while others are optional.  Keywords can be looked up in the Abaqus Keywords Reference Guide \autocite{AbaqusKeywords} in the Abaqus documentation.  
 \item some keywords are followed by option blocks that contain lists of data (nodal coordinates or connectivity, etc.).  Each value must be separated by a comma.  If there is only one value in an option block, it should end with a comma as well.  
 \item ** at the beginning of line indicates a comment
 \item lines are limited to 256 characters, or 8 parameters
@@ -788,7 +796,7 @@ J \ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \ten{ \t
 = \cdots{} 
 = \dot{ \ten{\tau} } - \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} \, . 
 \end{align} 
-(Note: Holzapfel defines the Lie derivative of a spatial stress field to be the Oldroyd stress rate, and gives the same definition to the result.)  
+(Note: \textcite[Sec.~5.3]{Holzapfel} defines the Lie derivative of a spatial stress field to be the Oldroyd stress rate, and gives the same definition to the result.)  
 
 
 \subsubsection{Jaumann Stress Rates}
@@ -834,7 +842,7 @@ The Jaumann stress is related to the Truesdell stress by:
     \draw [lineR] (sigT) to node [xshift=-1.0cm] {$\ten{\tau}^{\circ} = J \ten{\sigma}^{\circ} $ } (tauT);
 \end{tikzpicture} \end{center}
 
-For more information on stress rates, see Bonet \& Wood, p152, or Holzapfel, p192.  
+For more information on stress rates, see \textcite[Sec.~4.6, pp.~113--116]{BonetWood} or \textcite[Sec.~5.3, p.~192]{Holzapfel}.  
 
 \subsection{Tangents}
 \label{subsec:tangents}
@@ -934,7 +942,7 @@ Because the double contraction with a symmetric tensor is not unique (see Sectio
  &  &  &  &  & \frac{1}{2} (\sigma_2 + \sigma_3)
 \end{array} \right], .  
 \end{align}
-This extra term, the geometric tangent, can be reduced to purely kinematic terms.  Thus we have the Abaqus tangent \cite{Prot2009,Bower},
+This extra term, the geometric tangent, can be reduced to purely kinematic terms.  Thus we have the Abaqus tangent \autocite{Prot2009,Bower},
 \begin{equation}
 \tenf{c}^\text{Abaqus} =  \tenf{c} + \tenf{c}' \, , 
 \end{equation}
@@ -1224,7 +1232,7 @@ This section lays out the basis of the theory of finite growth as generally appl
 
 The motion $\chi ( \ten{X} ) = \ten{x}$, relates the location of point $\ten{X}$ in the reference (also known as the undeformed or material) configuration to its location in some deformed (also known as spatial) configuration, $\ten{x}$.  The deformation gradient, $\ten{F} = \partial \chi ( \ten{X} ) / \partial \ten{X}$, relates undeformed and deformed vectors, $d \ten{X}$ and $d \ten{x}$, respectively.  In its role as a bridge between the two configurations, it is known as a two-point tensor, with a `leg' in both the material and spatial configurations.  This is evidenced by its indices, $F_{iJ}$, where by convention the spatial domain is characterized by lower-case letters and the material by capital letters.
 
-The general formulation for finite volumetric growth relies on the multiplicative decomposition of the deformation gradient \cite{Rodriguez1994} into an irreversible growth part and a reversible elastic part, $\ten{F} = \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}}$ (Fig. \ref{fig_configurations_growth}).  The growth part, $\ten{F}^{\scas{g}}$, relates the reference configuration with a fictitious intermediate, or grown, configuration, which is stress-free but may be incompatible (containing gaps or overlaps).  The elastic part, $\ten{F}^{\scas{e}}$, transforms the intermediate configuration into the fully deformed configuration and, in the process of ensuring compatibility, induces stress.  
+The general formulation for finite volumetric growth relies on the multiplicative decomposition of the deformation gradient \autocite{Rodriguez1994} into an irreversible growth part and a reversible elastic part, $\ten{F} = \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}}$ (Fig. \ref{fig_configurations_growth}).  The growth part, $\ten{F}^{\scas{g}}$, relates the reference configuration with a fictitious intermediate, or grown, configuration, which is stress-free but may be incompatible (containing gaps or overlaps).  The elastic part, $\ten{F}^{\scas{e}}$, transforms the intermediate configuration into the fully deformed configuration and, in the process of ensuring compatibility, induces stress.  
 
 Following the established convention for the reference and deformed configurations, we similarly indicate quantities in the intermediate configuration by a bar, as in $\overline{\ten{X}}$.  
 Both the growth and elastic deformation tensors are also two-leg tensors, relating two different configurations.  We could similarly characterize indices in the intermediate configuration with a bar, such that 
@@ -1257,7 +1265,7 @@ F_{iK} = F^{\scas{e}}_{iJ} F^{\scas{g}}_{JK} \, .
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Mass, Volume, and Density}
-Because growth involves the addition of mass, the relationships between mass, volume, and density in the three configurations are not straightforward.  In the theory of finite growth, we rely on the fundamental assumption that the added material has the same intrinsic properties as the original material \cite{Rodriguez1994}.  This means that 
+Because growth involves the addition of mass, the relationships between mass, volume, and density in the three configurations are not straightforward.  In the theory of finite growth, we rely on the fundamental assumption that the added material has the same intrinsic properties as the original material \autocite{Rodriguez1994}.  This means that 
 the density of initial mass per unit volume in the reference configuration, $\varrho_0$, and
 the density of grown mass per unit volume in the intermediate configuration, $\overline{\rho}$,
 are equal to each other and do not change with time, or  
@@ -1268,7 +1276,7 @@ However, the density of grown mass per unit volume in the reference configuratio
 \begin{equation}
 \rho_0 = \frac{ \sca{d} \overline{M} }{ \sca{d} V_0 } = \frac{ J^{\scas{g}} \, \sca{d} M_0 }{ \sca{d} V_0 } = J^{\scas{g}} \, \varrho_0 \, .
 \end{equation}
-Incompressibility imposes a constraint of no volume change on the elastic deformation, that is, $\det (\ten{F}^{\scas{e}}) = 1$.  Numerically, incompressibility can be formulated exactly with a Lagrange multiplier or approximately with a penalty method \cite{Hughes}.  In the penalty method, the bulk stiffness is chosen to be significantly higher than the shear stiffness ($K >> \mu$ or $\lambda >> \mu$, where $K$ is the bulk modulus, $\lambda$ is Lam\'{e}'s first constant, and $\mu$ is the shear modulus).  
+Incompressibility imposes a constraint of no volume change on the elastic deformation, that is, $\det (\ten{F}^{\scas{e}}) = 1$.  Numerically, incompressibility can be formulated exactly with a Lagrange multiplier or approximately with a penalty method \autocite{Hughes}.  In the penalty method, the bulk stiffness is chosen to be significantly higher than the shear stiffness ($K >> \mu$ or $\lambda >> \mu$, where $K$ is the bulk modulus, $\lambda$ is Lam\'{e}'s first constant, and $\mu$ is the shear modulus).  
 For compressible materials, loading may also change the density of grown mass per unit volume in the current configuration, $\rho$,
 \begin{equation}
 \rho = \frac{ \sca{d} \overline{M} }{ \sca{d} V } = \frac{ J^{\scas{g}} \, \sca{d} M_0 }{ J \, \sca{d} V_0 } = \frac{1}{J^{\scas{e}}} \, \varrho_0 \, .
@@ -1282,7 +1290,7 @@ E = \int_{M_0} \psi_0 ( \ten{C}, \vartheta^{\scas{g}} ) \sca{d}M_0 = \int_{V_0} 
 where the strain energy densities are functions of both the overall deformation and the amount of growth, via 
 the right Cauchy-Green deformation tensor $\ten{C} = \ten{F}^{\scas{T}} \cdot \ten{F}$, and
 the growth variable $\vartheta^{\scas{g}} = \det \ten{F}^{\scas{g}}$, a scalar denoting the volume change due to growth.  
-In a closed system, the distinction between reference and final mass is not generally important because mass is conserved, neither entering nor exiting the system.  In an open system, however, mass (and volume) are added, along with energy.  The strain energy density as determined by mechanical testing is then actually defined per unit \textit{grown} mass or volume, $\overline{\psi}$ or $\overline{W}$ \cite{Ganghoffer2013}.  Strain energy density per initial mass and volume are related to their grown counterparts by 
+In a closed system, the distinction between reference and final mass is not generally important because mass is conserved, neither entering nor exiting the system.  In an open system, however, mass (and volume) are added, along with energy.  The strain energy density as determined by mechanical testing is then actually defined per unit \textit{grown} mass or volume, $\overline{\psi}$ or $\overline{W}$ \autocite{Ganghoffer2013}.  Strain energy density per initial mass and volume are related to their grown counterparts by 
 \begin{align}
 E ={}& \int_{\overline{M}} \overline{\psi} \sca{d}\overline{M} = \int_{M_0} \overline{\psi} J^{\scas{g}} \sca{d}M_0 = \int_{M_0} \psi_0 \sca{d}M_0 
 \\ \mbox{and} \quad 
@@ -1306,7 +1314,7 @@ Note: this is a general rule of thumb or quick check, but is not intended as a f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thermodynamics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The Clausius-Duhem, or dissipation, inequality is an expression of the second law of thermodynamics.  In the theory of finite growth, the inequality takes the form of
+The Clausius-Duhem, or dissipation, inequality is an expression of the second law of thermodynamics.  In the theory of finite growth \autocite{Goktepe2010,KuhlSteinmann2003}, the inequality takes the form of
 \begin{equation}
 \mathcal{D} = \ten{S} : \frac{1}{2} \dot{\ten{C}} - \dot{W_0} ( \ten{C}, \vartheta^{\scas{g}} ) - S_0 \geq 0 \, . 
 \end{equation}
@@ -1912,17 +1920,11 @@ Properties of these structural tensors, formed by the dyadic of two unit vectors
 Biological growth can be generally divided into morphogen-driven, or morphogenetic, growth, and mechanically-driven growth.  
 
 \subsection{Non-Mechanically-Coupled Growth}
-In non-mechanically-coupled growth, materials grow in response to a chemical or biological signal (morphogen) or simply in [psuedo]time, without mechanical stimulus.  It is sometimes called morphogenetic growth.  In morphogenetic growth, the growth rate and criterion are dependent only on [pseudo]time (or some other scalar field), and the local Newton iteration is unnecessary.  Instead, the growth factor is calculated from the field using a growth rate, $\dot{\vartheta}^{\scas{g}} = k^{\scas{g}}$, as
-\begin{equation}
-\vartheta^{\scas{g}} (t) = \vartheta^{\scas{g}}_0 + k^{\scas{g}} t \, . 
-\end{equation}
+In morphogenetic growth, growth is caused by signaling molecules or `morphogens' \autocite{Taber1995}; practically, this means sometimes growth simply happens in [psuedo]time, without mechanical stimulus.  This is represented mathematically by an evolution equation for the growth without mechanical dependencies, such as
+$\dot{\vartheta}^{\scas{g}} = f(t)$ or $\vartheta^{\scas{g}} = f(c)$ , 
+where $t$ is the time, $c$ is some concentration, and $\dot{x}$ denotes the time derivative of a quantity $x$. 
 The two terms dependent on the growth criterion ($ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $ and $ \partial \phi^{\scas{g}} / \partial \ten{C} $) are zero in the absence of mechanical coupling.
 
-\fxnote{reconcile/combine previous and next paragraphs}
-
-In morphogenetic growth, growth is caused by signaling molecules or `morphogens' \cite{Taber1995}.  This is represented mathematically by an evolution equation for the growth without mechanical dependencies, such as
-$\dot{\vartheta}^{\scas{g}} = f(t)$ or $\vartheta^{\scas{g}} = f(c)$ , 
-where $t$ is the time, $c$ is some concentration, and $\dot{x}$ denotes the time derivative of a quantity $x$.  
 
 \subsection{Mechanically-Coupled Growth}
 Stretch- and stress-driven growth, unlike morphogenetic growth, have mechanical causes.  They are represented mathematically by an evolution equation, which dictates the growth rate in response to a certain mechanical stimulus.  The evolution equation is divided into two parts: the growth rate $k^{\scas{g}}$, and the growth criterion function $\phi^{\scas{g}}$,
@@ -1953,7 +1955,7 @@ A common growth criterion is based on a critical maximum value of stretch or str
 \phi^{\scas{g}} = \left\langle f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \right\rangle \, ,
 \end{equation}
 where Macauley brackets yield a value of $ \langle x \rangle = x $ when $ x > 0$, and $ \langle x \rangle = 0 $ when $ x < 0$.  
-Other varieties include a critical minimum value, below which retraction is activated, which would result in a three-way controller \cite{Dennerll1989}.  At one extreme, for very low values of the critical minimum and very high values of the critical maximum, this results in the absence of growth.  At the other extreme, for critical minimum and maximum values that are identical, this simplifies to a linear controller, 
+Other varieties include a critical minimum value, below which retraction is activated, which would result in a three-way controller \autocite{Dennerll1989}.  At one extreme, for very low values of the critical minimum and very high values of the critical maximum, this results in the absence of growth.  At the other extreme, for critical minimum and maximum values that are identical, this simplifies to a linear controller, 
 \begin{equation}
 \phi^{\scas{g}} = f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \, ,
 \end{equation}\
@@ -2051,7 +2053,7 @@ This term can be pushed forward by itself for convenience, yielding
 ={}& \frac{1}{2 \vartheta^{\scas{g}}} \left[ \vartheta \delta_{kl} - \frac{J^2}{\vartheta} \ten{F}^{-1}_{Pk} \ten{N}^0_{PQ} \ten{F}^{-1}_{Ql} \right] \, . 
 \label{growth_criterion_deriv_area}
 \end{align}
-Note: the paper (Generic Approach...) has the fiber equation wrong (no $\vartheta^{\scas{g}}$ in the denominator).  This derivation matches the FEAP growth codes.  
+Note: \textcite{Goktepe2010} has the fiber equation wrong (no $\vartheta^{\scas{g}}$ in the denominator).  This derivation matches the FEAP growth codes.  
 
 Depending on the growth criterion, the value of $\vartheta^{\scas{e}}$ may be checked to determine if growth will take place, in which case the local Newton iteration will be executed (see Section \ref{subsec:local_newton}).
 
@@ -2064,7 +2066,7 @@ In stretch-driven growth, some stress measure defines the homeostatic state.  On
 \overline{\ten{M}} = \ten{C}^{\scas{e}} \cdot \overline{\ten{S}} \, . 
 \label{def_Mandel}
 \end{equation}
-used for example in the modeling of an athlete's heart \cite{Goktepe2010}.  The trace of the Mandel stress in the intermediate configuration is a good stress quantity because of its convenience in derivations and its physical meaning, as its trace is equal to the trace of the Kirchhoff stress, which has a meaning similar to pressure, 
+used for example in the modeling of an athlete's heart \autocite{Goktepe2010}.  The trace of the Mandel stress in the intermediate configuration is a good stress quantity because of its convenience in derivations and its physical meaning, as its trace is equal to the trace of the Kirchhoff stress, which has a meaning similar to pressure, 
 \begin{equation}
 \mbox{tr} (\overline{\ten{M}} ) = \mbox{tr} \left( \ten{C}^{\scas{e}} \cdot \overline{\ten{S}} \right) =  \ten{C}^{\scas{e}} : \overline{\ten{S}} =  \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{IJ} = \ten{F}^{\scas{e}}_{kI} \ten{F}^{\scas{e}}_{kJ} \overline{\ten{S}}_{IJ} = \ten{\tau}_{kk} = \mbox{tr} \left( \ten{\tau} \right) \, . 
 \end{equation}
@@ -2239,7 +2241,7 @@ These properties must be assigned from the \texttt{props} field to the appropria
 \section{Isotropic Volumetric-Stretch-Driven Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow isotropically (the same in all directions) in response to volume overstretch, such as in a simple model of the the white matter of the developing brain \cite{Holland2015}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
+This UMAT is used for materials that grow isotropically (the same in all directions) in response to volume overstretch, such as in a simple model of the the white matter of the developing brain \autocite{Holland2015}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
 \begin{equation*}
 \ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}} \ten{I} \, , 
 \end{equation*}
@@ -2297,7 +2299,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 \section{Length-Stretch-Driven Fiber Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that exhibit length-stretch-driven fiber growth.  A common example of this is muscle growth caused by stretching \cite{Zollner2012}, where muscle is treated as a fiber-reinforced material.  Based on the assumptions of fiber growth, the response in the transverse direction is assumed to be purely elastic, with growth happening only in the fiber direction, $\ten{n}^0$.  Thus the growth tensor is that of fiber growth, shown in Eq. \ref{Fg_fiber}
+This UMAT is used for materials that exhibit length-stretch-driven fiber growth.  A common example of this is muscle growth caused by stretching \autocite{Zollner2012}, where muscle is treated as a fiber-reinforced material.  Based on the assumptions of fiber growth, the response in the transverse direction is assumed to be purely elastic, with growth happening only in the fiber direction, $\ten{n}^0$.  Thus the growth tensor is that of fiber growth, shown in Eq. \ref{Fg_fiber}
 \begin{equation*}
 \ten{F}^{\scas{g}} = \ten{I} + \left[ \vartheta^{\scas{g}} - 1 \right] \ten{N}^0 \, , 
 \end{equation*}
@@ -2390,7 +2392,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 \section{Area-Stretch-Driven Plane Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that exhibit area-stretch-driven growth in the plane.  A common example of this is skin, which only grows in the plane \cite{BuganzaTepole2011, Zollner2013}.  Based on this assumption, the response in the thickness direction ($\ten{n}^0$) is assumed to be purely elastic, with all growth happening in the plane.  Thus the growth tensor is that of planar growth, shown in Eq. \ref{Fg_planar},
+This UMAT is used for materials that exhibit area-stretch-driven growth in the plane.  A common example of this is skin, which only grows in the plane \autocite{BuganzaTepole2011, Zollner2013}.  Based on this assumption, the response in the thickness direction ($\ten{n}^0$) is assumed to be purely elastic, with all growth happening in the plane.  Thus the growth tensor is that of planar growth, shown in Eq. \ref{Fg_planar},
 \begin{equation*}
 \ten{F}^{\scas{g}} = \sqrt{\vartheta^{\scas{g}}} \ten{I} + \left[1-\sqrt{\vartheta^{\scas{g}}} \right] \ten{N}^0 \, , 
 \end{equation*}
@@ -2596,7 +2598,7 @@ These are easily seen to be equivalent to the result from the one-variable case 
 \section{Isotropic Mandel-Stress Driven Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow isotropically in response to stress, as in the modeling of an athlete's heart \cite{Goktepe2010}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
+This UMAT is used for materials that grow isotropically in response to stress, as in the modeling of an athlete's heart \autocite{Goktepe2010}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
 \begin{equation*}
 \ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}} \ten{I} \, , 
 \end{equation*}
@@ -2675,7 +2677,6 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 [\ten{A} \overline{\otimes} \ten{B}] : \ten{C} &= \ten{A} \ten{C} \ten{B}^{\scas{T}} 
 \\
 \ten{C}:[\ten{A} \overline{\otimes} \ten{B}] &= \ten{A}^{\scas{T}} \ten{C} \ten{B} 
-\\
 \end{align}
 
 \paragraph{Underbar Dyadic Product, $\left\lbrace \ten{A} \underline{\otimes} \ten{B} \right\rbrace _{ijkl} = \ten{A}_{il} \ten{B}_{jk}$}
@@ -2812,7 +2813,7 @@ The derivative of a scalar-valued function $f ( \ten{X} )$ with respect to a sym
 \begin{equation}
 \left. \frac{d}{d \varepsilon} f \left( \ten{X} + \varepsilon d\ten{X} \right) \right|_{\ten{\varepsilon}=0} = f,_{\ten{X}} : d \ten{X}
 \end{equation}
-for all \textit{symmetric} variational tensors $d \ten{X}$ \cite{Lebedev}.
+for all \textit{symmetric} variational tensors $d \ten{X}$ \autocite{Lebedev}.
 
 Thus defined, the derivative is clearly not unique, because $d \ten{X}$ is symmetric, and for any symmetric tensor $\ten{S}$ and any skew-symmetric tensor $\ten{W}$,
 \begin{equation}
@@ -2851,7 +2852,7 @@ The elastic and geometric tangents have both major and minor symmetries in all c
       *Step, name=StepName, nlgeom=YES, inc=100000, unsymm=YES
     \end{lstlisting} 
 \end{quote}
-but this is actually unnecessary.  As detailed in the ``Matrix storage and solution scheme in Abaqus/Standard'' part of section 6.1.2 in the Abaqus Analysis User's Manual, the use of a user-defined material model with unsymmetric material stiffness matrices automatically triggers use of the unsymmetric matrix storage and solution scheme.  
+but this is actually unnecessary.  As detailed in the ``Matrix storage and solution scheme in Abaqus/Standard'' part of Section 6.1.2 (``Defining an analysis'') in the Abaqus Analysis User's Guide \autocite[Sec.~6.1.2]{AbaqusAnalysis}, the use of a user-defined material model with unsymmetric material stiffness matrices automatically triggers use of the unsymmetric matrix storage and solution scheme.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2866,7 +2867,7 @@ Fortran is case-insenstive ($\mathtt{dfgrd1} = \mathtt{DFGRD1}$).  Whitespace (s
 
 \begin{center}
 \emph{“Consistently separating words by spaces became a general custom about the tenth century A.D., \\ and lasted until about 1957, when FORTRAN abandoned the practice.” \\
-— Sun FORTRAN Reference Manual .}
+— apocryphal, attributed to the Sun FORTRAN Reference Manual.}
 \end{center}
 
 \subsection{Columns}
@@ -2977,7 +2978,7 @@ Subroutines are called using \texttt{call SubroutineName(arg1, arg2)}
 
 
 \subsection{Tensor Toolbox}
-\href{https://adtzlr.github.io/TensorToolbox/}{Tensor Toolbox} is a Fortran module that calculates tensor features, including identity tensors, dot products, and deviatoric components, in Fortran \cite{Dutzler}
+\href{https://github.com/adtzlr/ttb}{Tensor Toolbox} is a Fortran module that calculates tensor features, including identity tensors, dot products, and deviatoric components, in Fortran \autocite{Dutzler}
 
 \subsection{Miscellaneous}
 \begin{itemize}
@@ -2985,7 +2986,7 @@ Subroutines are called using \texttt{call SubroutineName(arg1, arg2)}
 \item After column 6, Fortran does not recognize spaces; they only serve the purpose of making code more readable
 \end{itemize}
 
-For more information on Fortran, see \url{http://www.math.hawaii.edu/~hile/fortran/fortmain.htm}
+For more information on Fortran, see the online \textit{GNU Fortran Notes} \autocite{FortranNotes}.
 
 
 
@@ -2995,7 +2996,7 @@ For more information on Fortran, see \url{http://www.math.hawaii.edu/~hile/fortr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The relationship between growth, compression, stress, and strain is not linear, but it is easy to derive \cite{Holland2017}. 
+The relationship between growth, compression, stress, and strain is not linear, but it is easy to derive \autocite{Holland2017}. 
 \\ \\ \noindent 
 For orthotropic growth, the growth tensor takes the form of 
 \begin{equation}
@@ -3100,71 +3101,6 @@ S &= \mu \left[ \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \right] \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{thebibliography}{99}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibitem[Bower (2010)]{Bower}
-\href{http://solidmechanics.org/}{%
-Bower, A. F. (2010). Applied Mechanics of Solids (1st ed.). CRC Press.}
-%
-\bibitem[Buganza Tepole et al. (2011)]{BuganzaTepole2011}
-\href{http://doi.org/10.1016/j.jmps.2011.05.004}{%
-Buganza Tepole, A., Joseph Ploch, C., Wong, J., Gosain, A. K., \& Kuhl, E. (2011). Growing skin: A computational model for skin expansion in reconstructive surgery. \textit{Journal of the Mechanics and Physics of Solids}, 59(10), 2177–2190.}
-%
-\bibitem[Dennerll et al. (1989)]{Dennerll1989}
-\href{http://jcb.rupress.org/content/109/6/3073.abst}{%
-Dennerll, T. J., Lamoureux, P., Buxbaum, R. E., \& Heidemann, S. R. (1989). The cytomechanics of axonal elongation and retraction. \textit{The Journal of Cell Biology}, 109(6), 3073–3083.}
-%
-\bibitem[Dutzler (2017)]{Dutzler}
-\href{https://adtzlr.github.io/TensorToolbox/}{%
-Dutzler, Andreas (2017). Tensor Toolbox for Fortran. \textit{GitHub repository}, accessed May 2018. }
-%
-\bibitem[Ganghoffer (2013)]{Ganghoffer2013}
-\href{http://doi.org/10.1016/j.ijsolstr.2013.06.011}{%
-Ganghoffer, J. F. (2013). A kinematically and thermodynamically consistent volumetric growth model based on the stress-free configuration. \textit{International Journal of Solids and Structures}, 50(20–21), 3446–3459.}
-%
-\bibitem[G\"{o}ktepe et al. (2010)]{Goktepe2010}
-\href{http://doi.org/10.1016/j.jmps.2010.07.003}{%
-Göktepe, S., Abilez, O. J., \& Kuhl, E. (2010). A generic approach towards finite growth with examples of athlete’s heart, cardiac dilation, and cardiac wall thickening. \textit{Journal of the Mechanics and Physics of Solids}, 58(10), 1661–1680.}
-%
-\bibitem[Holland et al. (2015)]{Holland2015}
-\href{http://doi.org/10.1007/s10439-015-1312-9}{%
-Holland, M. A., Miller, K. E., \& Kuhl, E. (2015). Emerging Brain Morphologies from Axonal Elongation. \textit{Annals of Biomedical Engineering}, 43(7), 1640–1653.}
-% 
-\bibitem[Holland et al. (2017)]{Holland2017}
-\href{http://doi.org/10.1016/j.jmps.2016.09.012}{%
-Holland, M. A., Li, B., Feng, X. Q., \& Kuhl, E. (2017). Instabilities of soft films on compliant substrates. \textit{Journal of the Mechanics and Physics of Solids}, 98, 350–365.}
-%
-\bibitem[Hughes (2000)]{Hughes}
-Hughes, T. J. R. (2000). The finite element method: linear static and dynamic finite element analysis. Courier Corporation.
-%
-\bibitem[Lebedev (2010)]{Lebedev}
-Lebedev, L. P., Cloud, M. J., \& Eremeyev, V. A. (2010). Tensor Analysis with Applications in Mechanics.
-%
-\bibitem[Prot \& Skallerud (2009)]{Prot2009}
-\href{http://doi.org/10.1007/s00466-008-0310-2}{%
-Prot, V., \& Skallerud, B. (2009). Nonlinear solid finite element analysis of mitral valves with heterogeneous leaflet layers. \textit{Computational Mechanics}, 43(3), 353–368.}
-%
-\bibitem[Rodriguez et al. (1994)]{Rodriguez1994}
-\href{http://doi.org/10.1016/0021-9290(94)90021-3}{%
-Rodriguez, E. K., Hoger, A., \& McCulloch, A. D. (1994). Stress-dependent finite growth in soft elastic tissues. \textit{Journal of Biomechanics}, 27(4), 455–467.}
-%
-\bibitem[Sahli Costabal et al. (2017)]{SahliCostabal2017}
-\href{http://doi.org/10.1016/j.cma.2017.03.015}{%
-Sahli Costabal, F., Concha, F. A., Hurtado, D. E., \& Kuhl, E. (2017). The importance of mechano-electrical feedback and inertia in cardiac electromechanics. \textit{Computer Methods in Applied Mechanics and Engineering}, 320, 352–368. }
-%
-\bibitem[Taber (1995)]{Taber1995}
-\href{http://adsabs.harvard.edu/abs/1995ApMRv..48..487T}{%
-Taber, L. A. (1995). Biomechanics of growth, remodeling, and morphogenesis. \textit{Applied Mechanics Reviews}, 48 (August 1995), 487.}
-%
-\bibitem[Z\"{o}llner et al. (2012)]{Zollner2012}
-\href{http://doi.org/10.1371/journal.pone.0045661}{%
-Zöllner, A. M., Abilez, O. J., Böl, M., \& Kuhl, E. (2012). Stretching Skeletal Muscle: Chronic Muscle Lengthening through Sarcomerogenesis. \textit{PLoS ONE}, 7(10), e45661.}
-%
-\bibitem[Z\"{o}llner et al. (2013)]{Zollner2013}
-\href{http://doi.org/10.1016/j.jmbbm.2013.03.018}{%
-Zöllner, A. M., Holland, M. A., Honda, K. S., Gosain, A. K., \& Kuhl, E. (2013). Growth on demand: Reviewing the mechanobiology of stretched skin. \textit{Journal of the Mechanical Behavior of Biomedical Materials}, 28, 495–509.}
-%
-\end{thebibliography}
+\printbibliography[heading=bibintoc]
 
 \end{document}
