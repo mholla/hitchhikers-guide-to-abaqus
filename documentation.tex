@@ -128,7 +128,7 @@ Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}
 \chapter*{Preface}
 \thispagestyle{empty}
 
-This document was born as a compilation of notes and derivations recorded in \LaTeX during my doctoral research on the mechanics of the developing human brain.  Over the years and several versions, I have done a lot of additions, consolidations, and corrections.  The focus originally was and still is the UMAT subroutine in Abaqus, but as my own research broadened and I received feedback and input from colleagues, collaborators, and other researchers who found this document useful, I have made some attempts to be more comprehensive.  Above all, my goal is to present in writing a coherent explanation of some of Abaqus' more esoteric quirks for the benefit of future researchers.
+This document was born as a compilation of notes and derivations \LaTeX\, during my doctoral research on the mechanics of the developing human brain.  Over the years and several versions, I have done a lot of additions, consolidations, and corrections.  The focus originally was and still is the UMAT subroutine in Abaqus, but as my own research broadened and I received feedback and input from colleagues, collaborators, and other researchers who found this document useful, I have made some attempts to be more comprehensive.  Above all, my goal is to present in writing a coherent explanation of some of Abaqus' more esoteric quirks for the benefit of future researchers.
 
 I would like to acknowledge Ellen Kuhl, Manuel Rausch, Adrian Buganza Tepole, Francisco Sahli Costabal, Pim Oomen, and Mohsen Darayi for the input and feedback that has helped me improve this resource over the years.  
 Additionally, I acknowledge the funding support of the National Science Foundation (DGE-1147470).  
@@ -210,7 +210,7 @@ The total strains at the beginning of the increment and the strain increments ar
 The following user subroutines, among others, can be used to modify the constitutive behavior of a material.  Special attention is given to those which are able to model growing materials.
 
 \subsection{UHYPER, UANISOHYPER\_STRAIN, and UANISOHYPER\_INV}
-The UHYPER subroutines defines the strain energy of hyperelastic materials.  UHYPER is used for isotropic materials, while UANISOHYPER\_STRAIN and UANISOHYPER\_INV are used for anisotropic materials in terms of components of the Green strain tensor and scalar invariants, respectively.  In addition to the strain energy density function, the user must specify the deviatoric part and several derivatives of the function with respect to the strain invariants. 
+The UHYPER subroutines define the strain energy of hyperelastic materials.  UHYPER is used for isotropic materials, while UANISOHYPER\_STRAIN and UANISOHYPER\_INV are used for anisotropic materials in terms of components of the Green strain tensor and scalar invariants, respectively.  In addition to the strain energy density function, the user must specify the deviatoric part and several derivatives of the function with respect to the strain invariants. 
 
 \emph{Has access to:} temperature, SDVs, strain (components or invariants)
 
@@ -312,9 +312,9 @@ c...  ---------------------------------------------------------------
       
       character*80 cmname
 
-      if (cmname(1:4) .eq. 'mat1') then
+      if (cmname(1:4) .eq. 'MAT1') then
             call UMAT_MAT1(...)
-      else if(cmname(1:4) .eq. 'mat2') then
+      else if(cmname(1:4) .eq. 'MAT2') then
             call UMAT_MAT2(...)
       end if
 
@@ -361,7 +361,7 @@ Fourth-order tensors with major symmetries appear symmetric in Voigt notation.
 
 
 \subsection{Stress and Strain Components}
-Because different types of elements have different number of stress and strain components, user subroutines should be written to accomodate all the element types with which they will be used.  For instance, the stress and tangent should be defined in a loop from 1 to \texttt{ntens}.  If it is necessary to hard-code the definition of the stress or tangent, place elements beyond (4,4) in an extra \texttt{if} loop.  
+Because different types of elements have different number of stress and strain components, user subroutines should be written to accommodate all the element types with which they will be used.  For instance, the stress and tangent should be defined in a loop from 1 to \texttt{ntens}.  If it is necessary to hard-code the definition of the stress or tangent, place elements beyond (4,4) in an extra \texttt{if} loop.  
 
 
 \subsection{Orientation}
@@ -605,7 +605,7 @@ If the job completes, but the deformed configuration doesn't display, there was 
 
 If there is a floating point error, there is probably a division by zero somewhere.  Print any values that are in denominators to make sure they are not zero!
 
-User subroutines can write debut output to the printed output (\texttt{.dat}) file or the message (\texttt{.msg}) file. 
+User subroutines can write debug output to the printed output (\texttt{.dat}) file or the message (\texttt{.msg}) file. 
 
 
 % \section{Verifying Subroutines}
@@ -624,7 +624,7 @@ Solution control parameters can be used to control the accuracy of solutions in 
     \end{lstlisting} 
     $R_n^\alpha, C_n^\alpha, q_0^\alpha, q_u^\alpha, R_P^\alpha, \epsilon^\alpha, C_\epsilon^\alpha, R^\alpha_I, C_f, \epsilon^\alpha_I, \epsilon^\alpha_d$
 \end{quote}
-where two important convergence criterion are
+where two important convergence criteria are
 \begin{itemize}
 \item $R_n^\alpha = \num{5E-3}$, the ratio of the largest residual to the corresponding average flux norm
 \item $R_P^\alpha = \num{10E-2}$, the alternate residual force criterion for a nonlinear problem
@@ -645,7 +645,7 @@ where the parameters are defined as
 \begin{itemize}
 \item $I_0 = 4$.  After $I_0$ iterations, the behavior of the largest residuals will be checked; if they fail to decrease over two consecutive iterations the increment will be abandoned.  This may have to be increased if initial convergence is nonmonotonic.  This must be $> 3$.
 \item $I_R = 8$.  If convergence has not been achieved after $I_R$ iterations and the logarithmic rate of convergence suggests that too many iterations will be required, the time step is reduced.  This should be increased if convergence is nonquadratic.  
-\item $I_P = 9$.  After $I_R$ iterations, the alternate residual criterion is used
+\item $I_P = 9$.  After $I_P$ iterations, the alternate residual criterion is used
 \item $I_C = 16$.  Without quadratic convergence, $I_C$ is the maximum number of expected iterations allowed for logarthmic convergence.
 \item $I_L = 10$.  If an increment converges in more than $I_L$ iterations, the next time increment will be reduced. 
 \item $I_G = 4$.  If no more than $I_G$ iterations are required in two consecutive increments, the time increment may be increased.
@@ -669,7 +669,7 @@ where the parameters are defined as
 \item $D_M^{dyn} = 1.25$, maximum allowable increase in time step for dynamic stress analysis.
 \item $D_M^{diff} = 2.0$, maximum allowable increase in time step for diffusion-dominated analysis.
 \item $D_L = 0.95$.  Minimum ratio of $\Delta t_{proposed}$ to $D_M \Delta t_{current}$ for a linear transient problem.
-\item $D_E = 0.1$.  Minimum time increment ratio ($\delta t_i / \delta t_{i-1}$ for extrapolation to occur
+\item $D_E = 0.1$.  Minimum time increment ratio ($\delta t_i / \delta t_{i-1}$ for extrapolation to occur)
 \item $D_R = 1.0$.  Maximum ratio of time increment to stability limit for conditionally stable time integration procedures.
 \item $D_F = 0.95$.  Fraction of stability limit used as time increment when the proposed time limit exceeds the stability limit. 
 \end{itemize}
@@ -691,7 +691,7 @@ where the parameters are defined as
 \subsection{Strain}
 Strain is a measure of relative motion in a body.  There are many such measures of deformation, beginning from the simple concept of stretch, quantified as
 \begin{equation}
-\lambda = \ten{N} \cdot \ten{C} \cdot \ten{N} \, .
+\lambda^2 = \ten{N} \cdot \ten{C} \cdot \ten{N} \, .
 \end{equation}
 
 \subsubsection{Strain in one dimension}
@@ -713,7 +713,7 @@ and requiring that $f \left( 1 \right) = 0$ (strain is zero in the unstretched s
 \subsubsection{Strain in three dimensions}
 The basic concept of strain can be generalized to three dimensions by writing the strain matrix using the principal strains, 
 \begin{equation}
-\ten{ \epsilon } = \epsilon_i \ten{N}_i \, ,
+\ten{ \epsilon } = \sum_i^3 \epsilon_i \ten{N}_i \otimes \ten{N}_i \, ,
 \end{equation}
 where $\epsilon$ is again a function of stretch.  Certain choices of the strain measure, including Green's strain, make calculation of strain possible directly from the deformation gradient, $\ten{F}$.  
 
@@ -940,7 +940,7 @@ Because the double contraction with a symmetric tensor is not unique (see Sectio
  &  &  & \frac{1}{2} (\sigma_1 + \sigma_2) & \frac{1}{2} \sigma_6 & \frac{1}{2} \sigma_5 \\
  & sym. &  &  & \frac{1}{2} (\sigma_1 + \sigma_3) & \frac{1}{2} \sigma_4 \\
  &  &  &  &  & \frac{1}{2} (\sigma_2 + \sigma_3)
-\end{array} \right], .  
+\end{array} \right] \, .
 \end{align}
 This extra term, the geometric tangent, can be reduced to purely kinematic terms.  Thus we have the Abaqus tangent \autocite{Prot2009,Bower},
 \begin{equation}
@@ -1015,11 +1015,11 @@ Hyperelastic materials are derived from a strain energy function (or free energy
 \subsection{Abaqus' Neo-Hookean Constitutive Model}
 Abaqus uses a different formulation of the Neo-Hookean constitutive model, 
 \begin{equation}
-W_0 = D_1 \left[ J - 1 \right]^2 + C_{10} \left[ \overline{I}_1 - 3 \right] \, , 
+W_0 = \frac{1}{D_1} \left[ J - 1 \right]^2 + C_{10} \left[ \overline{I}_1 - 3 \right] \, , 
 \end{equation}
 with material constants  
 \begin{equation}
-D_1 = \frac{\kappa}{2} = \frac{1}{2} \frac{3 \lambda + 2 \mu}{3} 
+D_1 = \frac{2}{\kappa} = \frac{6}{3 \lambda + 2 \mu} 
 \qquad \mbox{and} \qquad
 C_{10} = \frac{\mu}{2} \, ,
 \end{equation}
@@ -1039,21 +1039,21 @@ The Second Piola-Kirchhoff stress is derived from the free energy function,
 \ten{S} ={}& 2 \frac{\partial W_0}{\partial \ten{C}}  
 \\
 % % begin derivations 
-% ={}& 2 \frac{\partial }{\partial \ten{C}} \Big( D_1 \left[ J - 1 \right]^2 + C_{10} \left[ \overline{I}_1 - 3 \right] \Big)  
+% ={}& 2 \frac{\partial }{\partial \ten{C}} \Big( \frac{1}{D_1} \left[ J - 1 \right]^2 + C_{10} \left[ \overline{I}_1 - 3 \right] \Big)  
 % \notag \\
-% ={}& 2 D_1 \frac{\partial }{\partial \ten{C}} \left( J - 1 \right)^2 + 2 C_{10} \frac{\partial }{\partial \ten{C}} \left( \overline{I}_1 - 3 \right)  
+% ={}& \frac{2}{D_1} \frac{\partial }{\partial \ten{C}} \left( J - 1 \right)^2 + 2 C_{10} \frac{\partial }{\partial \ten{C}} \left( \overline{I}_1 - 3 \right)  
 % \notag \\
-% ={}& 4 D_1 \left[ J - 1 \right] \frac{\partial J}{\partial \ten{C}} + 2 C_{10} \frac{\partial \overline{I}_1 }{\partial \ten{C}}  
+% ={}& \frac{4}{D_1} \left[ J - 1 \right] \frac{\partial J}{\partial \ten{C}} + 2 C_{10} \frac{\partial \overline{I}_1 }{\partial \ten{C}}  
 % \notag \\
-% ={}& 4 D_1 \left[ J - 1 \right] \frac{J}{2} \ten{C}^{-1} + 2 C_{10} \frac{\partial \overline{I}_1 }{\partial \overline{\ten{C}}} : \frac{\partial \overline{\ten{C}} }{\partial \ten{C}}  
+% ={}& \frac{4}{D_1} \left[ J - 1 \right] \frac{J}{2} \ten{C}^{-1} + 2 C_{10} \frac{\partial \overline{I}_1 }{\partial \overline{\ten{C}}} : \frac{\partial \overline{\ten{C}} }{\partial \ten{C}}  
 % \notag \\
-% \ten{S}_{IJ} ={}& 2 D_1 \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \delta_{KL} : \frac{\partial \left( J^{-2/3} \ten{C}_{KL} \right) }{\partial \ten{C}_{IJ} }  
+% \ten{S}_{IJ} ={}& \frac{2}{D_1} \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \delta_{KL} : \frac{\partial \left( J^{-2/3} \ten{C}_{KL} \right) }{\partial \ten{C}_{IJ} }  
 % \notag \\
-% ={}& 2 D_1 \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \delta_{KL} \left[ J^{-2/3} \frac{\partial \ten{C}_{KL} } {\partial \ten{C}_{IJ}} + \frac{\partial J^{-2/3} }{\partial J} \frac{\partial J}{\partial \ten{C}_{IJ}} \ten{C}_{KL} \right]  
+% ={}& \frac{2}{D_1} \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \delta_{KL} \left[ J^{-2/3} \frac{\partial \ten{C}_{KL} } {\partial \ten{C}_{IJ}} + \frac{\partial J^{-2/3} }{\partial J} \frac{\partial J}{\partial \ten{C}_{IJ}} \ten{C}_{KL} \right]  
 % \notag \\
-% ={}& 2 D_1 \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \left[ J^{-2/3} \delta_{KL} \frac{1}{2} \left[ \delta_{KI} \delta_{LJ} + \delta_{KJ} \delta_{LI} \right) - \delta_{KL} \frac{2}{3} J^{-5/3} \frac{J}{2} \ten{C}^{-1}_{IJ} \ten{C}_{KL} \right]
+% ={}& \frac{2}{D_1} \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \left[ J^{-2/3} \delta_{KL} \frac{1}{2} \left[ \delta_{KI} \delta_{LJ} + \delta_{KJ} \delta_{LI} \right) - \delta_{KL} \frac{2}{3} J^{-5/3} \frac{J}{2} \ten{C}^{-1}_{IJ} \ten{C}_{KL} \right]
 % \notag \\
-% ={}& 2 D_1 \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \left[ J^{-2/3} \delta_{IJ} - \frac{1}{3} J^{-2/3} \ten{C}_{KK} \ten{C}^{-1}_{IJ} \right]
+% ={}& \frac{2}{D_1} \left[ J - 1 \right] J \ten{C}^{-1}_{IJ} + 2 C_{10} \left[ J^{-2/3} \delta_{IJ} - \frac{1}{3} J^{-2/3} \ten{C}_{KK} \ten{C}^{-1}_{IJ} \right]
 % \notag \\
 % % end derivations
 \cdots{}& \notag \\
@@ -1223,7 +1223,7 @@ Thus the total tangent is
 \label{chap:mechofgrowth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Growth arises from the addition mass in an open system; its opposite, shrinking, consists of the removal of mass.  These two phenomena are conceptually very similar and for the purposes of this document will both be considered to fall under the umbrella term `growth'.  This added or lost mass manifests itself in a corresponding increase or decrease in density, volume, or some combination of both.  
+Growth arises from the addition of mass in an open system; its opposite, shrinking, consists of the removal of mass.  These two phenomena are conceptually very similar and for the purposes of this document will both be considered to fall under the umbrella term `growth'.  This added or lost mass manifests itself in a corresponding increase or decrease in density, volume, or some combination of both.  
 This section lays out the basis of the theory of finite growth as generally applied to soft tissues such as the brain.  The fundamental assumptions of this theory are that i) soft tissues grow via a change in volume, in which ii) the added or removed material has the same density and other properties as the original tissue, and iii) homogeneous, unconstrained growth does not induce stress.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1239,7 +1239,7 @@ Both the growth and elastic deformation tensors are also two-leg tensors, relati
 \begin{equation}
 F_{iK} = F^{\scas{e}}_{i\overline{J}} F^{\scas{g}}_{\overline{J} K} \, .
 \end{equation}
-However, in this document we confine ourselves to diagonal, and thus symmetric, growth tensors, such that the growth deformation preserves the directions (but not the lengths) of the basis vectors from the reference configuration.  Thus, the indices in the reference configuration can be used interchangeably in the grown configuration and, ommitting subscripts with a bar for simplicity, capital indices can be used for the intermediate configuration instead, such that
+However, in this document we confine ourselves to diagonal, and thus symmetric, growth tensors, such that the growth deformation preserves the directions (but not the lengths) of the basis vectors from the reference configuration.  Thus, the indices in the reference configuration can be used interchangeably in the grown configuration and, omitting subscripts with a bar for simplicity, capital indices can be used for the intermediate configuration instead, such that
 \begin{equation}
 F_{iK} = F^{\scas{e}}_{iJ} F^{\scas{g}}_{JK} \, .  
 \end{equation}
@@ -1276,7 +1276,7 @@ However, the density of grown mass per unit volume in the reference configuratio
 \begin{equation}
 \rho_0 = \frac{ \sca{d} \overline{M} }{ \sca{d} V_0 } = \frac{ J^{\scas{g}} \, \sca{d} M_0 }{ \sca{d} V_0 } = J^{\scas{g}} \, \varrho_0 \, .
 \end{equation}
-Incompressibility imposes a constraint of no volume change on the elastic deformation, that is, $\det (\ten{F}^{\scas{e}}) = 1$.  Numerically, incompressibility can be formulated exactly with a Lagrange multiplier or approximately with a penalty method \autocite{Hughes}.  In the penalty method, the bulk stiffness is chosen to be significantly higher than the shear stiffness ($K >> \mu$ or $\lambda >> \mu$, where $K$ is the bulk modulus, $\lambda$ is Lam\'{e}'s first constant, and $\mu$ is the shear modulus).  
+Incompressibility imposes a constraint of no volume change on the elastic deformation, that is, $\det (\ten{F}^{\scas{e}}) = 1$.  Numerically, incompressibility can be formulated exactly with a Lagrange multiplier or approximately with a penalty method \autocite{Hughes}.  In the penalty method, the bulk stiffness is chosen to be significantly higher than the shear stiffness ($K \gg \mu$ or $\lambda \gg \mu$, where $K$ is the bulk modulus, $\lambda$ is Lam\'{e}'s first constant, and $\mu$ is the shear modulus).  
 For compressible materials, loading may also change the density of grown mass per unit volume in the current configuration, $\rho$,
 \begin{equation}
 \rho = \frac{ \sca{d} \overline{M} }{ \sca{d} V } = \frac{ J^{\scas{g}} \, \sca{d} M_0 }{ J \, \sca{d} V_0 } = \frac{1}{J^{\scas{e}}} \, \varrho_0 \, .
@@ -1948,13 +1948,13 @@ can include a maximum allowable amount of growth.
 \subsubsection{Growth Criterion}
 \label{subsec:crit}
 The growth criterion function $\phi^{\scas{g}}$ describes the conditions that must be satisfied for growth to take place.  
-In mechanically-driven growth, the growth criterion function contains the mechanics dependency, relating the mechanical state of the system to its desired, or homeostatic, state.  Many biological systems have the property of homeostasis, in which a quantity is regulated to be nearly constant; in the case of mechanical homeostasis, the system may be driven to minimize stress or maintain constant tension.  The growth criterion function effectively serves as a penalty function such that when the system is very far from homeostatis, the growth rate increases.  
+In mechanically-driven growth, the growth criterion function contains the mechanics dependency, relating the mechanical state of the system to its desired, or homeostatic, state.  Many biological systems have the property of homeostasis, in which a quantity is regulated to be nearly constant; in the case of mechanical homeostasis, the system may be driven to minimize stress or maintain constant tension.  The growth criterion function effectively serves as a penalty function such that when the system is very far from homeostasis, the growth rate increases.  
 In the case of morphogen-driven growth, this may be a chemical concentration or a pseudotime at which growth will occur.  
 A common growth criterion is based on a critical maximum value of stretch or stress, activating growth only when this value is exceeded
 \begin{equation}
 \phi^{\scas{g}} = \left\langle f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \right\rangle \, ,
 \end{equation}
-where Macauley brackets yield a value of $ \langle x \rangle = x $ when $ x > 0$, and $ \langle x \rangle = 0 $ when $ x < 0$.  
+where Macaulay brackets yield a value of $ \langle x \rangle = x $ when $ x > 0$, and $ \langle x \rangle = 0 $ when $ x < 0$.  
 Other varieties include a critical minimum value, below which retraction is activated, which would result in a three-way controller \autocite{Dennerll1989}.  At one extreme, for very low values of the critical minimum and very high values of the critical maximum, this results in the absence of growth.  At the other extreme, for critical minimum and maximum values that are identical, this simplifies to a linear controller, 
 \begin{equation}
 \phi^{\scas{g}} = f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \, ,
@@ -2225,7 +2225,7 @@ After each iteration, the trial value is updated by
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The three components that determine a growth constitutive model are i) the elastic constitutive equations, ii) the kinematics of growth, and iii) the kinetics of growth.  The remainder of this document focuses exclusively on the Neohookean material model shown in Eq. \ref{neohooke}. The kinematics and kinetics have been discussed in the previous chapter (Sections \ref{kinematics} and \ref{kinetics}, respectively). 
+The three components that determine a growth constitutive model are i) the elastic constitutive equations, ii) the kinematics of growth, and iii) the kinetics of growth.  The remainder of this document focuses exclusively on the Neo-Hookean material model shown in Eq. \ref{neohooke}. The kinematics and kinetics have been discussed in the previous chapter (Sections \ref{kinematics} and \ref{kinetics}, respectively). 
 These choices all enter into the equations from the previous chapter to determine the amount of growth that takes place as well as the relationship between growth and stress used in the tangent.  This chapter contains detailed derivations for several growth models of interest.  
 
 Beyond the three choices listed previously, UMATs often require material parameters to describe: 
@@ -2241,7 +2241,7 @@ These properties must be assigned from the \texttt{props} field to the appropria
 \section{Isotropic Volumetric-Stretch-Driven Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow isotropically (the same in all directions) in response to volume overstretch, such as in a simple model of the the white matter of the developing brain \autocite{Holland2015}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
+This UMAT is used for materials that grow isotropically (the same in all directions) in response to volume overstretch, such as in a simple model of the white matter of the developing brain \autocite{Holland2015}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
 \begin{equation*}
 \ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}} \ten{I} \, , 
 \end{equation*}
@@ -2309,7 +2309,7 @@ with inverse and derivative found in Eq. \ref{Fg_planar2}
 \qquad \mbox{and} \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \ten{N}^0_{MN} \, , 
 \end{equation*}
-where $\ten{n}^0$, is the fiber direction, passed in as a material parameter.  
+where $\ten{n}^0$ is the fiber direction, passed in as a material parameter.  
 The total stretch is calculated from the length of the deformed fiber direction according to Eqs. \ref{stretches}b, 
 \begin{equation*}
 \vartheta = \sqrt{ \ten{n}^0 \cdot \ten{F}^{\scas{T}} \cdot \ten{F} \cdot \ten{n}^0} = \sqrt{ \ten{N}^0 : \ten{C} } = \sqrt{ \ten{n} \cdot \ten{n}} \, . 
@@ -2402,7 +2402,7 @@ with inverse and derivative found in Eq. \ref{Fg_planar2},
 \qquad \mbox{and} \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, ,
 \end{equation*}
-where $\ten{n}_0$, is the unit normal to the plane in the reference configuration, passed in as a material parameter.
+where $\ten{n}^0$, is the unit normal to the plane in the reference configuration, passed in as a material parameter.
 The area stretch is calculated from the deformation tensor and undeformed normal according to Eq. \ref{stretches}c,
 \begin{equation*}
 \vartheta = \vert\vert J \ten{F}^{-\scas{T}} \cdot \ten{n}^0 \vert\vert = J \sqrt{\ten{n}^{0 \scas{t}} \ten{C}^{-1} \ten{n}^0} = J \sqrt{\ten{N}^0 :  \ten{C}^{-1} } \, . 
@@ -2485,7 +2485,7 @@ with inverse and derivatives
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \ten{I} + \left[ \frac{1}{\lambda^{\scas{g}}} - \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0 \, ,
 \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \lambda^{\scas{g}}} = \ten{N}^0_{MN} \, .  
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \lambda^{\scas{g}}} = \ten{N}^0_{MN} \, , wh
 \qquad \mbox{and} \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, ,
 \end{equation}
@@ -2544,7 +2544,7 @@ which are easily seen to be equivalent to the result from the one-variable cases
 \section{Fully Orthotropic Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow differently in orthogonal directions.  Is is essentially a combination of three orthogonal fiber growth models.  Based on the assumption of independent growth in the direction of three orthonormal vectors in the radial ($\ten{r}$), sheet ($\ten{s}$), and tangential ($\ten{t}$) directions, the growth tensor is defined by three growth variables, one in each direction,
+This UMAT is used for materials that grow differently in orthogonal directions.  It is essentially a combination of three orthogonal fiber growth models.  Based on the assumption of independent growth in the direction of three orthonormal vectors in the radial ($\ten{r}$), sheet ($\ten{s}$), and tangential ($\ten{t}$) directions, the growth tensor is defined by three growth variables, one in each direction,
 \begin{equation}
 \ten{F}^{\scas{g}} = \vartheta^{\scas{g}}_{\scas{r}}  \ten{R}^0 + \vartheta^{\scas{g}}_{\scas{s}} \ten{S}^0 + \vartheta^{\scas{g}}_{\scas{t}} \ten{T}^0 \, , 
 \end{equation}
@@ -2586,12 +2586,14 @@ Thus we have, essentially, three growth tangents, where each is
 \begin{equation}
 \tenf{C}^x = 2 \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } : \left. \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta_x^{\scas{g}} } \right|_{\tens{C}} \otimes \frac{\partial  \vartheta_x^{\scas{g}} }{\partial \ten{C}} \, .
 \end{equation}
-These are easily seen to be equivalent to the result from the one-variable case of fiber growth.  Thus the growth tangents in the Eulerian configuration are the same as the one foud in Eq. \ref{growth_tangent_fiber},
-\begin{align*}
-\tenf{c}^{\scas{g}}_{ijkl} = \frac{k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{g}^2} } 
-\left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \frac{2 \mu}{\vartheta^{\scas{g}^2}} \ten{N}_{ij} \right] 
+These are easily seen to be equivalent to the result from the one-variable case of fiber growth.  Thus the growth tangents in the Eulerian configuration are the same as the one found in Eq. \ref{growth_tangent_fiber},
+\begin{equation}
+\tenf{c}^{\scas{g}}_{ijkl} = \sum_x^3 \tenf{c}^{\scas{x}}_{ijkl}
+\qquad \mbox{where} \qquad
+\tenf{c}^{\scas{x}}_{ijkl} = \frac{k^{\scas{x}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{x}^2} } 
+\left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \frac{2 \mu}{\vartheta^{\scas{x}^2}} \ten{N}_{ij} \right] 
 \ten{N}_{kl} \, . 
-\end{align*}
+\end{equation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2660,7 +2662,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Dyadic Products} 
+\section{Dyadic Products} 
 \paragraph{Dyadic Product, $\left\lbrace \ten{A} \otimes \ten{B} \right\rbrace _{ijkl} = \ten{A}_{ij} \ten{B}_{kl} $}
 \begin{align}
 [\ten{I} \otimes \ten{I} ] : \ten{A} &= \mbox{tr} (\ten{A}) \ten{I} 
@@ -2689,7 +2691,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 \end{align}
 
 
-\subsection{Useful Tensor Derivatives}
+\section{Useful Tensor Derivatives}
 
 \begin{align}
 \frac{\partial \ten{A}}{\partial \ten{A}} ={}& \ten{I} \overline{\otimes} \ten{I} = \tenf{I}
@@ -2723,7 +2725,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 \end{align}
 
 
-\subsection{Structural Tensors}
+\section{Structural Tensors}
 Preferred directions for anisotropically growing materials are defined by unit vectors in the undeformed configuration, such as the normal vector $\ten{n}^0$.  The deformed normal $\ten{n}$ is calculated from the undeformed normal and the deformation gradient,
 \begin{equation}
 \ten{n} = \ten{F} \cdot \ten{n}^0
@@ -2747,7 +2749,7 @@ Properties of orthogonal unit structural tensors include:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Major and Minor Symmetry}
+\section{Major and Minor Symmetry}
 \label{sec:symmetry}
 Fourth-order tensors can have major 
 \begin{equation}
@@ -2786,7 +2788,7 @@ $ + \ten{B} \overline{\otimes} \ten{A} + \ten{B} \underline{\otimes} \ten{A}$ & 
 
 
 \newpage
-\subsection{Tensor Derivatives}
+\section{Tensor Derivatives}
 \label{sec:tensorderivatives}
 The derivative of a scalar-valued function $f ( \ten{X} )$ with respect to a tensor $\ten{X}$ is a tensor,
 \begin{equation}
@@ -2808,7 +2810,7 @@ It is defined as the tensor $\ten{F},_{\ten{X}}$ that satisfies the expression
 \end{equation}
 for all admissible variational tensors $d \ten{X}$. 
 
-\subsubsection{Symmetric Tensor Derivatives}
+\subsection{Symmetric Tensor Derivatives}
 The derivative of a scalar-valued function $f ( \ten{X} )$ with respect to a symmetric tensor $\ten{X}$ is defined as any tensor $f,_{\ten{X}}$ that satisfies the expression
 \begin{equation}
 \left. \frac{d}{d \varepsilon} f \left( \ten{X} + \varepsilon d\ten{X} \right) \right|_{\ten{\varepsilon}=0} = f,_{\ten{X}} : d \ten{X}
@@ -2841,8 +2843,10 @@ As expected, both expressions have all the major and minor symmetries.
 
 This distinction between derivatives of symmetric and non-symmetric tensors is important when using Voigt notation, as only tensors with minor symmetries can be represented in Voigt notation.  Thus, it is actually not possible to write derivatives of non-symmetric tensors (say, $\partial \ten{F} / \partial \ten{F}$) in Voigt notation.  For more information, see Section \ref{sec:symmetry}.
 
-\subsection{Symmetry and Growth in Abaqus}
-The elastic and geometric tangents have both major and minor symmetries in all configurations.  The growth tangent has minor symmetries, but generally does not have major symmetry (so it is not symmetric in Voigt notation).  Non-growing materials, as well as morphogenetic and explicit growing models, do not have a growth tangent and therefore have all major and minor symmetrices.  Mandel-stress-driven growth leads to a symmetric growth tensor as well.  Because of this, the user-defined material declaration of many growing materials must specify that the Jacobian is unsymmetric, using the \texttt{unsymm} option with the \texttt{*User Material} keyword. 
+\section{Symmetry and Growth in Abaqus}
+The elastic and geometric tangents have both major and minor symmetries in all configurations.  Non-growing materials, as well as morphogenetic and explicit growing models, do not have a growth tangent and therefore have all major and minor symmetrices.  
+The growth tangent has minor symmetries, but generally does not have major symmetry (so it is not symmetric in Voigt notation).  
+Because of this, the user-defined material declaration of many growing materials should specify that the Jacobian is unsymmetric, using the \texttt{unsymm} option with the \texttt{*User Material} keyword. 
 \begin{quote} 
     \begin{lstlisting}[]
       *User Material, constants=nprops, unsymm
@@ -2852,7 +2856,7 @@ The elastic and geometric tangents have both major and minor symmetries in all c
       *Step, name=StepName, nlgeom=YES, inc=100000, unsymm=YES
     \end{lstlisting} 
 \end{quote}
-but this is actually unnecessary.  As detailed in the ``Matrix storage and solution scheme in Abaqus/Standard'' part of Section 6.1.2 (``Defining an analysis'') in the Abaqus Analysis User's Guide \autocite[Sec.~6.1.2]{AbaqusAnalysis}, the use of a user-defined material model with unsymmetric material stiffness matrices automatically triggers use of the unsymmetric matrix storage and solution scheme.  
+However, this is actually unnecessary.  As detailed in the ``Matrix storage and solution scheme in Abaqus/Standard'' part of Section 6.1.2 (``Defining an analysis'') in the Abaqus Analysis User's Guide \autocite[Sec.~6.1.2]{AbaqusAnalysis}, the use of a user-defined material model with unsymmetric material stiffness matrices automatically triggers use of the unsymmetric matrix storage and solution scheme.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2862,7 +2866,7 @@ but this is actually unnecessary.  As detailed in the ``Matrix storage and solut
 
 Abaqus user subroutines use Fortan 90/95.  
 
-\subsection{Case and Whitespace}
+\section{Case and Whitespace}
 Fortran is case-insenstive ($\mathtt{dfgrd1} = \mathtt{DFGRD1}$).  Whitespace (spaces) are also ignored beyond the significance of the reserved colums (see below).
 
 \begin{center}
@@ -2870,7 +2874,7 @@ Fortran is case-insenstive ($\mathtt{dfgrd1} = \mathtt{DFGRD1}$).  Whitespace (s
 — apocryphal, attributed to the Sun FORTRAN Reference Manual.}
 \end{center}
 
-\subsection{Columns}
+\section{Columns}
 A relic of Fortran's use on punch cards, the first 6 columns are reserved for special use.  
 
 \paragraph{Comments}
@@ -2879,7 +2883,7 @@ A \texttt{c} in column 1 results in a full line comment.  To append a comment to
 \paragraph{Line Continuation}
 Any character in column 6 signifies that the line is a continuation of the previous line. 
 
-\subsection{Declaration and Initialization}
+\section{Declaration and Initialization}
 \paragraph{Declaring Variables}
 Variables should be declared, indicating their type and size, and initialized before use.  To disable implicit declarations, you should include the statement \texttt{implicit none}.  Otherwise, mistyped variables will be treated as new variables (with a random value) and no warning will be generated.  
 
@@ -2927,7 +2931,7 @@ Double precision numbers must be initialized as such to avoid rounding to a sing
 \item \texttt{3.1415926535d0}
 \end{itemize}
 
-\subsection{Producing Output}
+\section{Producing Output}
 
 The simplest form of an I/O statement is \\
 \texttt{WRITE(*,*)  item1, item2} \\
@@ -2950,7 +2954,7 @@ Other files can be associated with a unit number with an \texttt{OPEN} statement
 
 A \texttt{PRINT} statement is a \texttt{WRITE} statement that outputs to the default device, generally the terminal screen.  
 
-\subsection{Debugging}
+\section{Debugging}
 An easy way to debug Fortran programs is to use print statements. 
 \begin{itemize}
 \item \texttt{print *, `Hello, world!'}
@@ -2958,8 +2962,8 @@ An easy way to debug Fortran programs is to use print statements.
 \end{itemize} 
 Commas separate the items to be printed.  Single or double quotes may be used.
 
-\subsection{Subfunctions}
-The basic structure of a subfunction is: 
+\section{Subroutines}
+The basic structure of a subroutine is: 
 
 \begin{quote} \begin{lstlisting}
        subroutine SubroutineName(arg1, arg2)
@@ -2977,10 +2981,10 @@ Subroutines in Fortran don't have explicit outputs; instead, the subroutine modi
 Subroutines are called using \texttt{call SubroutineName(arg1, arg2)}
 
 
-\subsection{Tensor Toolbox}
+\section{Tensor Toolbox}
 \href{https://github.com/adtzlr/ttb}{Tensor Toolbox} is a Fortran module that calculates tensor features, including identity tensors, dot products, and deviatoric components, in Fortran \autocite{Dutzler}
 
-\subsection{Miscellaneous}
+\section{Miscellaneous}
 \begin{itemize}
 \item Fortran is case insensitive!  
 \item After column 6, Fortran does not recognize spaces; they only serve the purpose of making code more readable
@@ -3022,7 +3026,7 @@ J^{\scas{e}} = \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\s
 \end{align}
 The unknown parameter $b$ is found by requiring that the surface normal to $\ten{b}$ on the top will be stress-free, due to the lack of constraint in that direction.  
 
-\subsection{Compressible Materials}
+\section{Compressible Materials}
 The stress in a compressible neo-Hookean material is given by 
 \begin{align}
 \ten{\sigma} &= \frac{1}{J} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
@@ -3049,7 +3053,7 @@ R &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lamb
 K &= \frac{\lambda}{\mu} \frac{1}{b} + 2 \frac{b}{g_{\scas{b}}^2}
 \end{align}
 
-\subsection{Incompressible Materials}
+\section{Incompressible Materials}
 The stress in an incompressible neo-Hookean material is given by
 \begin{align}
 \ten{\sigma} &= \frac{1}{J} \left[ - p \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
@@ -3088,8 +3092,8 @@ For the stress in the directions of interest,
 \ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \right] 
 \end{align}
 
-\subsection{Calculating Uniaxial Compression Loading for a Given Stress}
-The uniaxial compressive loading that will produce a given axial stress, $S$, can be calculated for an incompressible material.
+\section{Calculating Plane Strain Compression Loading for a Given Stress}
+The plane-strain compressive loading that will produce a given axial stress, $S$, can be calculated for an incompressible material.
 \begin{align}
 S &= \mu \left[ \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \right] \\
 \frac{S}{\mu} &= \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \\
