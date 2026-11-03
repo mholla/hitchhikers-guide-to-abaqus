@@ -301,7 +301,7 @@ When creating a job in Abaqus/CAE, include user subroutines by browsing for the 
 
 \subsection{Using Multiple Subroutines}
 \label{subsec:multiple}
-To use multiple subroutines of different kinds in one analysis, they should all be contained in the same subroutine file, in any order.  To use multiple subroutines of the same kind - for example, two \texttt{UMAT} subroutines for two different materials - an additional step must be added.  The main \texttt{UMAT} subroutine should act as a directory, testing some variable (\texttt{CMNAME}, for example) for different values to distinguish between the cases.  A different subroutine (for instance, \texttt{UMAT\_MAT1} or \texttt{UMAT\_MAT2}) could then be called:
+To use multiple subroutines of different kinds in one analysis, they should all be contained in the same subroutine file, in any order.  To use multiple subroutines of the same kind --- for example, two \texttt{UMAT} subroutines for two different materials --- an additional step must be added.  The main \texttt{UMAT} subroutine should act as a directory, testing some variable (\texttt{CMNAME}, for example) for different values to distinguish between the cases.  A different subroutine (for instance, \texttt{UMAT\_MAT1} or \texttt{UMAT\_MAT2}) could then be called:
 
 \newpage
 \begin{quote} \begin{lstlisting}
@@ -334,18 +334,18 @@ c...  ---------------------------------------------------------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Voigt Notation}
-The Abaqus/Standard convention for ordering stress and strain components is:
+The Abaqus/Standard convention for ordering stress and strain components is
 \[ \ten{v} = \left[ \begin{array}{c}
 \sigma_{11} \\ \sigma_{22} \\ \sigma_{33} \\
 \tau_{12} \\ \tau_{13} \\ \tau_{23}
-\end{array} \right] \] 
-so that the full matrix equivalent is: 
+\end{array} \right] \, , \] 
+so that the full matrix equivalent is
 \[ \ten{\sigma} = 
 \left[ \begin{array}{ccc}
 v_1 & v_4 & v_5 \\
 v_4 & v_2 & v_6 \\
 v_5 & v_6 & v_3 
-\end{array} \right] \] 
+\end{array} \right] \, . \] 
 Note that this is a different convention from FEAP and Abaqus/Explicit, and it may differ from other programs as well.
 
 Fourth-order tensors with minor symmetries can be written in Voigt notation and are stored as 6x6 arrays, numbered: 
@@ -356,7 +356,7 @@ D_{3311} & D_{3322} & D_{3333} & D_{3312} & D_{3313} & D_{3323} \\
 D_{1211} & D_{1222} & D_{1233} & D_{1212} & D_{1213} & D_{1223} \\
 D_{1311} & D_{1322} & D_{1333} & D_{1312} & D_{1313} & D_{1323} \\
 D_{2311} & D_{2322} & D_{2333} & D_{2312} & D_{2313} & D_{2323}
-\end{array} \right] \]
+\end{array} \right] \, . \]
 Fourth-order tensors with major symmetries appear symmetric in Voigt notation.
 
 
@@ -374,7 +374,7 @@ The relationship between the basis vectors of two coordinate systems, $\ten{e}'_
 \begin{align}
 \ten{e}_i = \ten{R}^{\scas{T}} \cdot \ten{e}'_i = R_{ij} \ten{e}'_j   
 \qquad \text{and} \qquad  
-\ten{e}'_i = \ten{R} \cdot \ten{e}_i = R_{ji} \ten{e}_j
+\ten{e}'_i = \ten{R} \cdot \ten{e}_i = R_{ji} \ten{e}_j \, , 
 \end{align}
 where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (See \textcite[Sec.~1.5]{Holzapfel} for more information, where $\ten{R} = \ten{Q}$ in their notation).
 % % proof of previous equation
@@ -389,7 +389,7 @@ Thus for a vector $\ten{u}$, its components, $u_i$ and $u'_i$, in the two bases,
 \begin{align}
 u_i &= \ten{u} \cdot \ten{e}_i = \ten{u} \cdot \ten{R}^{\scas{T}} \cdot \ten{e}'_i = \ten{u} \cdot \left[ R_{ij} \ten{e}'_j \right] = R_{ij} \ten{u} \cdot \ten{e}'_j = R_{ij} u'_j 
 \\ \mbox{and} \qquad
-u'_i &= \ten{u} \cdot \ten{e}'_i = \ten{u} \cdot \ten{R} \cdot \ten{e}_i = \ten{u} \cdot \left[ R_{ji} \ten{e}_j \right] = R_{ji} \ten{u} \cdot \ten{e}_j = R_{ji} u_j
+u'_i &= \ten{u} \cdot \ten{e}'_i = \ten{u} \cdot \ten{R} \cdot \ten{e}_i = \ten{u} \cdot \left[ R_{ji} \ten{e}_j \right] = R_{ji} \ten{u} \cdot \ten{e}_j = R_{ji} u_j \, , 
 \end{align}
 or
 \begin{align}
@@ -403,7 +403,7 @@ Thus, a given vector can be represented in several different ways:
 \end{align}
 Similarly, tensors can also be represented in different coordinate systems:
 \begin{align}
-\ten{A} = A_{ij} \ten{e}_i \otimes \ten{e}_j = A'_{ij} \ten{e}'_i \otimes \ten{e}'_j 
+\ten{A} = A_{ij} \ten{e}_i \otimes \ten{e}_j = A'_{ij} \ten{e}'_i \otimes \ten{e}'_j \, .
 \end{align}
 The tensorial transformation law is:
 \begin{align}
@@ -419,7 +419,7 @@ A'_{ij} &
 = \ten{R} \cdot \ten{e}_i \cdot \ten{A} \cdot \ten{R} \cdot \ten{e}_j 
 = R_{ki} \ten{e}_k \cdot \ten{A} \cdot R_{lj} \ten{e}_l 
 = R_{ki} R_{lj} \ten{e}_k \cdot \ten{A} \cdot \ten{e}_l 
-= R_{ki} R_{lj} A_{kl}
+= R_{ki} R_{lj} A_{kl} \, , 
 \end{align}
 or 
 \begin{align}
@@ -500,7 +500,7 @@ u'_i \ten{e}'_i ={}& v'_{kn} U_n \, \ten{e}'_k
 \end{align}
 Or, ignoring the bases (as they are not changing), and dealing only with the components,
 \begin{align}
-[ \ten{u}' ] = [ \ten{F}' ] [ \ten{U}' ] = [ \ten{F}' ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{R} ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{U} ] 
+[ \ten{u}' ] = [ \ten{F}' ] [ \ten{U}' ] = [ \ten{F}' ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{R} ] [ \ten{R} ]^{\scas{T}} [ \ten{U} ] = [ \ten{v}' ] [ \ten{U} ] \, .
 \end{align}
 Essentially, this means that the vector passed in to the UMAT, purportedly the reference vector, has already been rotated to the spatial configuration due to Abaqus' use of the rotated coordinate system.  To obtain the deformed vector in the current configuration, it merely needs to be stretched by $\ten{v}'$ \autocite{SahliCostabal2017}.  
 
@@ -532,7 +532,7 @@ where
 
 The left, or spatial, stretch tensor, $\ten{v}$, can then be calculated from the principal values and directions as 
 \begin{align}
-\ten{v} = \sum_{i=1}^3 \lambda_i \ten{n}_i \otimes \ten{n}_i
+\ten{v} = \sum_{i=1}^3 \lambda_i \ten{n}_i \otimes \ten{n}_i \, , 
 \end{align}
 where $\lambda_i^2 = \mathtt{values(i)}$ and $\ten{n}_i = \mathtt{directions(i,:)}$.  
 
@@ -564,7 +564,7 @@ Abaqus input files have their own syntax, and tend to be very sensitive to space
 \end{itemize}
 
 \subsection{Writing an Input File}
-It is possible to write a simple input file from scratch.  It may be easier to start with an existing input file, however, and make necessary changes - such as nodes, elements, materials, and loading.
+It is possible to write a simple input file from scratch.  It may be easier to start with an existing input file, however, and make necessary changes such as nodes, elements, materials, and loading.
 
 It is also possible to create an input file by creating a model in Abaqus/CAE to the desired level of completion, creating a job associated with the model, and, in the Job Manager, selecting ``Write Input''.  This will create an input file that, when run, recreates the contents of your model.  This is convenient because Abaqus/CAE makes building complex geometries and meshing easier, while changing options and defining materials and loading is often more efficient in the input file than navigating through windows and menus.  
 
@@ -646,7 +646,7 @@ where the parameters are defined as
 \item $I_0 = 4$.  After $I_0$ iterations, the behavior of the largest residuals will be checked; if they fail to decrease over two consecutive iterations the increment will be abandoned.  This may have to be increased if initial convergence is nonmonotonic.  This must be $> 3$.
 \item $I_R = 8$.  If convergence has not been achieved after $I_R$ iterations and the logarithmic rate of convergence suggests that too many iterations will be required, the time step is reduced.  This should be increased if convergence is nonquadratic.  
 \item $I_P = 9$.  After $I_P$ iterations, the alternate residual criterion is used
-\item $I_C = 16$.  Without quadratic convergence, $I_C$ is the maximum number of expected iterations allowed for logarthmic convergence.
+\item $I_C = 16$.  Without quadratic convergence, $I_C$ is the maximum number of expected iterations allowed for logarithmic convergence.
 \item $I_L = 10$.  If an increment converges in more than $I_L$ iterations, the next time increment will be reduced. 
 \item $I_G = 4$.  If no more than $I_G$ iterations are required in two consecutive increments, the time increment may be increased.
 \item $I_S = 12$.  Maximum number of iterations caused by severe discontinuities allowed in an increment.
@@ -666,9 +666,9 @@ where the parameters are defined as
 \item $W_G = 0.75$, ratio of average time integration accuracy measure over $I_T$ increments to the corresponding tolerance for the next time increment to be increased.
 \item $D_G = 0.8$.  Increase factor for the next time increment when the time integration accuracy measure is less than $W_G$ of the tolerance during $I_T$ consecutive increments.
 \item $D_M = 1.5$, maximum allowable increase in time step
-\item $D_M^{dyn} = 1.25$, maximum allowable increase in time step for dynamic stress analysis.
-\item $D_M^{diff} = 2.0$, maximum allowable increase in time step for diffusion-dominated analysis.
-\item $D_L = 0.95$.  Minimum ratio of $\Delta t_{proposed}$ to $D_M \Delta t_{current}$ for a linear transient problem.
+\item $D_M^{\scas{dyn}} = 1.25$, maximum allowable increase in time step for dynamic stress analysis.
+\item $D_M^{\scas{diff}} = 2.0$, maximum allowable increase in time step for diffusion-dominated analysis.
+\item $D_L = 0.95$.  Minimum ratio of $\Delta t_{\scas{proposed}}$ to $D_M \Delta t_{current}$ for a linear transient problem.
 \item $D_E = 0.1$.  Minimum time increment ratio ($\delta t_i / \delta t_{i-1}$ for extrapolation to occur)
 \item $D_R = 1.0$.  Maximum ratio of time increment to stability limit for conditionally stable time integration procedures.
 \item $D_F = 0.95$.  Fraction of stability limit used as time increment when the proposed time limit exceeds the stability limit. 
@@ -800,15 +800,15 @@ J \ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \ten{ \t
 
 
 \subsubsection{Jaumann Stress Rates}
-Another important objective stress rate is the \hypertarget{Jaumann}{Jaumann-Zaremba rate}.  
+Another important objective stress rate is the \hypertarget{Jaumann}{Jaumann-Zaremba rate},
 \begin{equation}
-\ten{A}^{\nabla} = \dot{\ten{A}} - \ten{w} \cdot \ten{A} + \ten{A} \cdot \ten{w}
+\ten{A}^{\nabla} = \dot{\ten{A}} - \ten{w} \cdot \ten{A} + \ten{A} \cdot \ten{w} \, .
 \end{equation}
-It is essentially a simplification of the Truesdell stress, assuming only rigid-body rotation ($\ten{F} = \ten{R}$);  that is, the Truesdell and Jaumann rates of a stress are equivalent if $\ten{d} = \ten{0}$.  
+It is essentially a simplification of the Truesdell stress, assuming only rigid-body rotation ($\ten{F} = \ten{R}$);  that is, the Truesdell and Jaumann rates of a stress are equivalent if $\ten{d} = \ten{0}$, 
 \begin{align}
 \ten{\sigma}^{\nabla} ={}& \dot{\ten{\sigma}} - \ten{w} \cdot  \ten{\sigma} +  \ten{\sigma} \cdot \ten{w}
 \\
-\ten{ \tau}^{\nabla} ={}& \dot{\ten{\tau}} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} 
+\ten{ \tau}^{\nabla} ={}& \dot{\ten{\tau}} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} \, .
 \end{align}
 The Jaumann stress is used because it is easy to deal with, and leads to a symmetric tangent.  
 
@@ -826,9 +826,9 @@ The Jaumann stress is related to the Truesdell stress by:
 \notag \\
 ={}& \underbrace{ \dot{ \ten{\tau} } - \ten{w} \cdot \ten{\tau} + \ten{\tau} \cdot \ten{w} }_{ \ten{ \tau}^{\nabla} } - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}  
 \notag \\
-\ten{ \tau}^{\circ} ={}& \ten{ \tau}^{\nabla} - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}  
+\ten{ \tau}^{\circ} ={}& \ten{ \tau}^{\nabla} - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d} \, .
 \end{align}
- The four stress rates introduced here are related by: 
+The four stress rates introduced here are related by: 
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
 
@@ -898,7 +898,7 @@ which similarly has both minor symmetries but not necessarily major symmetry.
 \subsubsection{Jaumann Elasticity Tensor}
 The objective stress rate used by Abaqus is actually the \hyperlink{jaumann}{Jaumann} stress rate instead of the Truesdell stress rate, given by: 
 \begin{equation}
-{C}^{\scas{Abaqus}} = \frac{1}{J} \frac{\partial \Delta \left( J \ten{\sigma} \right)}{\partial \Delta \ten{\varepsilon}}
+{C}^{\scas{Abaqus}} = \frac{1}{J} \frac{\partial \Delta \left( J \ten{\sigma} \right)}{\partial \Delta \ten{\varepsilon}} \, .
 \end{equation}
 
 The format of the elasticity tensor can be found using the relationship between the two stress rates, 
@@ -991,13 +991,13 @@ and the mixed-domain tangent, defined as
 \begin{equation}
 \ten{P} = \frac{ \partial W_0 }{ \partial \ten{F} }
 \qquad \mbox{and} \qquad
-\tenf{A} = \frac{ \partial \ten{P} }{ \partial \ten{F} }
+\tenf{A} = \frac{ \partial \ten{P} }{ \partial \ten{F} } \, .
 \end{equation}
 These two quantities are related to their reference counterparts by 
 \begin{equation}
 \ten{P} = \ten{F} \cdot \ten{S} 
 \qquad \mbox{or} \qquad
-\ten{P} = \ten{F}_{iI} \ten{S}_{IJ}
+\ten{P} = \ten{F}_{iI} \ten{S}_{IJ} \, , 
 \end{equation}
 and
 \begin{equation}
@@ -1141,7 +1141,7 @@ W_0 = \frac{\lambda}{2} \ln^2 J + \frac{\mu}{2} \left[ I_1 - 3 - 2 \ln J \right]
 \end{equation}
 where $\lambda$ is the Lamé constant and $\mu$ is the shear modulus.
 
-The Cauchy stress is derived through the definition of the Second Piola-Kirchoff stress,
+The Cauchy stress is derived through the definition of the Second Piola-Kirchhoff stress,
 \begin{align}
 \ten{S} ={}& 2 \frac{\partial W_0}{\partial \ten{C}}  
 \\
@@ -1304,7 +1304,7 @@ It is easy to see that, in the absence of growth, $J^{\scas{g}} = 1$ and the two
 
 
 \subsection{Pushing Forward and Pulling Back}
-`Pushing forward' is an operation that converts a quantity from the reference to the deformed configuration, while `pulling back' is its opposite - an operation that reverts a quantity from the deformed to the reference configuration.  As shown in the figure above, the push forward generally uses the deformation gradient; to pull back, then, it is intuitive that the inverse of the deformation gradient is used.  
+`Pushing forward' is an operation that converts a quantity from the reference to the deformed configuration, while `pulling back' is its opposite: an operation that reverts a quantity from the deformed to the reference configuration.  As shown in the figure above, the push forward generally uses the deformation gradient; to pull back, then, it is intuitive that the inverse of the deformation gradient is used.  
 
 Push forwards and pull backs are also used to move between the three configurations of a growing material.  Thus, $\ten{F}^{\scas{g}}$ is used to move from the reference to the intermediate configuration, $\ten{F}^{\scas{e}}$ is used to move from the intermediate to deformed configurations, and their inverses are then used to move in the opposite direction. 
 
@@ -1316,7 +1316,7 @@ Note: this is a general rule of thumb or quick check, but is not intended as a f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The Clausius-Duhem, or dissipation, inequality is an expression of the second law of thermodynamics.  In the theory of finite growth \autocite{Goktepe2010,KuhlSteinmann2003}, the inequality takes the form of
 \begin{equation}
-\mathcal{D} = \ten{S} : \frac{1}{2} \dot{\ten{C}} - \dot{W_0} ( \ten{C}, \vartheta^{\scas{g}} ) - S_0 \geq 0 \, . 
+\mathcal{D} = \ten{S} : \frac{1}{2} \dot{\ten{C}} - \dot{W_0} ( \ten{C}, \vartheta^{\scas{g}} ) - S_0 \geq 0 \, , 
 \end{equation}
 where $\ten{S}$ is the second Piola-Kirchhoff stress and $S_0$ is a source term. 
 %or 
@@ -1445,7 +1445,7 @@ $\ten{S} (\ten{C}, \vartheta^{\scas{g}}) $. Thus the total derivative becomes a 
 \tenf{C} = 2 \frac{d \ten{S} (\ten{C}, \vartheta^{\scas{g}}) }{d \ten{C} } 
 = \underbrace{ 2 \left. \frac{ \partial \ten{S} (\ten{C}, \vartheta^{\scas{g}}) }{ \partial \ten{C} } \right|_{\vartheta^{\scas{g}}} }_{ \tenf{C}^{\scas{e}} } + \underbrace{ 2 \left. \frac{\partial \ten{S} (\ten{C}, \vartheta^{\scas{g}}) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C} } \otimes \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C} } }_{ \tenf{C}^{\scas{g}} } \, , 
 \end{equation}
-revealing two terms - the elastic tangent $\tenf{C}^{\scas{e}}$, in which growth is held constant, and the growth tangent $\tenf{C}^{\scas{g}}$, in which the total deformation is held constant.  
+revealing two terms: the elastic tangent $\tenf{C}^{\scas{e}}$, in which growth is held constant, and the growth tangent $\tenf{C}^{\scas{g}}$, in which the total deformation is held constant.  
 As shown previously in Chapter \ref{chap:const}, this Lagrangian tangent must be pushed forward to produce the Eulerian equivalent, and the geometric tangent must be added to produce the tangent required by Abaqus.  
 
 
@@ -1494,9 +1494,9 @@ and
 \cdots{}& \notag \\
 \left. \frac{ \partial \ten{C}^{\scas{e}}_{PQ} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
 ={}& \frac{1}{2} \left[ \ten{F}^{\scas{g}-1}_{KP} \ten{F}^{\scas{g}-1}_{LQ} 
-+ \ten{F}^{\scas{g}-1}_{LP} \ten{F}^{\scas{g}-1}_{KQ} \right] 
++ \ten{F}^{\scas{g}-1}_{LP} \ten{F}^{\scas{g}-1}_{KQ} \right] \, , 
 \end{align}
-while for convenience, we define the second term as the elastic tangent in the intermediate configuration,
+while, for convenience, we define the second term as the elastic tangent in the intermediate configuration,
 \begin{equation}
 \tenf{L}^{\scas{e}}_{MNPQ} = 2 \left. \frac{\partial \overline{\ten{S}}_{MN} }{\partial \ten{C}^{\scas{e}}_{PQ} } \right|_{\vartheta^{\scas{g}}} \, .
 \end{equation}
@@ -1733,7 +1733,7 @@ Elastic tangent:
 \\
 \tenf{C}^{\scas{e}}_{IJKL} ={}& J^{\scas{g}} \left[ \lambda \ten{C}^{-1}_{IJ} \ten{C}^{-1}_{KL} - \left[ \lambda \ln J^{\scas{e}} - \mu \right] \left[ \ten{C}^{-1}_{IK} \ten{C}^{-1}_{JL} + \ten{C}^{-1}_{IL} \ten{C}^{-1}_{JK} \right] \right]  
 \\
-\tenf{c}^{\scas{e}}_{ijkl} ={}& \frac{1}{J^{\scas{e}}} \Big[ \lambda \delta_{ij} \delta_{kl} - 2 \left[ \lambda \ln J^{\scas{e}} - \mu \right] \tenf{I}_{ijkl} \Big]
+\tenf{c}^{\scas{e}}_{ijkl} ={}& \frac{1}{J^{\scas{e}}} \Big[ \lambda \delta_{ij} \delta_{kl} - 2 \left[ \lambda \ln J^{\scas{e}} - \mu \right] \tenf{I}_{ijkl} \Big] \, .
 \end{align}
 Growth tangent:
 \begin{align}
@@ -1780,13 +1780,14 @@ Growth tangent:
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta}  \Bigg[ \Big[ \left[ \lambda \left[ \ln J^{\scas{e}} - 1 \right] \mu \right] \delta_{ij} + \mu \ten{b}^{\scas{e}}_{ij} \Big] \ten{F}^{\scas{g}-1}_{MN} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
 % \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
+\, .
 \end{align}
 
 Geometric tangent:
 \begin{align}
 \tenf{c}'_{ijkl} ={}& \frac{1}{2} \left[ \delta_{ik}\sigma_{jl} + \delta_{il}\sigma_{jk} + \delta_{jk}\sigma_{il} + \delta_{jl}\sigma_{ik} \right]  
 \\ \mbox{or} \qquad
-={}& \frac{\lambda}{J^{\scas{e}}} \left[ \delta_{ik} \delta_{jl} + \delta_{il} \delta_{jk} \right] + \frac{\mu}{2J} \left[ \delta_{ik} \ten{b}_{jl} + \delta_{il} \ten{b}_{jk} + \ten{b}_{ik} \delta_{jl} + \ten{b}_{il} \delta_{jk} \right]
+={}& \frac{\lambda}{J^{\scas{e}}} \left[ \delta_{ik} \delta_{jl} + \delta_{il} \delta_{jk} \right] + \frac{\mu}{2J} \left[ \delta_{ik} \ten{b}_{jl} + \delta_{il} \ten{b}_{jk} + \ten{b}_{ik} \delta_{jl} + \ten{b}_{il} \delta_{jk} \right] \, .
 \end{align}
 
 
@@ -1864,7 +1865,7 @@ with inverse and derivative
 \begin{equation}
 \ten{F}^{\scas{g}-1}_{\scas{iso}} = \frac{1}{\vartheta^{\scas{g}^{1/3}}} \ten{I}
 \qquad \mbox{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \, .
 \label{Fg_iso2}
 \end{equation}
 Note the one-third power on the growth variable; this is introduced to preserve the physical meaning of the growth variable as the amount of mass change, manifested as volume change, $\vartheta^{\scas{g}} = \det \ten{F}^{\scas{g}}$.
@@ -1878,7 +1879,7 @@ with inverse and derivative
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \ten{I} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{n}^0 \otimes \ten{n}^0  
 \qquad \mbox{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \ten{n}^0_M \otimes \ten{n}^0_N  \, , 
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \ten{n}^0_M \otimes \ten{n}^0_N  \, .
 \label{Fg_fiber2} 
 \end{equation}
 
@@ -1917,16 +1918,16 @@ Properties of these structural tensors, formed by the dyadic of two unit vectors
 \section{Growth Kinetics}
 \label{kinetics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Biological growth can be generally divided into morphogen-driven, or morphogenetic, growth, and mechanically-driven growth.  
+Biological growth can be generally divided into morphogen-driven, or morphogenetic, growth, and mechanically driven growth.  
 
-\subsection{Non-Mechanically-Coupled Growth}
-In morphogenetic growth, growth is caused by signaling molecules or `morphogens' \autocite{Taber1995}; practically, this means sometimes growth simply happens in [psuedo]time, without mechanical stimulus.  This is represented mathematically by an evolution equation for the growth without mechanical dependencies, such as
+\subsection{Non-Mechanically Coupled Growth}
+In morphogenetic growth, growth is caused by signaling molecules or `morphogens' \autocite{Taber1995}; practically, this means sometimes growth simply happens in [pseudo]time, without mechanical stimulus.  This is represented mathematically by an evolution equation for the growth without mechanical dependencies, such as
 $\dot{\vartheta}^{\scas{g}} = f(t)$ or $\vartheta^{\scas{g}} = f(c)$ , 
 where $t$ is the time, $c$ is some concentration, and $\dot{x}$ denotes the time derivative of a quantity $x$. 
 The two terms dependent on the growth criterion ($ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $ and $ \partial \phi^{\scas{g}} / \partial \ten{C} $) are zero in the absence of mechanical coupling.
 
 
-\subsection{Mechanically-Coupled Growth}
+\subsection{Mechanically Coupled Growth}
 Stretch- and stress-driven growth, unlike morphogenetic growth, have mechanical causes.  They are represented mathematically by an evolution equation, which dictates the growth rate in response to a certain mechanical stimulus.  The evolution equation is divided into two parts: the growth rate $k^{\scas{g}}$, and the growth criterion function $\phi^{\scas{g}}$,
 \begin{equation}
 \dot{\vartheta}^{\scas{g}} ( \vartheta^{\scas{g}}, \ten{\sigma}, \ten{C} ) = k^{\scas{g}} \left( \vartheta^{\scas{g}} \right) \phi^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{\sigma}, \ten{C} \right) \, . 
@@ -1948,7 +1949,7 @@ can include a maximum allowable amount of growth.
 \subsubsection{Growth Criterion}
 \label{subsec:crit}
 The growth criterion function $\phi^{\scas{g}}$ describes the conditions that must be satisfied for growth to take place.  
-In mechanically-driven growth, the growth criterion function contains the mechanics dependency, relating the mechanical state of the system to its desired, or homeostatic, state.  Many biological systems have the property of homeostasis, in which a quantity is regulated to be nearly constant; in the case of mechanical homeostasis, the system may be driven to minimize stress or maintain constant tension.  The growth criterion function effectively serves as a penalty function such that when the system is very far from homeostasis, the growth rate increases.  
+In mechanically driven growth, the growth criterion function contains the mechanics dependency, relating the mechanical state of the system to its desired, or homeostatic, state.  Many biological systems have the property of homeostasis, in which a quantity is regulated to be nearly constant; in the case of mechanical homeostasis, the system may be driven to minimize stress or maintain constant tension.  The growth criterion function effectively serves as a penalty function such that when the system is very far from homeostasis, the growth rate increases.  
 In the case of morphogen-driven growth, this may be a chemical concentration or a pseudotime at which growth will occur.  
 A common growth criterion is based on a critical maximum value of stretch or stress, activating growth only when this value is exceeded
 \begin{equation}
@@ -1990,7 +1991,7 @@ There are two terms dependent on the growth criterion: $ \left. \partial \phi^{\
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} = \left. \frac{\partial }{\partial \vartheta^{\scas{g}}} \left( \frac{\vartheta}{ \vartheta^{\scas{g}}} \right) \right|_{\tens{C}} = \vartheta \frac{\partial }{\partial \vartheta^{\scas{g}}} \left( \frac{1}{ \vartheta^{\scas{g}}} \right) = - \frac{\vartheta }{ \vartheta^{\scas{g}^2}} = - \frac{\vartheta^{\scas{e}} }{ \vartheta^{\scas{g}}} \, , 
 \label{growth_criterion_deriv}
 \end{equation}
-for any growth criterion function with a linear dependence on elastic stretch.  The other term, the third term of the growth tangent (see Section \ref{subsec:growth_tangent}), depends on the definition of stretch, which have derivatives
+for any growth criterion function with a linear dependence on elastic stretch.  The other term, the third term of the growth tangent (see Section \ref{subsec:growth_tangent}), depends on the definition of stretch, and has derivatives
 \begin{align}
 % % begin volume derivations
 % \left. \frac{ \partial \phi^{\scas{g}}_{\scas{vol}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}
@@ -2059,11 +2060,11 @@ Depending on the growth criterion, the value of $\vartheta^{\scas{e}}$ may be ch
 
 
 \subsection{Stress-Driven Growth}
-In stretch-driven growth, some stress measure defines the homeostatic state.  One common stress measure is the trace of the Mandel stress in the intermediate configuration, 
+In stress-driven growth, some stress measure defines the homeostatic state.  One common stress measure is the trace of the Mandel stress in the intermediate configuration, 
 \begin{equation}
 \phi = \mbox{tr} ( \overline{\ten{M}} ) \, , 
 \qquad \mbox{where} \qquad
-\overline{\ten{M}} = \ten{C}^{\scas{e}} \cdot \overline{\ten{S}} \, . 
+\overline{\ten{M}} = \ten{C}^{\scas{e}} \cdot \overline{\ten{S}} \, ,
 \label{def_Mandel}
 \end{equation}
 used for example in the modeling of an athlete's heart \autocite{Goktepe2010}.  The trace of the Mandel stress in the intermediate configuration is a good stress quantity because of its convenience in derivations and its physical meaning, as its trace is equal to the trace of the Kirchhoff stress, which has a meaning similar to pressure, 
@@ -2080,7 +2081,7 @@ There are two terms dependent on the growth criterion: $ \left. \partial \phi^{\
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
 = \left. \frac{\partial \left( \mbox{tr} (\overline{\ten{M}}) - \left\lbrace \mbox{tr} (\overline{\ten{M}} )\right\rbrace_{\scas{crit}} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
 = \left. \frac{\partial \overline{\ten{M}}_{II} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
-= \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \, . 
+= \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \, ,
 \end{equation}
 for any growth criterion function with a linear dependence on $\mbox{tr} ( \overline{\ten{M}} )$.  Using Eq. \ref{dSdFg}, this derivative is calculated as 
 \begin{align}
@@ -2249,7 +2250,7 @@ with inverse and derivative found in Eq. \ref{Fg_iso2},
 \begin{equation*}
 \ten{F}^{\scas{g}-1} = \vartheta^{\scas{g}^{-1/3}} \ten{I}
 \qquad \mbox{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \, .
 \end{equation*}
 The volume change is calculated from the determinant of the deformation tensor according to Eq. \ref{stretches}a,
 \begin{equation*}
@@ -2322,7 +2323,7 @@ Growth is driven by a stretch that differs from the homeostatic state, represent
 with derivative found in Eq. \ref{growth_criterion_deriv_length}
 \begin{equation*}
 \left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-= \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}_{kl} 
+= \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}_{kl} \, .
 \end{equation*}
 Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the Eulerian configuration for the logarithmic Neo-Hookean material model is
 \begin{align}
@@ -2477,7 +2478,7 @@ Thus, starting from Eq. \ref{neohook_growth_tangent}, the growth tangent in the 
 \section{Transversely Isotropic Stretch-Driven Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow transversely isotropically - that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta_g$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Eqs. \ref{Fg_fiber} and \ref{Fg_planar},
+This UMAT is used for materials that grow transversely isotropically --- that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta_g$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Eqs. \ref{Fg_fiber} and \ref{Fg_planar},
 \begin{equation}
 \ten{F}^{\scas{g}} = \sqrt{\vartheta^{\scas{g}}} \ten{I} + \left[ \lambda^{\scas{g}} - \sqrt{\vartheta^{\scas{g}}} \right] \ten{N}^0 \, , 
 \end{equation} 
@@ -2487,7 +2488,7 @@ with inverse and derivatives
 \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \lambda^{\scas{g}}} = \ten{N}^0_{MN} \, , wh
 \qquad \mbox{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, ,
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, .
 \end{equation}
 If $\vartheta^{\scas{g}}$ is constrained to remain 1, this simplifies to fiber growth.  If $\lambda^{\scas{g}}$ is constrained to be 1, this simplifies to in-plane growth.  
 Length and area stretches are calculated according to Eqs. \ref{stretches}b and c, respectively,
@@ -2500,7 +2501,7 @@ Growth is driven by stretches that differ from the homeostatic state, with both 
 \begin{equation*}
 \phi^{\lambda} = \left\langle \lambda^{\scas{e}} - \lambda_{\scas{crit}} \right\rangle 
 \qquad \mbox{and} \qquad 
-\phi^{\vartheta} = \left\langle \vartheta^{\scas{e}} - \vartheta_{\scas{crit}} \right\rangle 
+\phi^{\vartheta} = \left\langle \vartheta^{\scas{e}} - \vartheta_{\scas{crit}} \right\rangle \, , 
 \end{equation*}
 with derivatives found in Eqs. \ref{growth_criterion_deriv_length} and \ref{growth_criterion_deriv_area},
 \begin{equation*}
@@ -2524,7 +2525,7 @@ Thus we have, essentially, two growth tangents,
 \begin{equation}
 \tenf{C}^\lambda = 2 \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } : \left. \frac{\partial \ten{F}^{\scas{g}} }{\partial \lambda^{\scas{g}} } \right|_{\tens{C}} \otimes \frac{\partial \lambda^{\scas{g}} }{\partial \ten{C}} \, , 
 \qquad \mbox{and} \qquad 
-\tenf{C}^\vartheta = 2 \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } : \left. \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \otimes \frac{\partial  \vartheta^{\scas{g}} }{\partial \ten{C}}  
+\tenf{C}^\vartheta = 2 \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } : \left. \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \otimes \frac{\partial  \vartheta^{\scas{g}} }{\partial \ten{C}}  \, , 
 \end{equation}
 which are easily seen to be equivalent to the result from the one-variable cases.  Thus the growth tangents in the Eulerian configuration for the logarithmic Neo-Hookean material model are those found in Eqs. \ref{growth_tangent_area} and \ref{growth_tangent_fiber}, 
 \begin{align*}
@@ -2554,7 +2555,7 @@ with inverse and derivatives
 \qquad \mbox{and} \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}_{\scas{x}} } = \ten{X}^0_{MN} 
 \quad \mbox{where} \quad
-\sca{x} = \lbrace \sca{r}, \sca{s}, \sca{t} \rbrace
+\sca{x} = \lbrace \sca{r}, \sca{s}, \sca{t} \rbrace \, .
 \end{equation}
 Length stretch in each direction is calculated from the length of the deformed fiber in that direction according to Eqs. \ref{stretches}b, 
 \begin{equation*}
@@ -2597,7 +2598,7 @@ These are easily seen to be equivalent to the result from the one-variable case 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Isotropic Mandel-Stress Driven Growth}
+\section{Isotropic Mandel-Stress-Driven Growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 This UMAT is used for materials that grow isotropically in response to stress, as in the modeling of an athlete's heart \autocite{Goktepe2010}.  Based on the assumptions of isotropic growth, the growth tensor is that of Eq. \ref{Fg_iso},
@@ -2608,7 +2609,7 @@ with inverse and derivative found in Eq. \ref{Fg_iso2},
 \begin{equation*}
 \ten{F}^{\scas{g}-1} = \vartheta^{\scas{g}^{-1/3}} \ten{I}
 \qquad \mbox{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}
+\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \, .
 \end{equation*}
 Growth is driven by the trace of the Mandel stress in the intermediate configuration, defined in Eq. \ref{def_Mandel} as
 \begin{equation}
@@ -2619,7 +2620,7 @@ Growth is driven by the trace of the Mandel stress in the intermediate configura
 when it differs from the homeostatic state, represented by the growth criterion function in Eq. \ref{growth_criterion_Mandel},
 \begin{equation}
 \phi = \mbox{tr} ( \overline{\ten{M}} ) - \left\lbrace \mbox{tr} ( \overline{\ten{M}} ) \right\rbrace_{\scas{crit}} 
-= 3 \left[ \lambda \ln J^{\scas{e}} - \mu \right] + \mu \cdot \mbox{tr} \left( \ten{C}^{\scas{e}} \right)  - \left\lbrace \mbox{tr} ( \overline{\ten{M}} ) \right\rbrace_{\scas{crit}}\, . 
+= 3 \left[ \lambda \ln J^{\scas{e}} - \mu \right] + \mu \cdot \mbox{tr} \left( \ten{C}^{\scas{e}} \right)  - \left\lbrace \mbox{tr} ( \overline{\ten{M}} ) \right\rbrace_{\scas{crit}}\, ,
 \end{equation}
 with derivative found in Eq. \ref{growth_criterion_deriv_Mandel},
 \begin{equation*}
@@ -2734,7 +2735,7 @@ For coding purposes, the structural tensors of the undeformed and deformed elast
 \begin{equation}
 \ten{N}^0 = \ten{n}^0 \otimes \ten{n}^0 
 \qquad \mbox{and} \qquad 
-\ten{N} = \ten{n} \otimes \ten{n}
+\ten{N} = \ten{n} \otimes \ten{n} \, .
 \end{equation}
 Properties of orthogonal unit structural tensors include:
 \begin{align}
@@ -2751,13 +2752,13 @@ Properties of orthogonal unit structural tensors include:
 
 \section{Major and Minor Symmetry}
 \label{sec:symmetry}
-Fourth-order tensors can have major 
+Fourth-order tensors can have major, 
 \begin{equation}
-\tenf{A}_{IJKL} = \tenf{A}_{KLIJ} 
+\tenf{A}_{IJKL} = \tenf{A}_{KLIJ} \, , 
 \end{equation}
-and/or minor symmetries:
+and/or minor symmetries, 
 \begin{equation}
-\tenf{A}_{IJKL} = \tenf{A}_{JIKL} = \tenf{A}_{IJLK} 
+\tenf{A}_{IJKL} = \tenf{A}_{JIKL} = \tenf{A}_{IJLK} \, .
 \end{equation}
 Fourth-order tensors with minor symmetries can be written in Voigt notation as second-order tensors.  Tensors that also have major symmetries appear symmetric in Voigt notation.  
 
@@ -2796,7 +2797,7 @@ The derivative of a scalar-valued function $f ( \ten{X} )$ with respect to a ten
 \end{equation}
 It is defined as the tensor $f,_{\ten{X}}$ that satisfies the expression
 \begin{equation}
-\left. \frac{d}{d \varepsilon} f \left( \ten{X} + \varepsilon d\ten{X} \right) \right|_{\ten{\varepsilon}=0} = f,_{\ten{X}} : d \ten{X}
+\left. \frac{d}{d \varepsilon} f \left( \ten{X} + \varepsilon d\ten{X} \right) \right|_{\ten{\varepsilon}=0} = f,_{\ten{X}} : d \ten{X} 
 \end{equation}
 for all admissible variational tensors $d \ten{X}$. 
 
@@ -2844,7 +2845,7 @@ As expected, both expressions have all the major and minor symmetries.
 This distinction between derivatives of symmetric and non-symmetric tensors is important when using Voigt notation, as only tensors with minor symmetries can be represented in Voigt notation.  Thus, it is actually not possible to write derivatives of non-symmetric tensors (say, $\partial \ten{F} / \partial \ten{F}$) in Voigt notation.  For more information, see Section \ref{sec:symmetry}.
 
 \section{Symmetry and Growth in Abaqus}
-The elastic and geometric tangents have both major and minor symmetries in all configurations.  Non-growing materials, as well as morphogenetic and explicit growing models, do not have a growth tangent and therefore have all major and minor symmetrices.  
+The elastic and geometric tangents have both major and minor symmetries in all configurations.  Non-growing materials, as well as morphogenetic and explicit growing models, do not have a growth tangent and therefore have all major and minor symmetries.  
 The growth tangent has minor symmetries, but generally does not have major symmetry (so it is not symmetric in Voigt notation).  
 Because of this, the user-defined material declaration of many growing materials should specify that the Jacobian is unsymmetric, using the \texttt{unsymm} option with the \texttt{*User Material} keyword. 
 \begin{quote} 
@@ -2867,7 +2868,7 @@ However, this is actually unnecessary.  As detailed in the ``Matrix storage and 
 Abaqus user subroutines use Fortan 90/95.  
 
 \section{Case and Whitespace}
-Fortran is case-insenstive ($\mathtt{dfgrd1} = \mathtt{DFGRD1}$).  Whitespace (spaces) are also ignored beyond the significance of the reserved colums (see below).
+Fortran is case-insensitive ($\mathtt{dfgrd1} = \mathtt{DFGRD1}$).  Whitespace is also ignored beyond the significance of the reserved columns (see below).
 
 \begin{center}
 \emph{“Consistently separating words by spaces became a general custom about the tenth century A.D., \\ and lasted until about 1957, when FORTRAN abandoned the practice.” \\
@@ -3008,7 +3009,7 @@ For orthotropic growth, the growth tensor takes the form of
 \qquad \mbox{with} \qquad 
 \ten{F}^{\scas{g}-1} = \frac{1}{g_{\scas{a}}} \ten{A} + \frac{1}{g_{\scas{b}}} \ten{B} + \frac{1}{g_{\scas{c}}} \ten{C} 
 \qquad \mbox{and} \qquad 
-J^{\scas{g}} = g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}} \, .
+J^{\scas{g}} = g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}} \, ,
 \end{equation}
 where $\ten{A}$, $\ten{B}$, and $\ten{C}$ are structural tensors based on orthogonal vectors $\ten{a}$, $\ten{b}$, $\ten{c}$ (such that $\ten{X} = \ten{x} \otimes \ten{x}$).  
 For compression, we assume an orthogonal deformation gradient of the form
@@ -3032,7 +3033,7 @@ The stress in a compressible neo-Hookean material is given by
 \ten{\sigma} &= \frac{1}{J} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
 &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \ten{F}^{\scas{e}} \ten{F}^{\scas{eT}} \right] \\
 &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \cdot \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \right] \\
-&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right] 
+&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right]  \, .
 \end{align}
 For the stress in the directions of interest,
 \begin{align}
@@ -3040,17 +3041,17 @@ For the stress in the directions of interest,
 \\
 \ten{\sigma}_{\scas{B}} &= \ten{\sigma} : \ten{B} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] 
 \\
-\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - 1 \right] \right] 
+\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - 1 \right] \right]  \, .
 \end{align}
 The stress-free condition gives the relationship between the imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, and the variable $b$:
 \begin{align}
 \ten{\sigma}_{\scas{B}} &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] \\
-0 &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1 
+0 &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1  \, .
 \end{align}
 Given Lamé parameters $\lambda$ and $\mu$, imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, and growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, the parameter $b$ can be found using Newton-Rhapson iteration with 
 \begin{align}
 R &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1 \\
-K &= \frac{\lambda}{\mu} \frac{1}{b} + 2 \frac{b}{g_{\scas{b}}^2}
+K &= \frac{\lambda}{\mu} \frac{1}{b} + 2 \frac{b}{g_{\scas{b}}^2} \, .
 \end{align}
 
 \section{Incompressible Materials}
@@ -3059,7 +3060,7 @@ The stress in an incompressible neo-Hookean material is given by
 \ten{\sigma} &= \frac{1}{J} \left[ - p \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
 &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ - p \ten{I} + \mu \ten{F}^{\scas{e}} \ten{F}^{\scas{eT}} \right] \\
 &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \cdot \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \right] \\
-&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right] 
+&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right]  \, .
 \end{align}
 Applying the condition of incompressibility to the elastic deformation, the deformation in the unconstrained direction is found to be
 \begin{align}
@@ -3070,18 +3071,18 @@ b &= \frac{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}}{\lambda_{\scas{A}
 So the stress can be rewritten in terms of the loading parameters and pressure as
 \begin{align}
 \ten{\sigma} &= \frac{1}{\lambda_{\scas{A}} \cdot \lambda_{\scas{C}}} \frac{\lambda_{\scas{A}} \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{1}{g_{\scas{b}}^2} \frac{g_{\scas{a}}^2 \cdot g_{\scas{b}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right] \\
-&= \frac{1}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right] 
+&= \frac{1}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ - p \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right]  \, .
 \end{align}
 The stress-free condition gives the relationship between the imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, and the pressure $p$:
 \begin{align}
 \ten{\sigma}_{\scas{B}} &= \ten{\sigma} : \ten{B} \\
 0 &= \frac{1}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ - p + \mu \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \right] \\
-p &= \mu \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } 
+p &= \mu \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 }  \, .
 \end{align}
 The stress, given in terms only of the loading parameters, is now:
 \begin{align}
 \ten{\sigma} &= \frac{1}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ - \mu \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right] \\
-&= \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{I} \right] 
+&= \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \left[ \frac{\lambda_{\scas{A}}^2}{g_{\scas{a}}^2} \ten{A} + \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \ten{I} \right]  \, .
 \end{align}
 For the stress in the directions of interest,
 \begin{align}
@@ -3089,17 +3090,17 @@ For the stress in the directions of interest,
 \\
 \ten{\sigma}_{\scas{B}} &= \ten{\sigma} : \ten{B} = \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \right] = 0 
 \\
-\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \right] 
+\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{\mu}{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - \frac{g_{\scas{a}}^2 \cdot g_{\scas{c}}^2}{\lambda_{\scas{A}}^2 \cdot \lambda_{\scas{C}}^2 } \right]  \, .
 \end{align}
 
 \section{Calculating Plane Strain Compression Loading for a Given Stress}
-The plane-strain compressive loading that will produce a given axial stress, $S$, can be calculated for an incompressible material.
+The plane-strain compressive loading that will produce a given axial stress, $S$, can be calculated for an incompressible material,
 \begin{align}
 S &= \mu \left[ \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \right] \\
 \frac{S}{\mu} &= \lambda_{\scas{A}}^2 - \frac{1}{\lambda_{\scas{A}}^2 } \\
 0 &= 1 + \frac{S}{\mu} \lambda_{\scas{A}}^2 - \lambda_{\scas{A}}^4 \\
 \lambda_{\scas{A}} &= \frac{1}{\sqrt{2}} \sqrt{ \frac{S}{\mu} + \sqrt{ \left[ \frac{S}{\mu} \right]^2 + 4 } } \\
-\lambda_{\scas{A}} &= \sqrt{ \frac{S}{2 \mu} + \sqrt{ \left[ \frac{S}{ 2 \mu} \right] ^2 + 1 } } 
+\lambda_{\scas{A}} &= \sqrt{ \frac{S}{2 \mu} + \sqrt{ \left[ \frac{S}{ 2 \mu} \right] ^2 + 1 } }  \, .
 \end{align}
 
 
