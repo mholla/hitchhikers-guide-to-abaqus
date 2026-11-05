@@ -6,4 +6,11 @@
 *.blg
 *.lox
 *.out
+*.bcf
+*.fdb_latexmk
+*.fls
+*.run.xml
 .*
+2017*
+2025*
+2026*
