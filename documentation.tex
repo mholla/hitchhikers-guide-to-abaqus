@@ -2648,23 +2648,15 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 
 
 \section{Useful tensor derivatives}
-
+These derivatives apply for a non-symmetric tensor $\ten{A}$; for a symmetric tensor, see \autoref{sec:symmetry}.
 \begin{align}
-\frac{\partial \ten{A}}{\partial \ten{A}} ={}& \ten{I} \overline{\otimes} \ten{I} = \tenf{I}
-\qquad & \qquad
-\frac{\partial \ten{A}_{ij}}{\partial \ten{A}_{kl}} ={}& \delta_{ik} \delta_{jl}  
+\frac{\partial \ten{A}_{ij}}{\partial \ten{A}_{kl}} ={}& \delta_{ik} \delta_{jl}
 \\
-\frac{\partial \ten{A}^{\scas{T}}}{\partial \ten{A}} ={}& \ten{I} \underline{\otimes} \ten{I} = \tenf{I}^{\scas{T}} 
-\qquad & \qquad
 \frac{\partial \ten{A}_{ji}}{\partial \ten{A}_{kl}} ={}& \delta_{il} \delta_{jk}
 \\
-\frac{\partial \ten{A}^{-1}}{\partial \ten{A}} ={}& - \ten{A}^{-1} \overline{\otimes} \ten{A}^{-\scas{T}} 
-\qquad & \qquad
-\frac{\partial \ten{A}^{-1}_{ij}}{\partial \ten{A}_{kl}} ={}& - \ten{A}^{-1}_{ik} \ten{A}^{-1}_{lj} 
+\frac{\partial \ten{A}^{-1}_{ij}}{\partial \ten{A}_{kl}} ={}& - \ten{A}^{-1}_{ik} \ten{A}^{-1}_{lj}
 \\
-\frac{\partial \ten{A}^{-\scas{T}}}{\partial \ten{A}} ={}& - \ten{A}^{-\scas{T}} \underline{\otimes} \ten{A}^{-1} 
-\qquad & \qquad
-\frac{\partial \ten{A}^{-1}_{ji}}{\partial \ten{A}_{kl}} ={}& - \ten{A}^{-1}_{li} \ten{A}^{-1}_{jk} 
+\frac{\partial \ten{A}^{-1}_{ji}}{\partial \ten{A}_{kl}} ={}& - \ten{A}^{-1}_{li} \ten{A}^{-1}_{jk}
 \end{align}
 
 \paragraph{Derivatives of invariants}
