@@ -1147,7 +1147,7 @@ We most commonly use a different neo-Hookean model,
 \begin{equation}
 W_0 = \frac{\lambda}{2} \ln^2 J + \frac{\mu}{2} \left[ I_1 - 3 - 2 \ln J \right] \, ,
 \end{equation}
-where $\lambda$ is the Lamé constant and $\mu$ is the shear modulus.
+where $\lambda$ is the Lamé constant (written $L$ in the two places where $\lambda$ also denotes a stretch) and $\mu$ is the shear modulus.
 
 The Cauchy stress is derived through the definition of the Second Piola-Kirchhoff stress,
 \begin{align}
@@ -1332,7 +1332,7 @@ Note: this is a general rule of thumb or quick check, but is not intended as a f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thermodynamics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The Clausius-Duhem, or dissipation, inequality is an expression of the second law of thermodynamics.  In the theory of finite growth \autocite{KuhlSteinmann2003}, the inequality takes the form of\footnote{Note: in the paper, they use the variable $\Psi$ to represent the free energy per unit mass.  This can be translated into the variables used here by $\Psi = \frac{\overline{W}}{\varrho_0} = \frac{\overline{W}}{\rho/J^{\scas{g}}} = \frac{J^{\scas{g}} \overline{W}}{\rho_0} = \frac{W_0}{\rho_0}$}
+The Clausius-Duhem, or dissipation, inequality is an expression of the second law of thermodynamics.  In the theory of finite growth \autocite{KuhlSteinmann2003}, the inequality takes the form of\footnote{Note: in the paper, they use the variable $\Psi$ to represent the free energy per unit mass.  This can be translated into the variables used here by $\Psi = \frac{\overline{W}}{\varrho_0} = \frac{\overline{W}}{\rho_0/J^{\scas{g}}} = \frac{J^{\scas{g}} \overline{W}}{\rho_0} = \frac{W_0}{\rho_0}$}
 \begin{equation}
 \mathcal{D} 
 = \ten{S} : \frac{1}{2} \dot{\ten{C}} - \rho_0 \dot{\left( \frac{W_0}{\rho_0} \right) } - S_0 
@@ -1587,7 +1587,7 @@ For a growth evolution equation of the form
 \begin{equation}
 \dot{\vartheta}^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{C}^{\scas{e}} \right) = k^{\scas{g}} \left( \vartheta^{\scas{g}} \right) \phi^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{C}^{\scas{e}} \right) \, , 
 \end{equation}
-the last factor can be found to be
+with the residual $R^\vartheta = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t$ of the local Newton iteration and its tangent $K^\vartheta = \partial R^\vartheta / \partial \vartheta^{\scas{g}}$ (see \autoref{subsec:local_newton}), the last factor can be found to be
 \begin{align}
 \frac{\partial R^\vartheta}{\partial \ten{C}_{KL} } 
 ={}& \frac{\partial }{\partial \ten{C}_{KL} } \left( \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t \right) 
@@ -1657,27 +1657,27 @@ When there are multiple growth variables with different growth criteria, the der
 % \end{align}
 % With no summation on $i$, a single term is found by
 % \begin{equation*}
-% \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } = \left[ \left. \frac{\partial \dot{\ten{\vartheta}}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\ten{\vartheta}}^i}{\partial \ten{\vartheta}^j} \right|_{\tens{C}} \frac{\partial \ten{\vartheta}^j }{\partial \ten{C}_{KL} } \right] \Delta t \, . 
+% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } = \left[ \left. \frac{\partial \dot{\vartheta}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\vartheta}^i}{\partial \vartheta^j} \right|_{\tens{C}} \frac{\partial \vartheta^j }{\partial \ten{C}_{KL} } \right] \Delta t \, . 
 % \notag 
 % \end{equation*}
-As long as the two growth variables are uncoupled ($\partial \dot{\ten{\vartheta}}^i / \partial \ten{\vartheta}^j = 0$ for $i\neq j$),
+As long as the growth variables are uncoupled ($\partial \dot{\vartheta}^i / \partial \vartheta^j = 0$ for $i\neq j$),
 \begin{align}
-% \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } 
-% ={}& \left[ \left. \frac{\partial \dot{\ten{\vartheta}}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\ten{\vartheta}}^i}{\partial \ten{\vartheta}^i} \right|_{\tens{C}} \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } \right] \Delta t 
+% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
+% ={}& \left[ \left. \frac{\partial \dot{\vartheta}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\vartheta}^i}{\partial \vartheta^i} \right|_{\tens{C}} \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } \right] \Delta t 
 % \notag \\
-% \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } 
-% ={}& \left[ k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left[ k^i \left. \frac{\partial \phi^i }{\partial \ten{\vartheta}^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \ten{\vartheta}^i} \phi^i \right] \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } \right] \Delta t 
+% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
+% ={}& \left[ k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left[ k^i \left. \frac{\partial \phi^i }{\partial \vartheta^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \vartheta^i} \phi^i \right] \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } \right] \Delta t 
 % \notag \\
-% \left[ 1 - \left[ k^i \left. \frac{\partial \phi^i }{\partial \ten{\vartheta}^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \ten{\vartheta}^i} \phi^i \right] \right] \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } 
+% \left[ 1 - \left[ k^i \left. \frac{\partial \phi^i }{\partial \vartheta^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \vartheta^i} \phi^i \right] \right] \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
 % ={}& k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \Delta t 
 % \notag \\
-% K^i \frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } 
+% K^i \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
 % ={}& k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \Delta t 
 % \notag \\
-\frac{\partial \ten{\vartheta}^i }{\partial \ten{C}_{KL} } 
+\frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
 ={}& \frac{k^i \Delta t}{K^i} \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \, . 
 \end{align}
-The growth tangent is then the sum, over the growth variables, of the single-variable tangent of the previous subsection.
+The growth tangent is then the sum, over the growth variables, of the single-variable tangent above.
 Because $\ten{F}^{\scas{g}}$ depends on $\ten{C}$ only through the growth variables,
 \begin{equation}
 \tenf{C}^{\scas{g}}_{IJKL} = \sum_i 2 \left. \frac{\partial \ten{S}_{IJ}}{\partial \ten{F}^{\scas{g}}_{MN}} \right|_{\tens{C}} \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^i} \frac{\partial \vartheta^i}{\partial \ten{C}_{KL}} \, .
@@ -1767,7 +1767,7 @@ Growth tangent:
 \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 \label{neohook_growth_tangent}
 \\
-\tenf{c}^{\scas{g}} ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta } \Bigg[ \left[ J^{\scas{e}} \sigma - \lambda \mathbf{I} \right] \otimes \ten{F}^{\scas{g}-1} - \mu \Big[ \ten{F}^{\scas{e}} \overline{\otimes} \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] + \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] \overline{\otimes} \ten{F}^{\scas{e}} \Big] \Bigg] : \frac{ \partial \ten{F}^{\scas{g}} }{ \partial \vartheta^{\scas{g}} } \otimes \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\vartheta^{\scas{g}}} : \left[ \ten{F}^{\scas{T}} \overline{\otimes} \ten{F}^{\scas{T}} \right]
+\tenf{c}^{\scas{g}} ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta } \Bigg[ \left[ J^{\scas{e}} \sigma - \lambda \ten{I} \right] \otimes \ten{F}^{\scas{g}-1} - \mu \Big[ \ten{F}^{\scas{e}} \overline{\otimes} \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] + \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] \overline{\otimes} \ten{F}^{\scas{e}} \Big] \Bigg] : \frac{ \partial \ten{F}^{\scas{g}} }{ \partial \vartheta^{\scas{g}} } \otimes \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\vartheta^{\scas{g}}} : \left[ \ten{F}^{\scas{T}} \overline{\otimes} \ten{F}^{\scas{T}} \right]
 \notag 
 % % alternate form
 % \\
@@ -1846,7 +1846,7 @@ where Macaulay brackets yield a value of $ \langle x \rangle = x $ when $ x > 0$
 Other varieties include a critical minimum value, below which retraction is activated, which would result in a three-way controller \autocite{Dennerll1989}.  At one extreme, for very low values of the critical minimum and very high values of the critical maximum, this results in the absence of growth.  At the other extreme, for critical minimum and maximum values that are identical, this simplifies to a linear controller, 
 \begin{equation}
 \phi^{\scas{g}} = f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \, ,
-\end{equation}\
+\end{equation}
 which results in either growth or contraction unless $f = f_{\scas{crit}}$.
 
 \subsection{Stretch-driven growth}
@@ -1893,17 +1893,17 @@ The growth evolution equations are generally nonlinear, so it is often not possi
 \begin{equation}
 \dot{\vartheta}^{\scas{g}} = k^{\scas{g}} \phi^{\scas{g}} \approx{} \frac{\vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n }{\Delta t} \, , 
 \end{equation}
-and then solve the resulting equation by using a local Newton iteration to drive the residual $R$ to zero, 
+and then solve the resulting equation by using a local Newton iteration to drive the residual $R^\vartheta$ to zero, 
 \begin{equation}
-R = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - k^{\scas{g}} \phi^{\scas{g}} \Delta t \, , 
+R^\vartheta = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - k^{\scas{g}} \phi^{\scas{g}} \Delta t \, , 
 \end{equation}
 using the local tangent 
 \begin{equation}
-K = \frac{\partial R}{\partial \vartheta^{\scas{g}} } = 1 - \left[ \frac{\partial k^{\scas{g}}}{\partial \vartheta^{\scas{g}} } \phi^{\scas{g}} + k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \right] \Delta t \, . 
+K^\vartheta = \frac{\partial R^\vartheta}{\partial \vartheta^{\scas{g}} } = 1 - \left[ \frac{\partial k^{\scas{g}}}{\partial \vartheta^{\scas{g}} } \phi^{\scas{g}} + k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \right] \Delta t \, . 
 \end{equation}
 After each iteration, the trial value is updated by
 \begin{equation}
-\vartheta^{\scas{g}} \leftarrow \vartheta^{\scas{g}} - R / K \, .  
+\vartheta^{\scas{g}} \leftarrow \vartheta^{\scas{g}} - R^\vartheta / K^\vartheta \, .  
 \end{equation}
 
 
@@ -2205,7 +2205,7 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 \section{Transversely isotropic stretch-driven growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow transversely isotropically --- that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta_g$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Equations \ref{Fg_fiber} and \ref{Fg_planar},
+This UMAT is used for materials that grow transversely isotropically --- that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta^{\scas{g}}$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Equations \ref{Fg_fiber} and \ref{Fg_planar},
 \begin{equation}
 \ten{F}^{\scas{g}} = \sqrt{\vartheta^{\scas{g}}} \ten{I} + \left[ \lambda^{\scas{g}} - \sqrt{\vartheta^{\scas{g}}} \right] \ten{N}^0 \, , 
 \end{equation} 
@@ -2217,7 +2217,7 @@ with inverse and derivatives
 \qquad \text{and} \qquad
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, .
 \end{equation}
-If $\vartheta^{\scas{g}}$ is constrained to remain 1, this simplifies to fiber growth.  If $\lambda^{\scas{g}}$ is constrained to be 1, this simplifies to in-plane growth.  
+If $\vartheta^{\scas{g}}$ is constrained to remain 1, this simplifies to fiber growth.  If $\lambda^{\scas{g}}$ is constrained to be 1, this simplifies to in-plane growth.  In this section the Lamé constant is written $L$, because $\lambda$ denotes the fiber stretch.  
 Length and area stretches are calculated according to Equations \ref{stretches}b and c, respectively,
 \begin{equation*}
 \lambda = \sqrt{ \ten{N}^0 : \ten{C} } 
@@ -2284,11 +2284,11 @@ By writing the three growth variables and their evolution equations in vector fo
 \end{equation}
 the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of the single-variable tangents, one for each direction.  Thus the growth tangents in the Eulerian configuration are the same as the one found in \autoref{growth_tangent_fiber},
 \begin{equation}
-\tenf{c}^{\scas{g}}_{ijkl} = \sum_x^3 \tenf{c}^{\scas{x}}_{ijkl}
+\tenf{c}^{\scas{g}}_{ijkl} = \sum_{\scas{x} \in \lbrace \scas{r}, \scas{s}, \scas{t} \rbrace} \tenf{c}^{\scas{x}}_{ijkl}
 \qquad \text{where} \qquad
-\tenf{c}^{\scas{x}}_{ijkl} = \frac{k^{\scas{x}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta \vartheta^{\scas{x}^2} } 
-\left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \frac{2 \mu}{\vartheta^{\scas{x}^2}} \ten{N}_{ij} \right] 
-\ten{N}_{kl} \, . 
+\tenf{c}^{\scas{x}}_{ijkl} = \frac{k^{\scas{x}} \Delta t}{J^{\scas{e}} K^{\scas{x}} \vartheta_{\scas{x}} \left( \vartheta^{\scas{g}}_{\scas{x}} \right)^2 } 
+\left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \frac{2 \mu}{\left( \vartheta^{\scas{g}}_{\scas{x}} \right)^2} \ten{X}_{ij} \right] 
+\ten{X}_{kl} \, . 
 \end{equation}
 
 
@@ -2341,16 +2341,16 @@ for any growth criterion function with a linear dependence on $\text{tr} ( \over
 % and again
 =& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
 \end{align}
-This is typically used with isotropic growth, $\ten{F}^{\scas{g}} = \vartheta^{\scas{g} 1/3}$; in this case, $\dfrac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} } = \frac{1}{3} \vartheta^{\scas{g} -2/3} \delta_{MN}$.  In this case, 
+This is typically used with isotropic growth, $\ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}}$; in this case, $\dfrac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} } = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}$.  In this case, 
 \begin{align}
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
 =& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
 \notag \\
-=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \left[ \vartheta^{\scas{g}-1/3} \delta_{LN} \right] \left[ \frac{1}{3} \vartheta^{\scas{g} -2/3} \delta_{MN}  \right]
+=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \left[ \vartheta^{\scas{g}^{-1/3}} \delta_{LN} \right] \left[ \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}  \right]
 \notag \\
 =& - \frac{2}{3 \vartheta^{\scas{g}}}  \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KL} 
 \notag \\
-=& - \frac{1}{3 \vartheta^{\scas{g}}}  \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} \ten{C}^{\scas{e}}_{KL} + 2 {\rm tr} \ten{M} \right] 
+=& - \frac{1}{3 \vartheta^{\scas{g}}}  \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} \ten{C}^{\scas{e}}_{KL} + 2 \text{tr} ( \overline{\ten{M}} ) \right] 
 \end{align}
 
 For the logarithmic neo-Hookean material model, the trace of the Mandel stress in the intermediate configuration is 
@@ -2931,7 +2931,7 @@ For more information on Fortran, see the online \textit{GNU Fortran Notes} \auto
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The relationship between growth, compression, stress, and strain is not linear, but it is easy to derive \autocite{Holland2017}. 
+The relationship between growth, compression, stress, and strain is not linear, but it is easy to derive \autocite{Holland2017}.  Here $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$ are imposed stretches, so the Lamé constant is written $L$. 
 \\ \\ \noindent 
 For orthotropic growth, the growth tensor takes the form of 
 \begin{equation}
@@ -2960,28 +2960,28 @@ The unknown parameter $b$ is found by requiring that the surface normal to $\ten
 \section{Compressible materials}
 The stress in a compressible neo-Hookean material is given by 
 \begin{align}
-\ten{\sigma} &= \frac{1}{J} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
-&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \ten{F}^{\scas{e}} \ten{F}^{\scas{eT}} \right] \\
-&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \cdot \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \right] \\
-&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right]  \, .
+\ten{\sigma} &= \frac{1}{J} \left[ \left[ L \ln J^{\scas{e}} - \mu \right] \ten{I} + \mu \ten{b}^{\scas{e}} \right] \\
+&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \ten{F}^{\scas{e}} \ten{F}^{\scas{eT}} \right] \\
+&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \cdot \left[ \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C} \right] \right] \\
+&= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] - \mu \right] \ten{I} + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} \ten{A} + \frac{b^2}{g_{\scas{b}}^2} \ten{B} + \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} \ten{C} \right] \right]  \, .
 \end{align}
 For the stress in the directions of interest,
 \begin{align}
-\ten{\sigma}_{\scas{A}} &= \ten{\sigma} : \ten{A} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} - 1 \right] \right] 
+\ten{\sigma}_{\scas{A}} &= \ten{\sigma} : \ten{A} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{A}}^2 }{g_{\scas{a}}^2} - 1 \right] \right] 
 \\
-\ten{\sigma}_{\scas{B}} &= \ten{\sigma} : \ten{B} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] 
+\ten{\sigma}_{\scas{B}} &= \ten{\sigma} : \ten{B} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] 
 \\
-\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - 1 \right] \right]  \, .
+\ten{\sigma}_{\scas{C}} &= \ten{\sigma} : \ten{C} = \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{\lambda_{\scas{C}}^2}{g_{\scas{c}}^2} - 1 \right] \right]  \, .
 \end{align}
 The stress-free condition gives the relationship between the imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, and the variable $b$:
 \begin{align}
-\ten{\sigma}_{\scas{B}} &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ \lambda \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] \\
-0 &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1  \, .
+\ten{\sigma}_{\scas{B}} &= \frac{1}{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}}} \left[ L \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \mu \left[ \frac{b^2}{g_{\scas{b}}^2} - 1 \right] \right] \\
+0 &= \frac{L}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1  \, .
 \end{align}
-Given Lamé parameters $\lambda$ and $\mu$, imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, and growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, the parameter $b$ can be found using Newton-Rhapson iteration with 
+Given Lamé parameters $L$ and $\mu$, imposed stretches $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$, and growth parameters $g_{\scas{a}}$, $g_{\scas{b}}$, and $g_{\scas{c}}$, the parameter $b$ can be found using Newton-Rhapson iteration with 
 \begin{align}
-R &= \frac{\lambda}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1 \\
-K &= \frac{\lambda}{\mu} \frac{1}{b} + 2 \frac{b}{g_{\scas{b}}^2} \, .
+R &= \frac{L}{\mu} \ln \left[ \frac{\lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} }{g_{\scas{a}} \cdot g_{\scas{b}} \cdot g_{\scas{c}}} \right] + \frac{b^2}{g_{\scas{b}}^2} - 1 \\
+K &= \frac{L}{\mu} \frac{1}{b} + 2 \frac{b}{g_{\scas{b}}^2} \, .
 \end{align}
 
 \section{Incompressible materials}
