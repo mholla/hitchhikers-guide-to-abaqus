@@ -17,6 +17,7 @@
 \renewcommand{\subsectionautorefname}{Section}
 \renewcommand{\subsubsectionautorefname}{Section}
 \renewcommand{\sectionautorefname}{Section}
+\renewcommand{\equationautorefname}{Eq.} % equations print as "Eq. 5.1"
 \renewcommand{\appendixautorefname}{Appendix} % a \chapter inside the appendices prints "Appendix B"
 \usepackage[backend=biber,style=authoryear,autocite=inline]{biblatex}
 \addbibresource{references.bib}
@@ -806,8 +807,8 @@ J \ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \ten{ \t
 (Note: \textcite[Sec.~5.3]{Holzapfel} defines the Lie derivative of a spatial stress field to be the Oldroyd stress rate, and gives the same definition to the result.)  
 
 
-\subsubsection{Jaumann stress rates}
-Another important objective stress rate is the \hypertarget{Jaumann}{Jaumann-Zaremba rate},
+\subsubsection{Jaumann stress rates} \label{Jaumann}
+Another important objective stress rate is the Jaumann-Zaremba rate,
 \begin{equation}
 \ten{A}^{\nabla} = \dot{\ten{A}} - \ten{w} \cdot \ten{A} + \ten{A} \cdot \ten{w} \, .
 \end{equation}
@@ -903,7 +904,7 @@ which similarly has both minor symmetries but not necessarily major symmetry.
 
 
 \subsubsection{Jaumann elasticity tensor}
-The objective stress rate used by Abaqus is actually the \hyperlink{jaumann}{Jaumann} stress rate instead of the Truesdell stress rate, given by: 
+The objective stress rate used by Abaqus is actually the Jaumann stress rate (\autoref{Jaumann}) instead of the Truesdell stress rate, given by: 
 \begin{equation}
 {C}^{\scas{Abaqus}} = \frac{1}{J} \frac{\partial \Delta \left( J \ten{\sigma} \right)}{\partial \Delta \ten{\varepsilon}} \, .
 \end{equation}
@@ -1235,7 +1236,7 @@ Growth arises from the addition of mass in an open system; its opposite, shrinki
 This chapter lays out the basis of the theory of finite growth as generally applied to soft tissues such as the brain.  The fundamental assumptions of this theory are that i) soft tissues grow via a change in volume, in which ii) the added or removed material has the same density and other properties as the original tissue, and iii) homogeneous, unconstrained growth does not induce stress.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The three configurations of growth}
+\section{The three configurations of growth} \label{multiplicativedecomposition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The motion $\chi ( \ten{X} ) = \ten{x}$ relates the location of point $\ten{X}$ in the reference (also known as the undeformed or material) configuration to its location in some deformed (also known as spatial) configuration, $\ten{x}$.  The deformation gradient, $\ten{F} = \partial \chi ( \ten{X} ) / \partial \ten{X}$, relates undeformed and deformed vectors, $d \ten{X}$ and $d \ten{x}$, respectively.  In its role as a bridge between the two configurations, it is known as a two-point tensor, with a `leg' in both the material and spatial configurations.  This is evidenced by its indices, $F_{iJ}$, where by convention the spatial domain is characterized by lower-case letters and the material by capital letters.
@@ -1863,7 +1864,7 @@ After the desired stretch (fiber, length, or volume) is calculated, it is decomp
 \begin{equation}
 \vartheta = \vartheta^{\scas{e}} \vartheta^{\scas{g}} \, , 
 \end{equation}
-similar to the \hyperlink{multiplicative}{deformation gradient}. 
+similar to the deformation gradient (\autoref{multiplicativedecomposition}). 
 Thus, the elastic stretch can be calculated from
 \begin{equation}
 \vartheta^{\scas{e}} = \frac{\vartheta}{\vartheta^{\scas{g}}} \, . 
@@ -1873,7 +1874,7 @@ The growth criterion is some function of the elastic stretch, $\phi =  \phi \lef
 \phi^{\scas{g}} = \left\langle \vartheta^{\scas{e}} - \vartheta_{\scas{crit}} \right\rangle \, . 
 \label{growth_criterion}
 \end{equation}
-Based on the \hyperlink{multiplicative}{multiplicative decomposition} of the stretch into elastic and growth components, the derivative of the criterion with respect to the growth variable is always 
+Based on the multiplicative decomposition of the stretch into elastic and growth components, the derivative of the criterion with respect to the growth variable is always 
 \begin{equation}
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} = \left. \frac{\partial }{\partial \vartheta^{\scas{g}}} \left( \frac{\vartheta}{ \vartheta^{\scas{g}}} \right) \right|_{\tens{C}} = \vartheta \frac{\partial }{\partial \vartheta^{\scas{g}}} \left( \frac{1}{ \vartheta^{\scas{g}}} \right) = - \frac{\vartheta }{ \vartheta^{\scas{g}^2}} = - \frac{\vartheta^{\scas{e}} }{ \vartheta^{\scas{g}}} \, , 
 \label{growth_criterion_deriv}
@@ -2205,7 +2206,7 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 \section{Transversely isotropic stretch-driven growth}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This UMAT is used for materials that grow transversely isotropically --- that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta^{\scas{g}}$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Equations \ref{Fg_fiber} and \ref{Fg_planar},
+This UMAT is used for materials that grow transversely isotropically --- that is, independently in one plane and in the direction normal to that plane.  It is essentially a combination of fiber and planar growth, with those two growth models emerging as special cases of transverse isotropy.  Based on the assumption of independent growth in two directions (fiber and planar), the growth tensor is dependent on two independent growth variables - the fiber growth $\lambda^{\scas{g}}$ in the direction of $\ten{n}^0$ and the in-plane growth $\vartheta^{\scas{g}}$ in the plane tangent to $\ten{n}^0$ - and is seen to be a combination of the growth tensors in Eqs.~\ref{Fg_fiber} and \ref{Fg_planar},
 \begin{equation}
 \ten{F}^{\scas{g}} = \sqrt{\vartheta^{\scas{g}}} \ten{I} + \left[ \lambda^{\scas{g}} - \sqrt{\vartheta^{\scas{g}}} \right] \ten{N}^0 \, , 
 \end{equation} 
@@ -2218,7 +2219,7 @@ with inverse and derivatives
 \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, .
 \end{equation}
 If $\vartheta^{\scas{g}}$ is constrained to remain 1, this simplifies to fiber growth.  If $\lambda^{\scas{g}}$ is constrained to be 1, this simplifies to in-plane growth.  In this section the Lamé constant is written $L$, because $\lambda$ denotes the fiber stretch.  
-Length and area stretches are calculated according to Equations \ref{stretches}b and c, respectively,
+Length and area stretches are calculated according to Eq.~\ref{stretches}b and c, respectively,
 \begin{equation*}
 \lambda = \sqrt{ \ten{N}^0 : \ten{C} } 
 \qquad \text{and} \qquad 
@@ -2237,7 +2238,7 @@ By writing the two growth variables and their evolution equations in vector form
 \qquad \text{and} \qquad
 \dot{\ten{\vartheta} } = \begin{bmatrix} \dot{\vartheta}^{\scas{g}} \\ \dot{\lambda}^{\scas{g}} \end{bmatrix}  = \ten{k} \cdot \ten{\phi} = \begin{bmatrix} k^{\vartheta} \phi^{\vartheta} \\ k^{\lambda} \phi^{\lambda} \end{bmatrix} \, ,
 \end{equation}
-the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of the single-variable tangents, one for each growth variable.  Thus the growth tangents in the Eulerian configuration for the logarithmic neo-Hookean material model are those found in Equations \ref{growth_tangent_area} and \ref{growth_tangent_fiber},
+the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of the single-variable tangents, one for each growth variable.  Thus the growth tangents in the Eulerian configuration for the logarithmic neo-Hookean material model are those found in Eqs.~\ref{growth_tangent_area} and \ref{growth_tangent_fiber},
 \begin{align}
 \tenf{c}^{\lambda}_{ijkl} 
 ={}& \frac{k^{\lambda} \Delta t}{J^{\scas{e}} K^\lambda \lambda \lambda^{\scas{g}^2} } 
@@ -2948,7 +2949,7 @@ For compression, we assume an orthogonal deformation gradient of the form
 \qquad \text{with} \qquad 
 J = \lambda_{\scas{A}} \cdot b \cdot \lambda_{\scas{C}} \, , 
 \end{equation}
-where $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$ are imposed stretches in directions $\ten{a}$ and $\ten{c}$ and $b$ is an unknown deformation in the unconstrained direction, $\ten{b}$.  When combined with the \hyperlink{multiplicative}{multiplicative decomposition} ($ \ten{F}^{\scas{e}} = \ten{F} \cdot \ten{F}^{\scas{g}-1} $), the elastic component of deformation is found to be
+where $\lambda_{\scas{A}}$ and $\lambda_{\scas{C}}$ are imposed stretches in directions $\ten{a}$ and $\ten{c}$ and $b$ is an unknown deformation in the unconstrained direction, $\ten{b}$.  When combined with the multiplicative decomposition ($ \ten{F}^{\scas{e}} = \ten{F} \cdot \ten{F}^{\scas{g}-1} $), the elastic component of deformation is found to be
 \begin{align}
 \ten{F}^{\scas{e}} ={}& \left[ \lambda_{\scas{A}} \ten{A} + b \ten{B} + \lambda_{\scas{C}} \ten{C} \right] \cdot \left[ \frac{1}{g_{\scas{a}}} \ten{A} + \frac{1}{g_{\scas{b}}} \ten{B} + \frac{1}{g_{\scas{c}}} \ten{C} \right] = \frac{\lambda_{\scas{A}} }{g_{\scas{a}}} \ten{A} + \frac{b}{g_{\scas{b}}} \ten{B} + \frac{\lambda_{\scas{C}} }{g_{\scas{c}}} \ten{C}
 , 
