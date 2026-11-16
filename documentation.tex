@@ -349,7 +349,6 @@ The relationship between the basis vectors of two coordinate systems, $\ten{e}'_
 \end{align}
 where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (See \textcite[Sec.~1.5]{Holzapfel} for more information, where $\ten{R} = \ten{Q}$ in their notation).
 % % begin proof
-% proof of previous equation
 % \begin{align}
 % \ten{R} \cdot \ten{e}_i &= \left[ R_{jk} \ten{e}_j \otimes \ten{e}_k \right] \cdot \ten{e}'_i \\
 % \ten{R} \cdot \ten{e}_i &= R_{jk} \left[ \ten{e}_j \otimes \ten{e}_k \right] \cdot \ten{e}_i \\
@@ -985,7 +984,7 @@ and
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neo-Hookean constitutive model} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Hyperelastic materials are derived from a strain energy function (or strain energy function) that represents the energy density of a material as a function of strain (or temperature, etc.).  One of the simplest hyperelastic material models is the neo-Hookean, which is well-defined for an incompressible material but has many variations in compressibility.  
+Hyperelastic materials are derived from a strain energy function (or free energy function) that represents the energy density of a material as a function of strain (or temperature, etc.).  One of the simplest hyperelastic material models is the neo-Hookean, which is well-defined for an incompressible material but has many variations in compressibility.  
 
 \subsection{Abaqus' neo-Hookean constitutive model}
 Abaqus uses a different formulation of the neo-Hookean constitutive model, 
