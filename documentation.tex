@@ -163,7 +163,7 @@ I have done my best to accurately attribute my sources; if you find this documen
 
 User subroutines allow customization for particular purposes.  The available subroutines offer a variety of options, from specifying user-defined loading or initial conditions, to the creation of user-defined elements.  
 
-% Abaqus subroutines are written in Fortran, and interface with Abaqus via the line \texttt{INCLUDE ABA\_PARAM.INC}, which must be included in every subroutine as the first statement after the argument list.
+Abaqus subroutines are written in Fortran, and interface with Abaqus via the line \texttt{INCLUDE ABA\_PARAM.INC}, which must be included in every subroutine as the first statement after the argument list.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Variables}
@@ -224,15 +224,6 @@ The UHYPER subroutines define the strain energy of hyperelastic materials.  UHYP
 
 \emph{Defines:} strain energy density function and its derivatives
 
-
-% \subsection{UEXPAND}
-% The UEXPAND subroutine is used to define thermal strains that are dependent on temperature, predefined field variables, or state variables.  
-
-% \emph{Has access to:} time, temperature, SDVs
-
-% \emph{Defines:} thermal strains and their variation
-
-
 \subsection{UMAT}
 The UMAT subroutine is used to define the mechanical behavior of a material.  It can be used for nearly any constitutive model, including mechanical-thermal coupling.  It updates the solution-dependent state variables and provides the stress and material Jacobian matrix according to the constitutive model.  
 
@@ -240,13 +231,6 @@ The UMAT subroutine is used to define the mechanical behavior of a material.  It
 
 \emph{Defines:} stress and tangent
 
-
-% \subsection{UEL}
-% The UEL subroutine is the most high-level subroutine available within Abaqus.  By defining a user element, it is possible to define nearly everything while still using Abaqus' numerical solver.  One drawback of the UEL is that it is not possible to display results within Abaqus CAE.
-
-% \emph{Has access to:} ?
-
-% \emph{Defines:} ?
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,27 +258,6 @@ where $\ten{x}$, $\ten{y}$, and $\ten{z}$ are the local material directions.  On
 If local coordinate systems exist, values will be rotated to the current local coordinate system; see \autoref{subsec:orientation} for more information.  
 
 One drawback to this method is that these directions are not accessible to other post-processing programs like Tecplot or Paraview.  An inelegant workaround to this is to define the material coordinate system as a material property or a solution-dependent variable at each integration point. 
-
-
-% \subsection{HETVAL}
-% The \texttt{HETVAL} subroutine can be used to define a heat flux due to internal heat generation in a material, via dependence on solution-dependent state variables.  The variables to be defined are \texttt{FLUX(1)}, the heat flux, with units of energy per time per volume; and \texttt{FLUX(2)},  the rate of change of heat flux per temperature.
-
-% The solution-dependent state variables can be updated, but in a fully coupled temperature-displacement analysis, \texttt{UMAT} is called before \texttt{HETVAL}.
-
-
-% \subsection{SIGINI}
-% Definite initial stress field
-
-
-% \subsection{USDFLD}
-% Redefine field variables
-
-
-% \subsection{UFIELD}
-% Specify predefined field variables
-
-
-% \subsection{Matrix Operation Subroutines}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -385,7 +348,8 @@ The relationship between the basis vectors of two coordinate systems, $\ten{e}'_
 \ten{e}'_i = \ten{R} \cdot \ten{e}_i = R_{ji} \ten{e}_j \, , 
 \end{align}
 where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (See \textcite[Sec.~1.5]{Holzapfel} for more information, where $\ten{R} = \ten{Q}$ in their notation).
-% % proof of previous equation
+% % begin proof
+% proof of previous equation
 % \begin{align}
 % \ten{R} \cdot \ten{e}_i &= \left[ R_{jk} \ten{e}_j \otimes \ten{e}_k \right] \cdot \ten{e}'_i \\
 % \ten{R} \cdot \ten{e}_i &= R_{jk} \left[ \ten{e}_j \otimes \ten{e}_k \right] \cdot \ten{e}_i \\
@@ -393,6 +357,7 @@ where $R_{ij}$ are the $i,j$ components of tensor $\ten{R}$ in a given basis.  (
 % \ten{R} \cdot \ten{e}_i &= R_{jk} \ten{e}_j \delta_{ki} \\
 % \ten{R} \cdot \ten{e}_i &= R_{ji} \ten{e}_j 
 % \end{align} 
+% % end proof
 Thus for a vector $\ten{u}$, its components, $u_i$ and $u'_i$, in the two bases, $\lbrace \ten{e}_i \rbrace$ and $\lbrace \ten{e}'_i \rbrace$, respectively, are related by
 \begin{align}
 u_i &= \ten{u} \cdot \ten{e}_i = \ten{u} \cdot \ten{R}^{\scas{T}} \cdot \ten{e}'_i = \ten{u} \cdot \left[ R_{ij} \ten{e}'_j \right] = R_{ij} \ten{u} \cdot \ten{e}'_j = R_{ij} u'_j 
@@ -600,9 +565,6 @@ When Abaqus runs a job, it creates several files that contain valuable informati
 \item \textbf{.odb}: output database written during analysis and is read by the Visualization module in Abaqus/CAE.  It is the only file necessary for viewing results.
 \item \textbf{.sta}: status file.  Contains summaries of every increment, including the step time and number of attempts and iterations.
 \item \textbf{.lck}: lock file, which indicates the analysis is running.  When this file disappears, the analysis has ended.  It may remain after an interrupted analysis, and you will have to delete it before being able to reattempt the analysis.
-% \item \textbf{.par}:  Modified version of original parametrized input file showing input parameters and their values.
-% \item \textbf{.pes}:  Modified version of original parametrized input file showing input free of parameter information (after input parameter evaluation and substitution has been performed
-% \item \textbf{.pmg}:  Parameter evaluation and substitution message file.  It is written when the input file is parametrized
 \item \textbf{.prt}:  part file.  This file is used to store part and assembly information and is created even if the input file does not contain an assembly definition.
 \end{itemize}
 
@@ -616,8 +578,8 @@ If there is a floating point error, there is probably a division by zero somewhe
 User subroutines can write debug output to the printed output (\texttt{.dat}) file or the message (\texttt{.msg}) file. 
 
 
-% \section{Verifying Subroutines}
-% Before using a user-written subroutine, it should be verified on a one-element input file.  First run tests - uniaxial stretch, uniaxial with finite rotation, and finite shear - with all displacements prescribed to verify the integration algorithm for stresses and state variables.  Then run similar tests with prescribed loads to verify the accuracy of the Jacobian.  
+\section{Verifying Subroutines}
+Before using a user-written subroutine, it should be verified on a one-element input file.  First run tests - uniaxial stretch, uniaxial with finite rotation, and finite shear - with all displacements prescribed to verify the integration algorithm for stresses and state variables.  Then run similar tests with prescribed loads to verify the accuracy of the Jacobian.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -681,7 +643,7 @@ where the parameters are defined as
 \item $D_R = 1.0$.  Maximum ratio of time increment to stability limit for conditionally stable time integration procedures.
 \item $D_F = 0.95$.  Fraction of stability limit used as time increment when the proposed time limit exceeds the stability limit. 
 \end{itemize}
-% \texttt{inc=100000} option overrides the default number of iterations allowed by Abaqus; complex jobs will require this. 
+\texttt{inc=100000} option overrides the default number of iterations allowed by Abaqus; complex jobs will require this. 
 
 
 
@@ -709,9 +671,9 @@ Other strain measures are a \emph{function} of stretch,
 \end{equation}
 By expanding a Taylor series around the unstrained state, 
 \begin{equation}
-\epsilon = f \left( 1 \right) + \left[ \lambda - 1 \right] \frac{\partial f}{\partial \lambda} + \frac{1}{2} \left[ \lambda - 1 \right]^2 \frac{\partial^2 f}{\partial \lambda^2} + \cdots
+\epsilon = f \left( 1 \right) + \left[ \lambda - 1 \right] \frac{d f}{d \lambda} + \frac{1}{2} \left[ \lambda - 1 \right]^2 \frac{d^2 f}{d \lambda^2} + \cdots
 \end{equation}
-and requiring that $f \left( 1 \right) = 0$ (strain is zero in the unstretched state), $\partial f / \partial \lambda = 1$ when $\lambda = 1$ (so that small strain is defined as the change in length per unit length), and $\partial f / \partial \lambda > 0$ for all $\lambda$, several common strain measures can be derived:
+and requiring that $f \left( 1 \right) = 0$ (strain is zero in the unstretched state), $d f / d \lambda = 1$ when $\lambda = 1$ (so that small strain is defined as the change in length per unit length), and $d f / d \lambda > 0$ for all $\lambda$, several common strain measures can be derived:
 \begin{itemize}
 \item Nominal (Biot's) strain: $ f \left( \lambda \right) = \lambda - 1$
 \item Logarithmic strain: $ f \left( \lambda \right) = \ln \lambda$ 
@@ -751,6 +713,8 @@ The rate of deformation $\ten{d}$ can be shown to be the push forward of the tim
 
 \subsection{Stress rates}
 
+In this section, $\partial / \partial t$ (and the superposed dot) denotes the time derivative at fixed independent variable, which for Lagrangian fields of $(\ten{X}, t)$ is the material time derivative, while $D/Dt$ denotes the material time derivative of a spatial field of $(\ten{x}, t)$.
+
 \subsubsection{Truesdell stress rates}
 Tensorial quantities in solid mechanics, including stress and stress rates, must satisfy the criterion of objectivity, which means the quantities must remain unchanged regardless of the position of the observer.  The simplest objective stress rate is the Truesdell stress rate, $\ten{\sigma}^{\circ}$, which is the Piola transformation (push forward) of the time derivative of the Second Piola-Kirchhoff stress.  Using the expressions 
 \begin{equation}
@@ -770,39 +734,39 @@ the Truesdell stress rate of the Cauchy stress simplifies to
 \begin{align}
 \ten{\sigma}^{\circ } ={}& J^{-1} \ten{F} \cdot \left[ \frac{\partial }{\partial t} \ten{S} \right] \cdot \ten{F}^{\scas{T}}
 \\
-% % begin derivations
+% % % begin derivations
 % ={}& J^{-1} \ten{F} \cdot \left[ \frac{\partial }{\partial t} \left[ J \ten{F}^{-1} \cdot  \ten{\sigma} \cdot \ten{F}^{-\scas{T}} \right] \right] \cdot \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& J^{-1} \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \frac{\partial }{\partial t} (\ten{F}^{-1}) \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{\partial }{\partial t} (\ten{\sigma}) \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \frac{\partial }{\partial t} (\ten{F}^{-\scas{T}}) \right] \cdot \ten{F}^{\scas{T}}
+% ={}& J^{-1} \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \frac{\partial }{\partial t} (\ten{F}^{-1}) \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{D \ten{\sigma}}{D t} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \frac{\partial }{\partial t} (\ten{F}^{-\scas{T}}) \right] \cdot \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& J^{-1} \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{l} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \dot{\ten{\sigma}} \cdot \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{l}^{\scas{T}} \cdot \ten{F}^{-\scas{T}} \right] \cdot  \ten{F}^{\scas{T}}
+% ={}& J^{-1} \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{l} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{D \ten{\sigma}}{D t} \cdot \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{l}^{\scas{T}} \cdot \ten{F}^{-\scas{T}} \right] \cdot  \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& J^{-1} \dot{J} \ten{\sigma}  -  \ten{l} \cdot \ten{\sigma} + \dot{\ten{\sigma}} -  \ten{\sigma} \cdot \ten{l} ^{\scas{T}} 
+% ={}& J^{-1} \dot{J} \ten{\sigma}  -  \ten{l} \cdot \ten{\sigma} + \frac{D \ten{\sigma}}{D t} -  \ten{\sigma} \cdot \ten{l} ^{\scas{T}} 
 % \notag \\
-% % end derivations
+% % % end derivations
 \cdots{}& \notag \\
 \ten{\sigma}^{\circ } 
-={}& \dot{\ten{\sigma}} -  \ten{l} \cdot  \ten{\sigma} -  \ten{\sigma} \cdot \ten{l}^{\scas{T}} + \text{tr} (\ten{l}) \ten{\sigma} \, .
+={}& \frac{D \ten{\sigma}}{D t} -  \ten{l} \cdot  \ten{\sigma} -  \ten{\sigma} \cdot \ten{l}^{\scas{T}} + \text{tr} (\ten{l}) \ten{\sigma} \, .
 \end{align}
 The Truesdell rate of the Cauchy stress can also be interpreted as the Lie derivative of the Kirchhoff stress; that is, 
 \begin{align}
 J \ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \ten{ \tau}^{\circ} 
-% % begin derivations
+% % % begin derivations
 % ={}& \ten{F} \left[ \frac{\partial }{\partial t} \ten{S} \right] \ten{F}^{\scas{T}}
 % \notag \\
 % ={}& \ten{F} \cdot \left[ \frac{\partial }{\partial t} \left[ J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} \right] \right] \cdot \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \frac{\partial }{\partial t} (\ten{F}^{-1}) \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{\partial }{\partial t} (\ten{\sigma}) \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \frac{\partial }{\partial t} (\ten{F}^{-\scas{T}}) \right] \cdot \ten{F}^{\scas{T}}
+% ={}& \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \frac{\partial }{\partial t} (\ten{F}^{-1}) \cdot \ten{\sigma} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{D \ten{\sigma}}{D t} \cdot  \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \frac{\partial }{\partial t} (\ten{F}^{-\scas{T}}) \right] \cdot \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} -  J \ten{F}^{-1} \cdot \ten{l} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \dot{ \ten{\sigma} } \cdot \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{l}^{\scas{T}} \cdot \ten{F}^{-\scas{T}} \right] \cdot \ten{F}^{\scas{T}}
+% ={}& \ten{F} \cdot \left[ \dot{J} \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} -  J \ten{F}^{-1} \cdot \ten{l} \cdot \ten{\sigma} \cdot \ten{F}^{-\scas{T}} + J \ten{F}^{-1} \cdot \frac{D \ten{\sigma}}{D t} \cdot \ten{F}^{-\scas{T}} - J \ten{F}^{-1} \cdot \ten{\sigma} \cdot \ten{l}^{\scas{T}} \cdot \ten{F}^{-\scas{T}} \right] \cdot \ten{F}^{\scas{T}}
 % \notag \\
-% ={}& \dot{J} \ten{\sigma} -  J \ten{l} \cdot \ten{\sigma} + J \dot{ \ten{\sigma} } - J \ten{\sigma} \cdot \ten{l}^{\scas{T}}
+% ={}& \dot{J} \ten{\sigma} -  J \ten{l} \cdot \ten{\sigma} + J \frac{D \ten{\sigma}}{D t} - J \ten{\sigma} \cdot \ten{l}^{\scas{T}}
 % \notag \\
-% ={}& \underbrace{ \dot{J} \ten{\sigma} + J \dot{ \ten{\sigma} } }_{\dot{ \ten{\tau} } } -  J \ten{l} \cdot \ten{\sigma} - J \ten{\sigma} \cdot  \ten{l}^{\scas{T}} 
+% ={}& \underbrace{ \dot{J} \ten{\sigma} + J \frac{D \ten{\sigma}}{D t} }_{\frac{D \ten{\tau}}{D t} } -  J \ten{l} \cdot \ten{\sigma} - J \ten{\sigma} \cdot  \ten{l}^{\scas{T}} 
 % \notag \\
-% % end derivations
+% % % end derivations
 = \cdots{} 
-= \dot{ \ten{\tau} } - \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} \, . 
+= \frac{D \ten{\tau}}{D t} - \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} \, . 
 \end{align} 
 (Note: \textcite[Sec.~5.3]{Holzapfel} defines the Lie derivative of a spatial stress field to be the Oldroyd stress rate, and gives the same definition to the result.)  
 
@@ -810,13 +774,13 @@ J \ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \ten{ \t
 \subsubsection{Jaumann stress rates} \label{Jaumann}
 Another important objective stress rate is the Jaumann-Zaremba rate,
 \begin{equation}
-\ten{A}^{\nabla} = \dot{\ten{A}} - \ten{w} \cdot \ten{A} + \ten{A} \cdot \ten{w} \, .
+\ten{A}^{\nabla} = \frac{D \ten{A}}{D t} - \ten{w} \cdot \ten{A} + \ten{A} \cdot \ten{w} \, .
 \end{equation}
 It is essentially a simplification of the Truesdell stress, assuming only rigid-body rotation ($\ten{F} = \ten{R}$);  that is, the Truesdell and Jaumann rates of a stress are equivalent if $\ten{d} = \ten{0}$, 
 \begin{align}
-\ten{\sigma}^{\nabla} ={}& \dot{\ten{\sigma}} - \ten{w} \cdot  \ten{\sigma} +  \ten{\sigma} \cdot \ten{w}
+\ten{\sigma}^{\nabla} ={}& \frac{D \ten{\sigma}}{D t} - \ten{w} \cdot  \ten{\sigma} +  \ten{\sigma} \cdot \ten{w}
 \\
-\ten{ \tau}^{\nabla} ={}& \dot{\ten{\tau}} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} \, .
+\ten{ \tau}^{\nabla} ={}& \frac{D \ten{\tau}}{D t} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} \, .
 \end{align}
 The Jaumann stress is used because it is easy to deal with, and leads to a symmetric tangent.  
 
@@ -824,15 +788,15 @@ The Jaumann stress is used because it is easy to deal with, and leads to a symme
 \subsubsection{Relations between stress rates}
 The Jaumann stress is related to the Truesdell stress by: 
 \begin{align}
-\ten{ \tau}^{\circ} ={}& \dot{ \ten{\tau} } -  \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} 
+\ten{ \tau}^{\circ} ={}& \frac{D \ten{\tau}}{D t} -  \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} 
 \\
-={}& \dot{ \ten{\tau} } - \left[ \ten{d} + \ten{w} \right] \cdot \ten{\tau} - \ten{\tau} \cdot \left[ \ten{d} + \ten{w} \right]^{\scas{T}} 
+={}& \frac{D \ten{\tau}}{D t} - \left[ \ten{d} + \ten{w} \right] \cdot \ten{\tau} - \ten{\tau} \cdot \left[ \ten{d} + \ten{w} \right]^{\scas{T}} 
 \notag \\
-={}& \dot{ \ten{\tau} } - \ten{d} \cdot \ten{\tau} - \ten{w} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}^{\scas{T}} - \ten{\tau} \cdot \ten{w}^{\scas{T}} 
+={}& \frac{D \ten{\tau}}{D t} - \ten{d} \cdot \ten{\tau} - \ten{w} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}^{\scas{T}} - \ten{\tau} \cdot \ten{w}^{\scas{T}} 
 \notag \\
-={}& \dot{ \ten{\tau} } - \ten{d} \cdot \ten{\tau} - \ten{w} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d} + \ten{\tau} \cdot \ten{w} 
+={}& \frac{D \ten{\tau}}{D t} - \ten{d} \cdot \ten{\tau} - \ten{w} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d} + \ten{\tau} \cdot \ten{w} 
 \notag \\
-={}& \underbrace{ \dot{ \ten{\tau} } - \ten{w} \cdot \ten{\tau} + \ten{\tau} \cdot \ten{w} }_{ \ten{ \tau}^{\nabla} } - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}  
+={}& \underbrace{ \frac{D \ten{\tau}}{D t} - \ten{w} \cdot \ten{\tau} + \ten{\tau} \cdot \ten{w} }_{ \ten{ \tau}^{\nabla} } - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d}  
 \notag \\
 \ten{ \tau}^{\circ} ={}& \ten{ \tau}^{\nabla} - \ten{d} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{d} \, .
 \end{align}
@@ -841,10 +805,10 @@ The four stress rates introduced here are related by:
 \pgfsetlayers{background,main}
 
 \begin{center} \begin{tikzpicture}[start chain=going below]
-    \node [input, fill=white] (sigT) {$\ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\sigma} \right) = \dot{\ten{\sigma}} -  \ten{l} \cdot \ten{\sigma} -  \ten{\sigma} \cdot \ten{l} ^{\scas{T}} + \text{tr} (\ten{l}) \ten{\sigma} $ };
-    \node [input, fill=white, right=3cm of sigT] (sigJ) {$\ten{\sigma}^{\nabla} = \dot{\ten{\sigma}} - \ten{w} \cdot \ten{\sigma} +  \ten{\sigma} \cdot \ten{w}$};
-    \node [input, fill=white, below=3cm of sigJ] (tauJ) {$\ten{\tau}^{\nabla} = \dot{\ten{\tau}} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} $};
-    \node [input, fill=white, below=3cm of sigT] (tauT) {$\ten{\tau}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \dot{ \ten{\tau} } -  \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} $};
+    \node [input, fill=white] (sigT) {$\ten{\sigma}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\sigma} \right) = \frac{D \ten{\sigma}}{D t} -  \ten{l} \cdot \ten{\sigma} -  \ten{\sigma} \cdot \ten{l} ^{\scas{T}} + \text{tr} (\ten{l}) \ten{\sigma} $ };
+    \node [input, fill=white, right=3cm of sigT] (sigJ) {$\ten{\sigma}^{\nabla} = \frac{D \ten{\sigma}}{D t} - \ten{w} \cdot \ten{\sigma} +  \ten{\sigma} \cdot \ten{w}$};
+    \node [input, fill=white, below=3cm of sigJ] (tauJ) {$\ten{\tau}^{\nabla} = \frac{D \ten{\tau}}{D t} - \ten{w} \cdot \ten{\tau} +  \ten{\tau} \cdot \ten{w} $};
+    \node [input, fill=white, below=3cm of sigT] (tauT) {$\ten{\tau}^{\circ} = \mathcal{L}_{\phi} \left( \ten{\tau} \right) = \frac{D \ten{\tau}}{D t} -  \ten{l} \cdot \ten{\tau} - \ten{\tau} \cdot \ten{l}^{\scas{T}} $};
     \draw [lineR] (sigT) to node [yshift=0.5cm] {$\ten{\sigma}^{\nabla} = \left. \ten{\sigma}^{\circ} \right|_{\tens{d} = 0} $ } (sigJ);
     \draw [lineR] (tauT) to node [yshift=-0.5cm] {$\ten{\tau}^{\nabla} = \left. \ten{\tau}^{\circ} \right|_{\tens{d} = 0} $ } (tauJ);
     \draw [lineR] (sigT) to node [xshift=-1.0cm] {$\ten{\tau}^{\circ} = J \ten{\sigma}^{\circ} $ } (tauT);
@@ -859,9 +823,9 @@ Tangents relate the change in stress (or stress rate) to the change in strain (o
 \subsubsection{Lagrangian elasticity tensor}
 The Lagrangian elasticity tensor or tangent arises from the linearization of the stress, 
 \begin{align}
-D \ten{S}_{IJ} ={}& \left. \frac{\partial }{\partial \varepsilon} \left( \ten{S}_{IJ} \Big( \ten{E} (\ten{u} + \varepsilon \ten{\delta u} ) \Big) \right) \right|_{\tens{\varepsilon} = 0} 
+D \ten{S}_{IJ} ={}& \left. \frac{d }{d \varepsilon} \left( \ten{S}_{IJ} \Big( \ten{E} (\ten{u} + \varepsilon \ten{\delta u} ) \Big) \right) \right|_{\tens{\varepsilon} = 0} 
 \\
-={}& \frac{ \partial \ten{S}_{IJ} }{ \partial \ten{E}_{KL} } \left. \frac{\partial }{\partial \varepsilon} \ten{E}_{KL} (\ten{u} + \varepsilon \ten{\delta u} ) \right|_{\tens{\varepsilon} = 0} 
+={}& \frac{ \partial \ten{S}_{IJ} }{ \partial \ten{E}_{KL} } \left. \frac{d }{d \varepsilon} \ten{E}_{KL} (\ten{u} + \varepsilon \ten{\delta u} ) \right|_{\tens{\varepsilon} = 0} 
 \notag \\
 ={}& \frac{ \partial \ten{S}_{IJ} }{ \partial \ten{E}_{KL} }  D \ten{E}_{KL} (\ten{u} ) 
 \notag \\
@@ -959,6 +923,7 @@ which relates the volume-normalized Jaumann rate of the Kirchhoff stress to the 
 \begin{equation}
 \frac{1}{J} \ten{\tau}^{\nabla } = \tenf{c}^\text{Abaqus} : \ten{d} \, .
 \end{equation}
+% % begin proof
 % This can be confirmed: 
 % \begin{align}
 % \tenf{c}^\text{Abaqus}_{ijkl} ={}& \frac{1}{J} \frac{ \partial \ten{\tau}^{\nabla }_{ij} } { \partial \ten{d}_{kl} } 
@@ -992,6 +957,7 @@ which relates the volume-normalized Jaumann rate of the Kirchhoff stress to the 
 % \\
 % \tenf{c}^\text{Abaqus} ={}& \tenf{c} + \frac{1}{2} \left[ \ten{I} \overline{\otimes} \ten{\sigma}  + \ten{I} \underline{\otimes} \ten{\sigma}  +  \ten{\sigma} \underline{\otimes} \ten{I} + \ten{\sigma} \overline{\otimes} \ten{I} \right] 
 % \end{align}
+% % end proof
 
 
 \subsubsection{Mixed formulation}
@@ -1341,11 +1307,10 @@ The Clausius-Duhem, or dissipation, inequality is an expression of the second la
 \geq 0 \, , 
 \end{equation}
 where $\ten{S}$ is the Second Piola-Kirchhoff stress and $S_0$ is a source term. 
-%or a=
-%\begin{equation}
-%\mathcal{D} = \ten{\tau} : \ten{d} - \frac{d}{dt} (\rho \psi ) - S_0 \geq 0
-%\end{equation}
-% in the spatial configuration.
+Alternately, in the spatial configuration, 
+\begin{equation}
+\mathcal{D} = \ten{\tau} : \ten{d} - \frac{d}{dt} (\rho \psi ) - S_0 \geq 0 \, .
+\end{equation}
 It can be evaluated 
 \begin{align}
 \mathcal{D} ={}& \frac{1}{2} \ten{S}_{IJ} \dot{\ten{C}}_{IJ} - \dot{W_0} ( \ten{C}, \ten{F}^{\scas{g}} ) + \frac{W_0}{\rho_0} \dot{\rho}_0 - S_0 \geq 0
@@ -1432,7 +1397,7 @@ Thus the dissipation can be written as
 \ten{L}^{\scas{g}}_{KL} - S_0 \geq 0
 \end{align}
 where we introduce the growth velocity gradient, $\ten{L}^{\scas{g}} = \dot{\ten{F}}^{\scas{g}} \cdot \ten{F}^{\scas{g}-1}$, and define the Mandel stress tensor in the intermediate configuration, $\overline{\ten{M}} = \ten{C}^{\scas{e}} \cdot \overline{\ten{S}} $.
-% The extra WI comes from the change in grown volume, and the factor converts per-grown-volume to per-reference-volume.
+The extra $W \ten{I}$ comes from the change in grown volume, and the factor converts per-grown-volume to per-reference-volume.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Stress}
@@ -1445,6 +1410,7 @@ The Cauchy stress, which is used in many finite element programs, is defined as 
 \end{equation}
 or 
 \begin{align}
+% % begin derivations
 % \ten{\sigma}_{ij} ={}& \frac{1}{J} \ten{F}_{iI} \ten{S}_{IJ} \ten{F}_{jJ}
 % \\
 % ={}& \frac{1}{J} \ten{F}_{iI} \left[ 2 \left. \frac{\partial W_0 ( \ten{C}, \ten{F}^{\scas{g}}) }{\partial \ten{C}_{IJ}} \right|_{\tens{F}^{\scas{g}}} \right] \ten{F}_{jJ}  
@@ -1468,6 +1434,7 @@ or
 % % from symmetry
 % ={}& \frac{1}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iK} \overline{\ten{S}}_{KL} \ten{F}^{\scas{e}}_{jL} 
 % \\
+% % end derivations
 \ten{\sigma} ={}& \frac{1}{J^{\scas{e}}} \ten{F}^{\scas{e}} \cdot \overline{\ten{S}} \cdot \ten{F}^{\scas{eT}} \, .
 \end{align}
 
@@ -1478,7 +1445,7 @@ Tangents, or elasticity tensors, relate changes in stress (or stress rate) to th
 $\ten{S} (\ten{C}, \ten{F}^{\scas{g}}) $. Thus the total derivative becomes a sum of partial derivative, 
 \begin{equation}
 \tenf{C} = 2 \frac{d \ten{S} (\ten{C}, \ten{F}^{\scas{g}}) }{d \ten{C} } 
-= \underbrace{ 2 \left. \frac{ \partial \ten{S} (\ten{C}, \ten{F}^{\scas{g}}) }{ \partial \ten{C} } \right|_{\tens{F}^{\scas{g}}} }_{ \tenf{C}^{\scas{e}} } + \underbrace{ 2 \left. \frac{\partial \ten{S} (\ten{C}, \ten{F}^{\scas{g}}) }{\partial \ten{F}^{\scas{g}}} \right|_{\tens{C} } : \frac{ \partial \ten{F}^{\scas{g}} }{ \partial \vartheta^{\scas{g}} } \otimes \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C} } }_{ \tenf{C}^{\scas{g}} } \, , 
+= \underbrace{ 2 \left. \frac{ \partial \ten{S} (\ten{C}, \ten{F}^{\scas{g}}) }{ \partial \ten{C} } \right|_{\tens{F}^{\scas{g}}} }_{ \tenf{C}^{\scas{e}} } + \underbrace{ 2 \left. \frac{\partial \ten{S} (\ten{C}, \ten{F}^{\scas{g}}) }{\partial \ten{F}^{\scas{g}}} \right|_{\tens{C} } : \frac{ d \ten{F}^{\scas{g}} }{ d \vartheta^{\scas{g}} } \otimes \frac{ d \vartheta^{\scas{g}} }{ d \ten{C} } }_{ \tenf{C}^{\scas{g}} } \, , 
 \end{equation}
 revealing two terms: the elastic tangent $\tenf{C}^{\scas{e}}$, in which growth is held constant, and the growth tangent $\tenf{C}^{\scas{g}}$, in which the total deformation is held constant.  
 As shown previously in \autoref{chap:const}, this Lagrangian tangent must be pushed forward to produce the Eulerian equivalent, and the geometric tangent must be added to produce the tangent required by Abaqus.  
@@ -1555,19 +1522,10 @@ which is actually equivalent to pushing the intermediate elastic tangent forward
 \label{subsec:growth_tangent}
 The growth term of the tangent measures the change in stress in response to the change in growth, while the total deformation remains constant, 
 \begin{align}
-\tenf{C}^{\scas{g}} =& 2 \left. \frac{\partial \ten{S} \left( \overline{\ten{S}}, \ten{F}^{\scas{g}} \right)}{\partial \ten{F}^{\scas{g}} } \right|_{\tens{C}} : \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \otimes \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C} } 
+\tenf{C}^{\scas{g}} =& 2 \left. \frac{\partial \ten{S} \left( \overline{\ten{S}}, \ten{F}^{\scas{g}} \right)}{\partial \ten{F}^{\scas{g}} } \right|_{\tens{C}} : \frac{d \ten{F}^{\scas{g}} }{d \vartheta^{\scas{g}}} \otimes \frac{ d \vartheta^{\scas{g}} }{ d \ten{C} } 
 \notag \\
-% =& 2 \left[ \left. \frac{\partial \ten{S} }{\partial \overline{\ten{S}} } \right|_{\tens{F}^{\scas{g}}} : \left. \frac{\partial \overline{\ten{S}} }{\partial \ten{F}^{\scas{g}} } \right|_{\tens{C}} + \left. \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } \right|_{\overline{\tens{S}}} \right] : \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \otimes \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C} } 
-% % \begin{itemize}
-% % \item First term: \autoref{dSdSbar}
-% % \item Second term: derivation below
-% % \item third term: \autoref{dSdFg}
-% % \item fourth term: depends on form of Fg
-% % \item fifth term: depends on growth kinetics
-% % \end{itemize}
-% \notag \\
 =& 2 \left[ \left. \frac{\partial \ten{S} }{\partial \overline{\ten{S}} } \right|_{\tens{F}^{\scas{g}}} : \left. \frac{\partial \overline{\ten{S}} }{\partial \ten{C}^{\scas{e}} } \right|_{\tens{F}^{\scas{g}}} : \left. \frac{\partial \ten{C}^{\scas{e}} }{\partial \ten{F}^{\scas{g}} } \right|_{\tens{C}} 
-+ \left. \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } \right|_{\overline{\tens{S}}} \right] : \frac{\partial \ten{F}^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \otimes \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C} } \, .  
++ \left. \frac{\partial \ten{S} }{\partial \ten{F}^{\scas{g}} } \right|_{\overline{\tens{S}}} \right] : \frac{d \ten{F}^{\scas{g}} }{d \vartheta^{\scas{g}}} \otimes \frac{ d \vartheta^{\scas{g}} }{ d \ten{C} } \, .  
 \label{growth_tangent}
 \end{align}
 The growth tangent is highly dependent on both the elastic material response and the growth model.
@@ -1575,16 +1533,16 @@ The growth tangent is highly dependent on both the elastic material response and
 Several of the terms in \autoref{growth_tangent} are derived elsewhere; the factors in the first term are \autoref{dSdSbar}, \autoref{Le}, \autoref{congruenceFg}, respectively, while the second term is \autoref{dSdFg}
 \begin{align}
 \tenf{C}^{\scas{g}}_{IJKL} =& \left[ \left. \frac{\partial \ten{S}_{IJ} }{\partial \overline{\ten{S}}_{AB} } \right|_{\tens{F}^{\scas{g}}} \left. 2 \frac{\partial \overline{\ten{S}}_{AB} }{\partial \ten{C}^{\scas{e}}_{CD} } \right|_{\tens{F}^{\scas{g}}} \left. \frac{\partial \ten{C}^{\scas{e}}_{CD} }{\partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}} 
-+ 2 \left. \frac{\partial \ten{S}_{IJ} }{\partial \ten{F}^{\scas{g}}_{MN} } \right|_{\overline{\tens{S}}} \right] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C}_{KL} } 
++ 2 \left. \frac{\partial \ten{S}_{IJ} }{\partial \ten{F}^{\scas{g}}_{MN} } \right|_{\overline{\tens{S}}} \right] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \frac{ d \vartheta^{\scas{g}} }{ d \ten{C}_{KL} } 
 \notag \\
 % substitutions
 =& \Bigg[ - \frac{1}{2} J^{\scas{g}} \left[ \ten{F}^{\scas{g}-1}_{IA} \ten{F}^{\scas{g}-1}_{BJ} + \ten{F}^{\scas{g}-1}_{IB} \ten{F}^{\scas{g}-1}_{AJ} \right] \tenf{L}^{\scas{e}}_{ABCD} \frac{1}{2} \left[ \ten{C}^{\scas{e}}_{CM} \ten{F}^{\scas{g}-1}_{DN} + \ten{C}^{\scas{e}}_{CN} \ten{F}^{\scas{g}-1}_{DM} + \ten{C}^{\scas{e}}_{ND} \ten{F}^{\scas{g}-1}_{CM} + \ten{C}^{\scas{e}}_{MD} \ten{F}^{\scas{g}-1}_{CN} \right]
 \notag \\ 
-&+ 2 \left[ \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \frac{1}{2} \left[ \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} + \ten{S}_{IN} \ten{F}^{\scas{g}-1}_{JM} + \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{S}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right]  \right] \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C}_{KL} } 
+&+ 2 \left[ \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \frac{1}{2} \left[ \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} + \ten{S}_{IN} \ten{F}^{\scas{g}-1}_{JM} + \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{S}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right]  \right] \Bigg] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \frac{ d \vartheta^{\scas{g}} }{ d \ten{C}_{KL} } 
 \notag \\
 % symmetry (Fg is symmetric, and Le has both minor symmetries)
 =& 2 \Bigg[ - J^{\scas{g}}  \ten{F}^{\scas{g}-1}_{IA} \ten{F}^{\scas{g}-1}_{BJ} \tenf{L}^{\scas{e}}_{ABCD} \ten{C}^{\scas{e}}_{CM} \ten{F}^{\scas{g}-1}_{DN}
-+ \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} - \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \frac{ \partial \vartheta^{\scas{g}} }{ \partial \ten{C}_{KL} } 
++ \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} - \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \frac{ d \vartheta^{\scas{g}} }{ d \ten{C}_{KL} } 
 \end{align}
 
 The second-to-last factor is completely dependent on the exact form of the growth tensor $\ten{F}^{\scas{g}}$.  
@@ -1593,33 +1551,33 @@ For a growth evolution equation of the form
 \begin{equation}
 \dot{\vartheta}^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{C}^{\scas{e}} \right) = k^{\scas{g}} \left( \vartheta^{\scas{g}} \right) \phi^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{C}^{\scas{e}} \right) \, , 
 \end{equation}
-with the residual $R^\vartheta = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t$ of the local Newton iteration and its tangent $K^\vartheta = \partial R^\vartheta / \partial \vartheta^{\scas{g}}$ (see \autoref{subsec:local_newton}), the last factor can be found to be
+with the residual $R^\vartheta = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t$ of the local Newton iteration and its tangent $K^\vartheta = \left. \partial R^\vartheta / \partial \vartheta^{\scas{g}} \right|_{\tens{C}}$ (see \autoref{subsec:local_newton}), the last factor can be found to be
 \begin{align}
-\frac{\partial R^\vartheta}{\partial \ten{C}_{KL} } 
-={}& \frac{\partial }{\partial \ten{C}_{KL} } \left( \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t \right) 
+\frac{d R^\vartheta}{d \ten{C}_{KL} } 
+={}& \frac{d }{d \ten{C}_{KL} } \left( \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - \dot{\vartheta}^{\scas{g}} \Delta t \right) 
 \notag \\
 0 
-={}& \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } - \frac{\partial \dot{\vartheta}^{\scas{g}} }{\partial \ten{C}_{KL} } \Delta t 
+={}& \frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } - \frac{d \dot{\vartheta}^{\scas{g}} }{d \ten{C}_{KL} } \Delta t 
 \notag \\
-\frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } 
+\frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } 
 ={}& \left[ \left. \frac{\partial \dot{\vartheta}^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \left. \frac{\partial \dot{\vartheta}^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } \right] \Delta t 
 \notag \\
-\frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } 
-={}& \left[ \left. \frac{ \partial ( k^{\scas{g}} \phi^{\scas{g}} ) }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \left. \frac{ \partial ( k^{\scas{g}} \phi^{\scas{g}} ) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } \right] \Delta t
+\frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } 
+={}& \left[ \left. \frac{ \partial ( k^{\scas{g}} \phi^{\scas{g}} ) }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \left. \frac{ \partial ( k^{\scas{g}} \phi^{\scas{g}} ) }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} \frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } \right] \Delta t
 \notag \\
-\frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } 
-={}& k^{\scas{g}} \left. \frac{ \partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \Delta t + \left[ k^{\scas{g}} \left. \frac{ \partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} + \frac{ \partial k^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \phi^{\scas{g}} \right] \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } \Delta t
+\frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } 
+={}& k^{\scas{g}} \left. \frac{ \partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \Delta t + \left[ k^{\scas{g}} \left. \frac{ \partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} + \frac{ d k^{\scas{g}} }{d \vartheta^{\scas{g}}} \phi^{\scas{g}} \right] \frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } \Delta t
 \notag \\
-\left[ 1 - \left[ k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} + \frac{\partial k^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \phi^{\scas{g}} \right] \Delta t \right] \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} }  
+\left[ 1 - \left[ k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} + \frac{d k^{\scas{g}} }{d \vartheta^{\scas{g}}} \phi^{\scas{g}} \right] \Delta t \right] \frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} }  
 ={}& k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \Delta t 
 \notag \\
-K^\vartheta \frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } 
+K^\vartheta \frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } 
 ={}& k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \Delta t 
 \notag \\
-\frac{\partial \vartheta^{\scas{g}} }{\partial \ten{C}_{KL} } 
+\frac{d \vartheta^{\scas{g}} }{d \ten{C}_{KL} } 
 ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \, , 
 \end{align}
-where $\partial \phi^{\scas{g}} / \partial \ten{C}$ is obviously dependent on the choice of growth criterion, $\phi^{\scas{g}}$.  Note that the function $k^{\scas{g}}$ can be changed easily, as only its derivative $ \partial k^{\scas{g}} / \partial \vartheta^{\scas{g}}$ is needed for the local Newton iteration, while $\phi^{\scas{g}}$ appears in the tangent as $\left. \partial \phi^{\scas{g}} / \partial \ten{C}^{\scas{e}} \right|_{\tens{F}^{\scas{g}}}$.
+where $\partial \phi^{\scas{g}} / \partial \ten{C}$ is obviously dependent on the choice of growth criterion, $\phi^{\scas{g}}$.  Note that the function $k^{\scas{g}}$ can be changed easily, as only its derivative $ d k^{\scas{g}} / d \vartheta^{\scas{g}}$ is needed for the local Newton iteration, while $\phi^{\scas{g}}$ appears in the tangent as $\left. \partial \phi^{\scas{g}} / \partial \ten{C}\right|_{\tens{F}^{\scas{g}}}$.
 
 The Lagrangian growth tangent $\tenf{C}^{\scas{g}}$ is then pushed forward to the spatial domain to get the Eulerian growth tangent,
 \begin{align}
@@ -1628,67 +1586,38 @@ The Lagrangian growth tangent $\tenf{C}^{\scas{g}}$ is then pushed forward to th
 \\
 % % begin derivations
 % ={}& \frac{2}{J} \Bigg[ - J^{\scas{g}} \ten{F}^{\scas{g}-1}_{IA} \ten{F}^{\scas{g}-1}_{BJ} \tenf{L}^{\scas{e}}_{ABCD} \ten{C}^{\scas{e}}_{CM} \ten{F}^{\scas{g}-1}_{DN} \notag \\ & \hspace{0.5cm}
-% + \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} - \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \frac{k^{\scas{g}} \Delta t}{K^\vartheta} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{iI} \ten{F}_{jJ} \ten{F}_{kK} \ten{F}_{lL} 
+% + \ten{S}_{IJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{S}_{IM} \ten{F}^{\scas{g}-1}_{JN} - \ten{S}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \frac{k^{\scas{g}} \Delta t}{K^\vartheta} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{iI} \ten{F}_{jJ} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % % distribute 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J K^\vartheta} \Bigg[ - J^{\scas{g}} \ten{F}_{iI} \ten{F}^{\scas{g}-1}_{IA} \ten{F}_{jJ} \ten{F}^{\scas{g}-1}_{BJ} \tenf{L}^{\scas{e}}_{ABCD} \ten{C}^{\scas{e}}_{CM} \ten{F}^{\scas{g}-1}_{DN} \notag \\ & \hspace{1cm}
-% + \ten{F}_{iI} \ten{S}_{IJ} \ten{F}_{jJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{F}_{iI} \ten{S}_{IM} \ten{F}_{jJ} \ten{F}^{\scas{g}-1}_{JN} - \ten{F}_{jJ} \ten{S}_{NJ} \ten{F}_{iI} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
+% + \ten{F}_{iI} \ten{S}_{IJ} \ten{F}_{jJ} \ten{F}^{\scas{g}-1}_{MN} - \ten{F}_{iI} \ten{S}_{IM} \ten{F}_{jJ} \ten{F}^{\scas{g}-1}_{JN} - \ten{F}_{jJ} \ten{S}_{NJ} \ten{F}_{iI} \ten{F}^{\scas{g}-1}_{IM} \Bigg] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
 % \notag \\
 % % simplify 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J K^\vartheta} \Bigg[ - J^{\scas{g}} \ten{F}^{\scas{e}}_{iA} \ten{F}^{\scas{e}}_{jB} \tenf{L}^{\scas{e}}_{ABCD} \ten{C}^{\scas{e}}_{CM} \ten{F}^{\scas{g}-1}_{DN} \notag \\ & \hspace{1cm}
-% + J \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \ten{F}_{iI} \ten{S}_{IM} \ten{F}^{\scas{e}}_{jN} - \ten{F}_{jJ} \ten{S}_{NJ} \ten{F}^{\scas{e}}_{iM} \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
+% + J \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \ten{F}_{iI} \ten{S}_{IM} \ten{F}^{\scas{e}}_{jN} - \ten{F}_{jJ} \ten{S}_{NJ} \ten{F}^{\scas{e}}_{iM} \Bigg] \frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
 % \notag \\
 % % get more Fes (use symmetry of Fg, identity) 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \Bigg[ - \frac{1}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iA} \ten{F}^{\scas{e}}_{jB} \tenf{L}^{\scas{e}}_{ABCD} \ten{F}^{\scas{e}}_{xC} \ten{F}^{\scas{e}}_{xP} \ten{F}^{-1}_{Qy} \ten{F}^{\scas{e}}_{yD} \notag \\ & \hspace{1cm}
-% + \sigma_{ij} \ten{F}^{\scas{g}-1}_{PQ} - \frac{1}{J} \left[ \ten{F}_{iI} \ten{S}_{IM} \left[ \ten{F}_{mM} \ten{F}^{-1}_{Pm} \right] \ten{F}^{\scas{e}}_{jQ} + \left[ \ten{F}^{-1}_{Qn} \ten{F}_{nN} \right] \ten{S}_{NJ} \ten{F}_{jJ} \ten{F}^{\scas{e}}_{iP} \right] \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{PQ} }{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
+% + \sigma_{ij} \ten{F}^{\scas{g}-1}_{PQ} - \frac{1}{J} \left[ \ten{F}_{iI} \ten{S}_{IM} \left[ \ten{F}_{mM} \ten{F}^{-1}_{Pm} \right] \ten{F}^{\scas{e}}_{jQ} + \left[ \ten{F}^{-1}_{Qn} \ten{F}_{nN} \right] \ten{S}_{NJ} \ten{F}_{jJ} \ten{F}^{\scas{e}}_{iP} \right] \Bigg] \frac{d \ten{F}^{\scas{g}}_{PQ} }{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
 % \notag \\
 % % end derivations
 \cdots{}& \notag \\
 % convert to c^e
 ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \Bigg[ - \tenf{c}^{\scas{e}}_{ijxy} \ten{F}^{\scas{e}}_{xP} \ten{F}^{-1}_{Qy} 
-+ \sigma_{ij} \ten{F}^{\scas{g}-1}_{PQ} - \sigma_{im} \ten{F}^{-1}_{Pm} \ten{F}^{\scas{e}}_{jQ} - \sigma_{nj} \ten{F}^{-1}_{Qn} \ten{F}^{\scas{e}}_{iP} \Bigg] \frac{\partial \ten{F}^{\scas{g}}_{PQ} }{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
++ \sigma_{ij} \ten{F}^{\scas{g}-1}_{PQ} - \sigma_{im} \ten{F}^{-1}_{Pm} \ten{F}^{\scas{e}}_{jQ} - \sigma_{nj} \ten{F}^{-1}_{Qn} \ten{F}^{\scas{e}}_{iP} \Bigg] \frac{d \ten{F}^{\scas{g}}_{PQ} }{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
 \end{align}
 
 \subsubsection{Multiple growth variables}\label{subsec:multi_growth}
 When there are multiple growth variables with different growth criteria, the derivation of this term is similar, but generalized to a vector.  
-% It also begins with the residual from the local Newton iteration,   
-% \begin{align}
-% \frac{\partial \ten{R} }{\partial \ten{C}_{KL} } 
-% ={}& \frac{\partial }{\partial \ten{C}_{KL} } \left( \ten{\vartheta} - \ten{\vartheta}_n - \dot{\ten{\vartheta}} \Delta t \right) 
-% \notag \\
-% 0 
-% ={}& \frac{\partial \ten{\vartheta} }{\partial \ten{C}_{KL} } - \frac{\partial \dot{\ten{\vartheta}} }{\partial \ten{C}_{KL} } \Delta t 
-% \notag \\
-% \frac{\partial \ten{\vartheta} }{\partial \ten{C}_{KL} } 
-% ={}& \left[ \left. \frac{\partial \dot{\ten{\vartheta}} }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta}} + \left. \frac{\partial \dot{\ten{\vartheta}}}{\partial \ten{\vartheta}} \right|_{\tens{C}} \cdot \frac{\partial \ten{\vartheta} }{\partial \ten{C}_{KL} } \right] \Delta t \, .
-% \notag 
-% \end{align}
-% With no summation on $i$, a single term is found by
-% \begin{equation*}
-% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } = \left[ \left. \frac{\partial \dot{\vartheta}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\vartheta}^i}{\partial \vartheta^j} \right|_{\tens{C}} \frac{\partial \vartheta^j }{\partial \ten{C}_{KL} } \right] \Delta t \, . 
-% \notag 
-% \end{equation*}
-As long as the growth variables are uncoupled ($\partial \dot{\vartheta}^i / \partial \vartheta^j = 0$ for $i\neq j$),
-\begin{align}
-% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
-% ={}& \left[ \left. \frac{\partial \dot{\vartheta}^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left. \frac{\partial \dot{\vartheta}^i}{\partial \vartheta^i} \right|_{\tens{C}} \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } \right] \Delta t 
-% \notag \\
-% \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
-% ={}& \left[ k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } + \left[ k^i \left. \frac{\partial \phi^i }{\partial \vartheta^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \vartheta^i} \phi^i \right] \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } \right] \Delta t 
-% \notag \\
-% \left[ 1 - \left[ k^i \left. \frac{\partial \phi^i }{\partial \vartheta^i} \right|_{\tens{C}} + \frac{\partial k^i }{\partial \vartheta^i} \phi^i \right] \right] \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
-% ={}& k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \Delta t 
-% \notag \\
-% K^i \frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
-% ={}& k^i \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \Delta t 
-% \notag \\
-\frac{\partial \vartheta^i }{\partial \ten{C}_{KL} } 
-={}& \frac{k^i \Delta t}{K^i} \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \, . 
-\end{align}
+As long as the growth variables are uncoupled ($\left. \partial \dot{\vartheta}^i / \partial \vartheta^j \right|_{\tens{C}} = 0$ for $i\neq j$),
+\begin{equation}
+\frac{d \vartheta^i }{d \ten{C}_{KL} } 
+= \frac{k^i \Delta t}{K^i} \left. \frac{\partial \phi^i }{\partial \ten{C}_{KL} } \right|_{\tens{\vartheta} } \, . 
+\end{equation}
 The growth tangent is then the sum, over the growth variables, of the single-variable tangent above.
 Because $\ten{F}^{\scas{g}}$ depends on $\ten{C}$ only through the growth variables,
 \begin{equation}
-\tenf{C}^{\scas{g}}_{IJKL} = \sum_i 2 \left. \frac{\partial \ten{S}_{IJ}}{\partial \ten{F}^{\scas{g}}_{MN}} \right|_{\tens{C}} \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^i} \frac{\partial \vartheta^i}{\partial \ten{C}_{KL}} \, .
+\tenf{C}^{\scas{g}}_{IJKL} = \sum_i 2 \left. \frac{\partial \ten{S}_{IJ}}{\partial \ten{F}^{\scas{g}}_{MN}} \right|_{\tens{C}} \left. \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^i} \right|_{\vartheta^{j \neq i}} \frac{d \vartheta^i}{d \ten{C}_{KL}} \, .
 \end{equation}
 Each term has the form of the single-variable result, with $\vartheta^{\scas{g}}$, $k^{\scas{g}}$, $K^\vartheta$ and $\phi^{\scas{g}}$ replaced by $\vartheta^i$, $k^i$, $K^i$ and $\phi^i$, so the Eulerian growth tangent is the sum of the corresponding single-variable Eulerian tangents.
 
@@ -1748,46 +1677,35 @@ Growth tangent:
 ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \left[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} 
 - \frac{1}{J} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}_{jA} \ten{S}_{NA} + \ten{F}_{iA} \ten{F}^{\scas{e}}_{jN} \ten{S}_{AM} \right]
 - \tenf{c}^{\scas{e}}_{ijmn} \ten{F}^{\scas{e}}_{mM} \ten{F}^{-1}_{Nn} \right] 
-\frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 \notag \\
 % % begin derivations
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \Bigg[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \frac{1}{J^{\scas{e}}} \Big[ \lambda \delta_{ij} \delta_{mn} - \left[ \lambda \ln J^{\scas{e}} - \mu \right] \left[ \delta_{im} \delta_{jn} + \delta_{in} \delta_{jm} \right] \Big ] \ten{F}^{\scas{e}}_{mM} \ten{F}^{-1}_{Nn} \notag \\ & \hspace{1cm}
 % - \frac{1}{J} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}_{jA} J^{\scas{g}} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{C}^{-1}_{NA} + \mu \ten{F}^{\scas{g}-1}_{NB} \ten{F}^{\scas{g}-1}_{BA} \right] 
 % + \ten{F}_{iA} \ten{F}^{\scas{e}}_{jN} J^{\scas{g}} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{C}^{-1}_{AM} + \mu \ten{F}^{\scas{g}-1}_{AB} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \Bigg] \notag \\ & \hspace{1cm}
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \Bigg[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \frac{1}{J^{\scas{e}}} \Big[ \lambda \delta_{ij} \ten{F}^{\scas{g}-1}_{NC} \ten{F}^{\scas{e}-1}_{Cn} \ten{F}^{\scas{e}}_{nM} - \left[ \lambda \ln J^{\scas{e}} - \mu \right] \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{-1}_{Nj} + \ten{F}^{\scas{e}}_{jM} \ten{F}^{-1}_{Ni} \right] \Big ] \notag \\ & \hspace{1cm}
 % - \frac{J^{\scas{g}} }{J} \left[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{F}^{\scas{e}}_{iM} \ten{F}_{jA} \ten{F}^{-1}_{Ad} \ten{F}^{-1}_{Nd} + \mu \ten{F}^{\scas{e}}_{iM} \ten{F}_{jA} \ten{F}^{\scas{g}-1}_{AB} \ten{F}^{\scas{g}-1}_{NB}
 % + \left[ \lambda \ln J^{\scas{e}} - \mu \right] \ten{F}_{iA} \ten{F}^{-1}_{Ad} \ten{F}^{-1}_{Md} \ten{F}^{\scas{e}}_{jN} + \mu \ten{F}_{iA} \ten{F}^{\scas{g}-1}_{AB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] \notag \\ & \hspace{1cm}
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta}  \Bigg[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} + \frac{1}{J^{\scas{e}}} \left[ \lambda \ln J^{\scas{e}} - \mu \right] \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{-1}_{Nj} + \ten{F}^{\scas{e}}_{jM} \ten{F}^{-1}_{Ni} \right] \notag \\ & \hspace{1cm}
 % - \frac{1}{J^{\scas{e}}} \left[ \lambda \ln J^{\scas{e}} - \mu \right] \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{-1}_{Nj} + \ten{F}^{-1}_{Mi} \ten{F}^{\scas{e}}_{jN} \right] 
 % - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta}  \Bigg[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} - \frac{ \lambda }{ J^{\scas{e}} } \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} - \frac{ \mu }{ J^{\scas{e}} } \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % end derivations
 \cdots{}& \notag \\
 \tenf{c}^{\scas{g}}_{ijkl} ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta } \Bigg[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
-\frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 \label{neohook_growth_tangent}
 \\
-\tenf{c}^{\scas{g}} ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta } \Bigg[ \left[ J^{\scas{e}} \sigma - \lambda \ten{I} \right] \otimes \ten{F}^{\scas{g}-1} - \mu \Big[ \ten{F}^{\scas{e}} \overline{\otimes} \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] + \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] \overline{\otimes} \ten{F}^{\scas{e}} \Big] \Bigg] : \frac{ \partial \ten{F}^{\scas{g}} }{ \partial \vartheta^{\scas{g}} } \otimes \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\vartheta^{\scas{g}}} : \left[ \ten{F}^{\scas{T}} \overline{\otimes} \ten{F}^{\scas{T}} \right]
+\tenf{c}^{\scas{g}} ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta } \Bigg[ \left[ J^{\scas{e}} \sigma - \lambda \ten{I} \right] \otimes \ten{F}^{\scas{g}-1} - \mu \Big[ \ten{F}^{\scas{e}} \overline{\otimes} \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] + \left[ \ten{F}^{\scas{e}} \cdot \ten{F}^{\scas{g}-1} \right] \overline{\otimes} \ten{F}^{\scas{e}} \Big] \Bigg] : \frac{ d \ten{F}^{\scas{g}} }{ d \vartheta^{\scas{g}} } \otimes \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\tens{F}^{\scas{g}}} : \left[ \ten{F}^{\scas{T}} \overline{\otimes} \ten{F}^{\scas{T}} \right] \, .
 \notag 
-% % alternate form
-% \\
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta}  \Bigg[ \frac{1}{J^{\scas{e}}} \Big[ \left[ \lambda \ln J^{\scas{e}} - \mu \right] \delta_{ij} + \mu \ten{b}^{\scas{e}}_{ij} \Big] \ten{F}^{\scas{g}-1}_{MN} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \ten{F}^{\scas{g}-1}_{NM} 
-% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
-% \notag \\
-% \tenf{c}^{\scas{g}}_{ijkl} 
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta}  \Bigg[ \Big[ \left[ \lambda \left[ \ln J^{\scas{e}} - 1 \right] \mu \right] \delta_{ij} + \mu \ten{b}^{\scas{e}}_{ij} \Big] \ten{F}^{\scas{g}-1}_{MN} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \Bigg] 
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL}
-\, .
 \end{align}
 
 Geometric tangent:
@@ -1797,7 +1715,7 @@ Geometric tangent:
 ={}& \frac{\lambda \ln J^{\scas{e}} - \mu}{J^{\scas{e}}} \left[ \delta_{ik} \delta_{jl} + \delta_{il} \delta_{jk} \right] + \frac{\mu}{2J^{\scas{e}}} \left[ \delta_{ik} \ten{b}^{\scas{e}}_{jl} + \delta_{il} \ten{b}^{\scas{e}}_{jk} + \ten{b}^{\scas{e}}_{ik} \delta_{jl} + \ten{b}^{\scas{e}}_{il} \delta_{jk} \right] \, .
 \end{align}
 
-Thus, to derive a new growth model for the given elastic material, it is necessary to define the growth kinematics ($\ten{F}^{\scas{g}}$) and kinetics ($\dot{\vartheta}^{\scas{g}}$), and derive the corresponding $\dfrac{ \partial \ten{F}^{\scas{g}} }{ \partial \vartheta^{\scas{g}} }$ and $\left. \dfrac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\vartheta^{\scas{g}}}$.
+Thus, to derive a new growth model for the given elastic material, it is necessary to define the growth kinematics ($\ten{F}^{\scas{g}}$) and kinetics ($\dot{\vartheta}^{\scas{g}}$), and derive the corresponding $\dfrac{ d \ten{F}^{\scas{g}} }{ d \vartheta^{\scas{g}} }$ and $\left. \dfrac{ \partial \phi^{\scas{g}} }{ \partial \ten{C} } \right|_{\tens{F}^{\scas{g}}}$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Growth kinematics}
@@ -1818,7 +1736,7 @@ Biological growth can be generally divided into morphogen-driven, or morphogenet
 In morphogenetic growth, growth is caused by signaling molecules or `morphogens' \autocite{Taber1995}; practically, this means sometimes growth simply happens in [pseudo]time, without mechanical stimulus.  This is represented mathematically by an evolution equation for the growth without mechanical dependencies, such as
 $\dot{\vartheta}^{\scas{g}} = f(t)$ or $\vartheta^{\scas{g}} = f(c)$ , 
 where $t$ is the time, $c$ is some concentration, and $\dot{x}$ denotes the time derivative of a quantity $x$. 
-The two terms dependent on the growth criterion ($ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $ and $ \left. \partial \phi^{\scas{g}} / \partial \ten{C} \right|_{\vartheta^{\scas{g}}}$) are zero in the absence of mechanical coupling.
+The two terms dependent on the growth criterion ($ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $ and $ \left. \partial \phi^{\scas{g}} / \partial \ten{C} \right|_{\tens{F}^{\scas{g}}}$) are zero in the absence of mechanical coupling.
 
 
 \subsection{Mechanically coupled growth}
@@ -1826,7 +1744,7 @@ Stretch- and stress-driven growth, unlike morphogenetic growth, have mechanical 
 \begin{equation}
 \dot{\vartheta}^{\scas{g}} ( \vartheta^{\scas{g}}, \ten{\sigma}, \ten{C} ) = k^{\scas{g}} \left( \vartheta^{\scas{g}} \right) \phi^{\scas{g}} \left( \vartheta^{\scas{g}}, \ten{\sigma}, \ten{C} \right) \, . 
 \end{equation}
-The growth criterion enters the model through two derivatives: $ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $, which appears in the local tangent of the Newton iteration (see \autoref{subsec:local_newton}), and $ \left. \partial \phi^{\scas{g}} / \partial \ten{C} \right|_{\vartheta^{\scas{g}}}$, which is the last factor of the growth tangent (see \autoref{subsec:growth_tangent}).
+The growth criterion enters the model through two derivatives: $ \left. \partial \phi^{\scas{g}} / \partial \vartheta^{\scas{g}} \right|_{\tens{C}} $, which appears in the local tangent of the Newton iteration (see \autoref{subsec:local_newton}), and $ \left. \partial \phi^{\scas{g}} / \partial \ten{C} \right|_{\tens{F}^{\scas{g}}}$, which is the last factor of the growth tangent (see \autoref{subsec:growth_tangent}).
 
 \subsubsection{Growth rate}
 \label{subsec:rate}
@@ -1848,12 +1766,12 @@ In mechanically driven growth, the growth criterion function contains the mechan
 In the case of morphogen-driven growth, this may be a chemical concentration or a pseudotime at which growth will occur.  
 A common growth criterion is based on a critical maximum value of stretch or stress, activating growth only when this value is exceeded
 \begin{equation}
-\phi^{\scas{g}} = \left\langle f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \right\rangle \, ,
+\phi^{\scas{g}} = \left\langle f \left( \ten{C}^{\scas{e}}, \overline{\ten{S}} \right) - f_{\scas{crit}} \right\rangle \, ,
 \end{equation}
 where Macaulay brackets yield a value of $ \langle x \rangle = x $ when $ x > 0$, and $ \langle x \rangle = 0 $ when $ x < 0$.  
 Other varieties include a critical minimum value, below which retraction is activated, which would result in a three-way controller \autocite{Dennerll1989}.  At one extreme, for very low values of the critical minimum and very high values of the critical maximum, this results in the absence of growth.  At the other extreme, for critical minimum and maximum values that are identical, this simplifies to a linear controller, 
 \begin{equation}
-\phi^{\scas{g}} = f \left( \ten{C}^{\scas{e}}, \ten{S}^{\scas{e}} \right) - f_{\scas{crit}} \, ,
+\phi^{\scas{g}} = f \left( \ten{C}^{\scas{e}}, \overline{\ten{S}} \right) - f_{\scas{crit}} \, ,
 \end{equation}
 which results in either growth or contraction unless $f = f_{\scas{crit}}$.
 
@@ -1907,7 +1825,7 @@ R^\vartheta = \vartheta^{\scas{g}} - \vartheta^{\scas{g}}_n - k^{\scas{g}} \phi^
 \end{equation}
 using the local tangent 
 \begin{equation}
-K^\vartheta = \frac{\partial R^\vartheta}{\partial \vartheta^{\scas{g}} } = 1 - \left[ \frac{\partial k^{\scas{g}}}{\partial \vartheta^{\scas{g}} } \phi^{\scas{g}} + k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \right] \Delta t \, . 
+K^\vartheta = \left. \frac{\partial R^\vartheta}{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} = 1 - \left[ \frac{d k^{\scas{g}}}{d \vartheta^{\scas{g}} } \phi^{\scas{g}} + k^{\scas{g}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \vartheta^{\scas{g}} } \right|_{\tens{C}} \right] \Delta t \, . 
 \end{equation}
 After each iteration, the trial value is updated by
 \begin{equation}
@@ -1929,7 +1847,7 @@ with inverse and derivative,
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \vartheta^{\scas{g}^{-1/3}} \ten{I}
 \qquad \text{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \, .
+\frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \, .
 \label{Fg_iso2}
 \end{equation}
 Note the one-third power on the growth variable; this is introduced to preserve the physical meaning of the growth variable as the amount of mass change, manifested as volume change, $\vartheta^{\scas{g}} = \det \ten{F}^{\scas{g}}$.
@@ -1941,20 +1859,20 @@ The volume change is calculated from the determinant of the deformation tensor a
 Growth is driven by a volume stretch that differs from the homeostatic state, represented by the growth criterion function in \autoref{growth_criterion}.
 The other term, the third term of the growth tangent (see \autoref{subsec:growth_tangent}), depends on the definition of stretch.  For the volume stretch it is
 \begin{align}
-% % begin volume derivations
-% \left. \frac{ \partial \phi^{\scas{g}}_{\scas{vol}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}
-% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{J}{J^{\scas{g}}} \right) \right|_{\vartheta^{\scas{g}}} 
+% % begin derivations
+% \left. \frac{ \partial \phi^{\scas{g}}_{\scas{vol}} }{ \partial \ten{C}_{KL} } \right|_{\ten{F}^{\scas{g}}}
+% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{J}{J^{\scas{g}}} \right) \right|_{\ten{F}^{\scas{g}}} 
 % \notag \\
 % ={}& \frac{1}{J^{\scas{g}}} \frac{\partial J}{\partial \ten{C}_{KL}} 
 % \notag \\
 % ={}&\frac{1}{J^{\scas{g}}} \frac{J}{2} \ten{C}^{-1}_{KL} 
 % \notag \\
-% % end volume derivations
-\left. \frac{ \partial \phi^{\scas{g}}_{\scas{vol}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} ={}&\frac{J^{\scas{e}}}{2} \ten{C}^{-1}_{KL} \, .
+% % end derivations
+\left. \frac{ \partial \phi^{\scas{g}}_{\scas{vol}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} ={}&\frac{J^{\scas{e}}}{2} \ten{C}^{-1}_{KL} \, .
 \end{align}
 This term can be pushed forward by itself for convenience, yielding
 \begin{align}
-\left. \frac{\partial \phi^{\scas{g}}_{\scas{vol}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\left. \frac{\partial \phi^{\scas{g}}_{\scas{vol}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 ={}& \frac{J^{\scas{e}}}{2} \delta_{kl} \, .
 \label{growth_criterion_deriv_vol}
 \end{align}
@@ -1963,7 +1881,7 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 \tenf{c}^{\scas{g}}_{ijkl} 
 % % begin derivations
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \left[ \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN} \right] \left[ \frac{J^{\scas{e}}}{2} \delta_{kl} \right]
@@ -2002,7 +1920,7 @@ with inverse and derivative
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \ten{I} + \frac{1 - \vartheta^{\scas{g}}}{\vartheta^{\scas{g}}} \ten{N}^0 
 \qquad \text{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \ten{N}^0_{MN} \, , 
+\frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} = \ten{N}^0_{MN} \, , 
 \label{Fg_fiber2}
 \end{equation}
 where $\ten{n}^0$ is the fiber direction, passed in as a material parameter.  
@@ -2014,9 +1932,9 @@ The total stretch is calculated from the length of the deformed fiber direction 
 Growth is driven by a stretch that differs from the homeostatic state, represented by the growth criterion function in \autoref{growth_criterion}.
 The other term, the third term of the growth tangent (see \autoref{subsec:growth_tangent}), depends on the definition of stretch.  For the length stretch it is
 \begin{align}
-% % begin fiber derivations
+% % begin derivations
 % \left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\tens{\vartheta}^{\scas{g}}}  
-% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{\vartheta}{\vartheta^{\scas{g}}} \right) \right|_{\vartheta^{\scas{g}}} 
+% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{\vartheta}{\vartheta^{\scas{g}}} \right) \right|_{\ten{F}^{\scas{g}}} 
 % \notag \\
 % ={}& \frac{1}{\vartheta^{\scas{g}}} \frac{\partial \vartheta}{\partial \ten{C}_{KL}} 
 % \notag \\
@@ -2028,13 +1946,13 @@ The other term, the third term of the growth tangent (see \autoref{subsec:growth
 % \notag \\
 % ={}& \frac{1}{\vartheta^{\scas{g}}} \frac{1}{2 \vartheta} \ten{N}^0_{MN} : \tenf{I}_{MNKL}
 % \notag \\
-% % end fiber derivations
-\left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\tens{\vartheta}^{\scas{g}}}  
+% % end derivations
+\left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}}  
 ={}& \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}^0_{KL} \, .
 \end{align}
 This term can be pushed forward by itself for convenience, yielding
 \begin{align}
-\left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\left. \frac{ \partial \phi^{\scas{g}}_{\scas{length}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 ={}& \frac{1}{2 \vartheta \vartheta^{\scas{g}}} \ten{N}_{kl} \, .
 \label{growth_criterion_deriv_length}
 \end{align}
@@ -2046,7 +1964,7 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 % % begin derivations
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] 
-% \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\ten{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 % - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right]  
@@ -2117,7 +2035,7 @@ with inverse and derivative,
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \ten{I} + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0 
 \qquad \text{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, ,
+\frac{d \ten{F}^{\scas{g}}_{MN} }{d \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, ,
 \label{Fg_planar2}
 \end{equation}
 where $\ten{n}^0$, is the unit normal to the plane in the reference configuration, passed in as a material parameter.
@@ -2128,9 +2046,9 @@ The area stretch is calculated from the deformation tensor and undeformed normal
 Growth is driven by an area stretch that differs from the homeostatic state, represented by the growth criterion function in \autoref{growth_criterion}.
 The other term, the third term of the growth tangent (see \autoref{subsec:growth_tangent}), depends on the definition of stretch.  For the area stretch it is
 \begin{align}
-% % begin area derivations
-% \left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}  
-% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{\vartheta}{\vartheta^{\scas{g}}} \right) \right|_{\vartheta^{\scas{g}}} 
+% % begin derivations
+% \left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}}  
+% ={}& \left. \frac{\partial }{\partial \ten{C}_{KL}} \left( \frac{\vartheta}{\vartheta^{\scas{g}}} \right) \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
 % ={}& \frac{1}{\vartheta^{\scas{g}}} \frac{\partial \vartheta}{\partial \ten{C}_{KL}} 
 % \notag \\
@@ -2142,13 +2060,13 @@ The other term, the third term of the growth tangent (see \autoref{subsec:growth
 % \notag \\
 % ={}& \frac{1}{\vartheta^{\scas{g}}} \left[ \frac{\vartheta}{2} \ten{C}^{-1}_{KL} +  \frac{J^2}{2 \vartheta} \ten{N}^0_{MN} \frac{\partial \ten{C}_{MN}^{-1} }{\partial \ten{C}_{KL}} \right] 
 % \notag \\
-% % end area derivations
-\left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% % end derivations
+\left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 ={}& \frac{1}{2 \vartheta^{\scas{g}}} \left[ \vartheta \ten{C}^{-1}_{KL} - \frac{J^2}{\vartheta} \ten{N}^0_{MN} \left[ \ten{C}^{-1}_{MK} \ten{C}^{-1}_{NL} \right] \right] \, .
 \end{align}
 This term can be pushed forward by itself for convenience, yielding
 \begin{align}
-\left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\left. \frac{ \partial \phi^{\scas{g}}_{\scas{area}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 ={}& \frac{1}{2 \vartheta^{\scas{g}}} \left[ \vartheta \delta_{kl} - \frac{J^2}{\vartheta} \ten{F}^{-1}_{Pk} \ten{N}^0_{PQ} \ten{F}^{-1}_{Ql} \right] \, . 
 \label{growth_criterion_deriv_area}
 \end{align}
@@ -2157,45 +2075,45 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 % % begin derivations 
 % \tenf{c}^{\scas{g}}_{ijkl} 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{ J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
-% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta}  \left[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
-% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{MN} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{MN} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] 
 % - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MN} + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MN} \right] \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \notag \\ & \hspace{2cm} 
 % - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{NB} + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{NB} \right] \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MB} + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MB} \right] \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MB} + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MB} \right] \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MN} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MN} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \right] \notag \\ & \hspace{2cm} 
 % - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{NB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{NB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right]\right]  \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right]\right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \delta_{MB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0_{MB} \left[ \delta_{MN} - \ten{N}^0_{MN} \right]\right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MM} - \ten{N}^0_{MM} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \left[ \ten{N}^0_{MM} - \ten{N}^0_{MM} \right] \right] \notag \\ & \hspace{2cm} 
 % - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MB} - \ten{N}^0_{MB} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \left[ \ten{N}^0_{MB} - \ten{N}^0_{MB} \right]\right]  \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BN} - \ten{N}^0_{BN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \left[ \ten{N}^0_{NB} - \ten{N}^0_{NB} \right]\right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BN} - \ten{N}^0_{BN} \right] + \left[1-\frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \left[ \ten{N}^0_{NB} - \ten{N}^0_{NB} \right]\right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \Bigg[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MM} - \ten{N}^0_{MM} \right] \right] \notag \\ & \hspace{2cm} 
-% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BM} - \ten{N}^0_{BM} \right] \right] + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BN} - \ten{N}^0_{BN} \right] \right] \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{\mu}{J^{\scas{e}}} \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BM} - \ten{N}^0_{BM} \right] \right] + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{BN} - \ten{N}^0_{BN} \right] \right] \right] \Bigg] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \left[ \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] \left[ \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MM} - \ten{N}^0_{MM} \right] \right] 
-% - \frac{2 }{J^{\scas{e}} \sqrt{\vartheta^{\scas{g}}}} \mu \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \delta_{BM} - \ten{N}^0_{BM} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{2 }{J^{\scas{e}} \sqrt{\vartheta^{\scas{g}}}} \mu \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \left[ \delta_{BM} - \ten{N}^0_{BM} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \sqrt{\vartheta^{\scas{g}}} } \left[ \frac{2}{\sqrt{\vartheta^{\scas{g}}}} \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} \right] 
-% - \frac{2 }{J^{\scas{e}} \sqrt{\vartheta^{\scas{g}}}} \mu \left[ \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jB} - \ten{F}^{\scas{e}}_{iM} \ten{N}^0_{BM} \ten{F}^{\scas{e}}_{jB} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% - \frac{2 }{J^{\scas{e}} \sqrt{\vartheta^{\scas{g}}}} \mu \left[ \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jB} - \ten{F}^{\scas{e}}_{iM} \ten{N}^0_{BM} \ten{F}^{\scas{e}}_{jB} \right] \right] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % ={}& \frac{k^{\scas{g}} \Delta t}{K^\vartheta \vartheta^{\scas{g}^2} } \left[ \sigma_{ij} - \frac{\lambda}{J^{\scas{e}}} \delta_{ij} 
 % - \frac{\mu}{J^{\scas{e}}} \left[ \ten{b}^{\scas{e}}_{ij} - \ten{F}^{\scas{e}}_{iM} \ten{N}^0_{BM} \ten{F}^{\scas{e}}_{jB} \right] \right] 
 % \left[ \vartheta \delta_{kl} - \frac{J^2}{\vartheta} \ten{F}^{-1}_{Pk} \ten{N}^0_{PQ} \ten{F}^{-1}_{Ql} \right]
 % \notag \\
 % \tenf{c}^{\scas{g}}_{ijkl} 
-% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}} } \Big[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \mu \left[ \ten{b}^{\scas{e}}_{ij} - \ten{N}_{ij} \right] \Big] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+% ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}} } \Big[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \mu \left[ \ten{b}^{\scas{e}}_{ij} - \ten{N}_{ij} \right] \Big] \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 % \notag \\
 % \tenf{c}^{\scas{g}}_{ijkl} 
 % ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}} } \Big[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} - \mu \left[ \ten{b}^{\scas{e}}_{ij} - \ten{N}_{ij} \right] \Big] \frac{1}{2 \vartheta^{\scas{g}}} \left[ \vartheta \delta_{kl} - \frac{J^2}{\vartheta} \ten{F}^{-1}_{Pk} \ten{N}^0_{PQ} \ten{F}^{-1}_{Ql} \right] 
@@ -2221,9 +2139,9 @@ with inverse and derivatives
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \ten{I} + \left[ \frac{1}{\lambda^{\scas{g}}} - \frac{1}{\sqrt{\vartheta^{\scas{g}}}} \right] \ten{N}^0 \, ,
 \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \lambda^{\scas{g}}} = \ten{N}^0_{MN} \, 
+\left. \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \lambda^{\scas{g}}} \right|_{\vartheta^{\scas{g}}} = \ten{N}^0_{MN} \, 
 \qquad \text{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, .
+\left. \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}} \right|_{\lambda^{\scas{g}}} = \frac{1}{2\sqrt{\vartheta^{\scas{g}}}} \left[ \delta_{MN} - \ten{N}^0_{MN} \right] \, .
 \end{equation}
 If $\vartheta^{\scas{g}}$ is constrained to remain 1, this simplifies to fiber growth.  If $\lambda^{\scas{g}}$ is constrained to be 1, this simplifies to in-plane growth.  In this section the Lamé constant is written $L$, because $\lambda$ denotes the fiber stretch.  
 Length and area stretches are calculated according to Eq.~\ref{stretches}b and c, respectively,
@@ -2245,7 +2163,7 @@ By writing the two growth variables and their evolution equations in vector form
 \qquad \text{and} \qquad
 \dot{\ten{\vartheta} } = \begin{bmatrix} \dot{\vartheta}^{\scas{g}} \\ \dot{\lambda}^{\scas{g}} \end{bmatrix}  = \ten{k} \cdot \ten{\phi} = \begin{bmatrix} k^{\vartheta} \phi^{\vartheta} \\ k^{\lambda} \phi^{\lambda} \end{bmatrix} \, ,
 \end{equation}
-the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of the single-variable tangents, one for each growth variable.  Thus the growth tangents in the Eulerian configuration for the logarithmic neo-Hookean material model are those found in Eqs.~\ref{growth_tangent_area} and \ref{growth_tangent_fiber},
+the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of the single-variable tangents, one for each growth variable.  Apart from one term resulting from the form of $\ten{b}^{\scas{e}}$, the growth tangents in the Eulerian configuration for the logarithmic neo-Hookean material model are those found in Eqs.~\ref{growth_tangent_area} and \ref{growth_tangent_fiber},
 \begin{align}
 \tenf{c}^{\lambda}_{ijkl} 
 ={}& \frac{k^{\lambda} \Delta t}{J^{\scas{e}} K^\lambda \lambda \lambda^{\scas{g}^2} } 
@@ -2254,7 +2172,7 @@ the growth tangent is, as derived in \autoref{subsec:multi_growth}, the sum of t
 \\ \text{and} \qquad
 \tenf{c}^{\vartheta}_{ijkl} 
 ={}& \frac{k^{\vartheta} \Delta t}{J^{\scas{e}} K^\vartheta \vartheta^{\scas{g}^2} } 
-\Big[ J^{\scas{e}} \sigma_{ij} - L \delta_{ij} - \mu \left[ \ten{b}^{\scas{e}}_{ij} - \ten{N}_{ij} \right] \Big] 
+\Big[ J^{\scas{e}} \sigma_{ij} - L \delta_{ij} - \mu \left[ \ten{b}^{\scas{e}}_{ij} - \frac{1}{\lambda^{\scas{g}^2}} \ten{N}_{ij} \right] \Big] 
 \left[ \vartheta \delta_{kl} - \frac{J^2}{\vartheta} \ten{F}^{-1}_{Pk} \ten{N}^0_{PQ} \ten{F}^{-1}_{Ql} \right] \, . 
 \end{align}
 
@@ -2270,7 +2188,7 @@ with inverse and derivatives
 \begin{equation}
 \ten{F}^{\scas{g}-1} = \frac{1}{\vartheta^{\scas{g}}_{\scas{r}}}  \ten{R}^0 + \frac{1}{\vartheta^{\scas{g}}_{\scas{s}}} \ten{S}^0 + \frac{1}{\vartheta^{\scas{g}}_{\scas{t}}} \ten{T}^0 
 \qquad \text{and} \qquad
-\frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}_{\scas{x}} } = \ten{X}^0_{MN} 
+\left. \frac{\partial \ten{F}^{\scas{g}}_{MN} }{\partial \vartheta^{\scas{g}}_{\scas{x}} } \right|_{\vartheta^{\scas{g}}_{\scas{y}} \, (\scas{y} \neq \scas{x})} = \ten{X}^0_{MN} 
 \quad \text{where} \quad
 \sca{x} = \lbrace \sca{r}, \sca{s}, \sca{t} \rbrace \, .
 \end{equation}
@@ -2328,30 +2246,29 @@ The derivative of the growth criterion function with respect to the growth varia
 = \left. \frac{\partial \left( \text{tr} (\overline{\ten{M}}) - \left\lbrace \text{tr} (\overline{\ten{M}} )\right\rbrace_{\scas{crit}} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
 = \left. \frac{\partial \overline{\ten{M}}_{II} }{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
 = \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}} 
-= \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \ten{C}^{\scas{e}}_{KL} } \frac{ \partial \ten{C}^{\scas{e}}_{KL} }{ \partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+= \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \ten{C}^{\scas{e}}_{KL} } \frac{ \partial \ten{C}^{\scas{e}}_{KL} }{ \partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}} \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \end{equation}
 for any growth criterion function with a linear dependence on $\text{tr} ( \overline{\ten{M}} )$.  This derivative can then be calculated as 
 \begin{align}
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
-=& \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \ten{C}^{\scas{e}}_{KL} } \frac{ \partial \ten{C}^{\scas{e}}_{KL} }{ \partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& \left. \frac{ \partial \left( \ten{C}^{\scas{e}}_{IJ} \overline{\ten{S}}_{JI} \right)}{\partial \ten{C}^{\scas{e}}_{KL} } \frac{ \partial \ten{C}^{\scas{e}}_{KL} }{ \partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}} \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \notag \\
 % chain rule, \autoref{congruenceFg}
-=& \left[ \ten{C}^{\scas{e}}_{IJ} \left. \frac{ \partial \overline{\ten{S}}_{JI} }{\partial \ten{C}^{\scas{e}}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \frac{ \partial \ten{C}^{\scas{e}}_{IJ} }{\partial \ten{C}^{\scas{e}}_{KL} } \overline{\ten{S}}_{JI} \right] \left[ - \frac{1}{2} \right] \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{KN} \ten{F}^{\scas{g}-1}_{LM} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{C}^{\scas{e}}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right] \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& \left[ \ten{C}^{\scas{e}}_{IJ} \left. \frac{ \partial \overline{\ten{S}}_{JI} }{\partial \ten{C}^{\scas{e}}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \frac{ \partial \ten{C}^{\scas{e}}_{IJ} }{\partial \ten{C}^{\scas{e}}_{KL} } \overline{\ten{S}}_{JI} \right] \left[ - \frac{1}{2} \right] \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{KN} \ten{F}^{\scas{g}-1}_{LM} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{C}^{\scas{e}}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right] \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \notag \\
 % Le, identity
-=& \left[ \ten{C}^{\scas{e}}_{IJ} \frac{1}{2} \tenf{L}^{\scas{e}}_{JIKL} + \frac{1}{2} \left[ \delta_{IK} \delta_{JL} + \delta_{IL} \delta_{JK} \right] \overline{\ten{S}}_{JI} \right] \left[ - \frac{1}{2} \right] \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{KN} \ten{F}^{\scas{g}-1}_{LM} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{C}^{\scas{e}}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right] \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& \left[ \ten{C}^{\scas{e}}_{IJ} \frac{1}{2} \tenf{L}^{\scas{e}}_{JIKL} + \frac{1}{2} \left[ \delta_{IK} \delta_{JL} + \delta_{IL} \delta_{JK} \right] \overline{\ten{S}}_{JI} \right] \left[ - \frac{1}{2} \right] \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{KN} \ten{F}^{\scas{g}-1}_{LM} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} + \ten{C}^{\scas{e}}_{MJ} \ten{F}^{\scas{g}-1}_{IN} \right] \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \notag \\
 % simplify using symmetry
-=& - \frac{1}{2} \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] 2 \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \right] \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& - \frac{1}{2} \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] 2 \left[ \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} + \ten{C}^{\scas{e}}_{NJ} \ten{F}^{\scas{g}-1}_{IM} \right] \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \notag \\
-% 
 % and again
-=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \end{align}
-This is typically used with isotropic growth, $\ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}}$; in this case, $\dfrac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} } = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}$.  In this case, 
+This is typically used with isotropic growth, $\ten{F}^{\scas{g}} = \vartheta^{\scas{g}^{1/3}}$; in this case, $\dfrac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} } = \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}$.  In this case, 
 \begin{align}
 \left. \frac{\partial \phi^{\scas{g}}}{\partial \vartheta^{\scas{g}}} \right|_{\tens{C}}
-=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ \partial \ten{F}^{\scas{g}}_{MN} }{ \partial \vartheta^{\scas{g}} }
+=& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \ten{F}^{\scas{g}-1}_{LN} \frac{ d \ten{F}^{\scas{g}}_{MN} }{ d \vartheta^{\scas{g}} }
 \notag \\
 =& - 2 \left[ \frac{1}{2} \ten{C}^{\scas{e}}_{IJ} \tenf{L}^{\scas{e}}_{JIKL} + \overline{\ten{S}}_{KL} \right] \ten{C}^{\scas{e}}_{KM} \left[ \vartheta^{\scas{g}^{-1/3}} \delta_{LN} \right] \left[ \frac{1}{3} \vartheta^{\scas{g}^{-2/3}} \delta_{MN}  \right]
 \notag \\
@@ -2370,33 +2287,33 @@ with derivative
 \end{align}
 The other term, the third term of the growth tangent (see \autoref{subsec:growth_tangent}), is derived as
 \begin{align}
-\left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}  
-={}& \left. \frac{ \partial \text{tr} \left( \ten{C}^{\scas{e}} \overline{\ten{S}} \right) }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+\left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\ten{F}^{\scas{g}}}  
+={}& \left. \frac{ \partial \text{tr} \left( \ten{C}^{\scas{e}} \overline{\ten{S}} \right) }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 \\
 % % begin derivations
-% ={}& \left. \frac{ \partial \ten{C}^{\scas{e}}_{AB} \overline{\ten{S}}_{AB} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% ={}& \left. \frac{ \partial \ten{C}^{\scas{e}}_{AB} \overline{\ten{S}}_{AB} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
-% ={}& \left[ \frac{ \partial \ten{C}^{\scas{e}}_{AB} }{ \partial \ten{C}^{\scas{e}}_{CD} } \overline{\ten{S}}_{AB}  + \ten{C}^{\scas{e}}_{AB} \frac{ \partial \overline{\ten{S}}_{AB} }{ \partial \ten{C}^{\scas{e}}_{CD} } \right] \left. \frac{ \partial \ten{C}^{\scas{e}}_{CD}}{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% ={}& \left[ \frac{ \partial \ten{C}^{\scas{e}}_{AB} }{ \partial \ten{C}^{\scas{e}}_{CD} } \overline{\ten{S}}_{AB}  + \ten{C}^{\scas{e}}_{AB} \frac{ \partial \overline{\ten{S}}_{AB} }{ \partial \ten{C}^{\scas{e}}_{CD} } \right] \left. \frac{ \partial \ten{C}^{\scas{e}}_{CD}}{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
-% ={}& \left[ \tenf{I}_{ABCD} \overline{\ten{S}}_{AB} + \ten{C}^{\scas{e}}_{AB} \frac{1}{2} \tenf{L}^{\scas{e}}_{ABCD}  \right] \left. \frac{ \partial \left( \vartheta^{\scas{g}^{-2/3}} \ten{C}_{CD} \right)}{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% ={}& \left[ \tenf{I}_{ABCD} \overline{\ten{S}}_{AB} + \ten{C}^{\scas{e}}_{AB} \frac{1}{2} \tenf{L}^{\scas{e}}_{ABCD}  \right] \left. \frac{ \partial \left( \vartheta^{\scas{g}^{-2/3}} \ten{C}_{CD} \right)}{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
 % ={}& \left[ \overline{\ten{S}}_{CD} + \frac{1}{2} \ten{C}^{\scas{e}}_{AB} \tenf{L}^{\scas{e}}_{ABCD} \right] \frac{1}{\vartheta^{\scas{g}^{2/3}}} \tenf{I}_{CDKL} 
 % \notag \\
 % % end derivations
 \cdots{}& \notag \\
-\left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}  
+\left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}}  
 ={}& \frac{1}{2 \vartheta^{\scas{g}^{2/3}}}\left[ 2 \overline{\ten{S}}_{KL} + \ten{C}^{\scas{e}}_{AB} \tenf{L}^{\scas{e}}_{ABKL} \right] \, , 
 \end{align}
 which, for the logarithmic neo-Hookean material model, simplifies to
 \begin{align}
 % % begin derivations
-% \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\tens{\vartheta}^{\scas{g}}}  ={}& \left. \frac{ \partial }{ \partial \ten{C}_{KL} } \Big[ 3 \left[ \lambda \ln J^{\scas{e}} - \mu \right] + \mu \cdot \text{tr} \left( \ten{C}^{\scas{e}} \right) \Big] \right|_{\vartheta^{\scas{g}}} 
+% \left. \frac{ \partial \phi^{\scas{g}} }{ \partial \ten{C}_{KL} } \right|_{\tens{\vartheta}^{\scas{g}}}  ={}& \left. \frac{ \partial }{ \partial \ten{C}_{KL} } \Big[ 3 \left[ \lambda \ln J^{\scas{e}} - \mu \right] + \mu \cdot \text{tr} \left( \ten{C}^{\scas{e}} \right) \Big] \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
-% ={}& 3 \lambda \left. \frac{ \partial \ln J^{\scas{e}}}{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} + \mu \left. \frac{ \partial \text{tr} \ten{C}^{\scas{e}} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% ={}& 3 \lambda \left. \frac{ \partial \ln J^{\scas{e}}}{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} + \mu \left. \frac{ \partial \text{tr} \ten{C}^{\scas{e}} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
-% ={}& \left[ 3 \lambda \frac{ \partial \ln J^{\scas{e}}}{ \partial \ten{C}^{\scas{e}}_{IJ} } + \mu \frac{ \partial \ten{C}^{\scas{e}}_{MM} }{ \partial \ten{C}^{\scas{e}}_{IJ} } \right] \left. \frac{ \partial  \ten{C}^{\scas{e}}_{IJ} }{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}} 
+% ={}& \left[ 3 \lambda \frac{ \partial \ln J^{\scas{e}}}{ \partial \ten{C}^{\scas{e}}_{IJ} } + \mu \frac{ \partial \ten{C}^{\scas{e}}_{MM} }{ \partial \ten{C}^{\scas{e}}_{IJ} } \right] \left. \frac{ \partial  \ten{C}^{\scas{e}}_{IJ} }{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}} 
 % \notag \\
-% ={}& \left[ 3 \lambda \frac{1}{2} \ten{C}^{\scas{e}-1}_{IJ} + \mu \delta_{IJ} \right] \left. \frac{ \partial  \left( \vartheta^{\scas{g}^{-2/3}} \ten{C}_{IJ} \right)}{ \partial \ten{C}_{KL} } \right|_{\vartheta^{\scas{g}}}  
+% ={}& \left[ 3 \lambda \frac{1}{2} \ten{C}^{\scas{e}-1}_{IJ} + \mu \delta_{IJ} \right] \left. \frac{ \partial  \left( \vartheta^{\scas{g}^{-2/3}} \ten{C}_{IJ} \right)}{ \partial \ten{C}_{KL} } \right|_{\tens{F}^{\scas{g}}}  
 % \notag \\
 % ={}& \left[ \frac{3 \lambda}{2} \ten{C}^{\scas{e}-1}_{IJ} + \mu \delta_{IJ} \right] \frac{1}{\vartheta^{\scas{g}^{2/3}}} \tenf{I}_{IJKL} 
 % \notag \\
@@ -2426,7 +2343,7 @@ Thus, starting from \autoref{neohook_growth_tangent}, the growth tangent in the 
 \tenf{c}^{\scas{g}}_{ijkl} 
 ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \ten{F}^{\scas{g}-1}_{NM} 
 - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \ten{F}^{\scas{g}-1}_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \ten{F}^{\scas{g}-1}_{BM} \right] \right] 
-\frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 \notag \\
 ={}& \frac{2 k^{\scas{g}} \Delta t}{J^{\scas{e}} K^\vartheta} \left[ \left[ J^{\scas{e}} \sigma_{ij} - \lambda \delta_{ij} \right] \vartheta^{\scas{g}^{-1/3}} \delta_{NM} 
 - \mu \left[ \ten{F}^{\scas{e}}_{iM} \ten{F}^{\scas{e}}_{jB} \vartheta^{\scas{g}^{-1/3}} \delta_{NB} + \ten{F}^{\scas{e}}_{iB} \ten{F}^{\scas{e}}_{jN} \vartheta^{\scas{g}^{-1/3}} \delta_{BM} \right] \right] 
@@ -2491,7 +2408,7 @@ Growth tangent:
 \tenf{c}^{\scas{g}}_{ijkl} = \frac{2 k^{\scas{g}} \Delta t}{K^\vartheta} \left[ \sigma_{ij} \ten{F}^{\scas{g}-1}_{MN} 
 - \frac{1}{J} \left( \ten{F}^{\scas{e}}_{iM} \ten{F}_{jJ} \ten{S}_{NJ} + \ten{F}_{iI} \ten{F}^{\scas{e}}_{jN} \ten{S}_{IM} \right)
 - \tenf{c}^{\scas{e}}_{ijmn} \ten{F}^{\scas{e}}_{mM} \ten{F}^{-1}_{Nn} \right] 
-\frac{\partial \ten{F}^{\scas{g}}_{MN}}{\partial \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\vartheta^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
+\frac{d \ten{F}^{\scas{g}}_{MN}}{d \vartheta^{\scas{g}}} \left. \frac{\partial \phi^{\scas{g}} }{\partial \ten{C}_{KL}} \right|_{\tens{F}^{\scas{g}}} \ten{F}_{kK} \ten{F}_{lL} 
 \end{equation}
 Geometric tangent:
 \begin{equation}
@@ -2568,7 +2485,9 @@ These derivatives apply for a non-symmetric tensor $\ten{A}$; for a symmetric te
 Derivatives of the elastic Jacobian are common, and can be derived here for convenience: 
 \begin{equation}
 \left. \frac{ \partial J^{\scas{e}} }{ \partial \ten{F}^{\scas{g}}_{MN} } \right|_{\tens{C}}
+% % begin derivations
 % = \left. \frac{ \partial J^{\scas{e}} }{ \partial J^{\scas{g}} } \right|_{\tens{C}} \frac{ \partial J^{\scas{g}} }{ \partial \ten{F}^{\scas{g}}_{MN} }
+% % end derivations
 = \left. \frac{ \partial \left( J / J^{\scas{g}} \right) }{ \partial J^{\scas{g}} } \right|_{\tens{C}} \frac{ \partial J^{\scas{g}} }{ \partial \ten{F}^{\scas{g}}_{MN} }
 = J \frac{ \partial \left( 1 / J^{\scas{g}} \right) }{ \partial J^{\scas{g}} } J^{\scas{g}} \ten{F}^{\scas{g}-1}_{NM}
 = - \frac{ J }{J^{\scas{g}^2}} J^{\scas{g}} \ten{F}^{\scas{g}-1}_{NM}
