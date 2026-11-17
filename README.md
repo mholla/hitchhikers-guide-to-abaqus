@@ -7,7 +7,8 @@ if you find this document useful, please cite it as
 ```
 Holland, MA.  "The Hitchhiker's Guide to Abaqus" (2017) doi: 10.5281/zenodo.1243269
 ```
-I have done my best to accurately attribute my sources; please cite the papers in the bibliography where appropriate.  
+I have done my best to accurately attribute my sources; please cite the papers in the bibliography where appropriate. 
+
 If you find any errors or omissions or have suggestions for ways I could improve this resource, please contact me by [email](maria-holl@nd.edu).
 
 Chapters include:
@@ -15,8 +16,7 @@ Chapters include:
 2. Abaqus Simulations -  Overview of input files and debugging simulations 
 3. Constitutive Laws -  Background and context for the objective stress rate used by Abaqus 
 4. Mechanics of Growth -  Derivations based on the multiplicative decomposition of the deformation gradient 
-5. Mechanical Representation of Biological Growth -  Information on the options for growth kinematics and kinetics 
-6. Sample Growth Models -  Complete derivations for several growth models of interest 
+5. Growth Models -  Complete derivations for several growth models of interest 
 
 along with several appendices that serve as references for continuum mechanics and Fortran.
 
